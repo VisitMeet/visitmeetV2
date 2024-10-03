@@ -41,6 +41,10 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+
+#My cunsom gem
+gem 'devise'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -67,3 +71,5 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 2.7"
+
+gem 'foreman'
