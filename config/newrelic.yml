@@ -16,7 +16,7 @@ common: &default_settings
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
-  app_name: ''
+  app_name: 'VisitmeetV2'
 
   distributed_tracing:
     enabled: true
@@ -51,7 +51,7 @@ common: &default_settings
 # If your application has other named environments, configure them here.
 development:
   <<: *default_settings
-  app_name: ' (Development)'
+  app_name: 'VisitmeetV2 (Development)'
 
 test:
   <<: *default_settings
@@ -60,7 +60,7 @@ test:
 
 staging:
   <<: *default_settings
-  app_name: ' (Staging)'
+  app_name: 'VisitmeetV2 (Staging)'
 
 production:
   <<: *default_settings
