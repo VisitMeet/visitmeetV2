@@ -73,3 +73,5 @@ end
 gem "tailwindcss-rails", "~> 2.7"
 
 gem 'foreman'
+
+gem 'newrelic_rpm'
