@@ -1,4 +1,14 @@
 
-<div>
-    <%= image_tag "bgimage.jpg" %>
-</div>
+<%= stylesheet_link_tag "home" %>
+<section class="landing_page">
+      <%= image_tag "bgimage.jpg", class:"bg-image" %>
+  <div class="hero-content">
+     <h1 class="hero-text">I want to visit</h1>
+      <input type="text" id="visit-place" placeholder="Enter the location tags you want to visit">
+        <h1 class="hero-text1">and meet</h1>
+
+     <input type="text" id="meet-person" placeholder="Enter the person you want to meet">
+
+      <%= button_to "New", "#", class:"button" %>
+  </div>
+</section>
