@@ -12,11 +12,12 @@
 
 common: &default_settings
   # Required license key associated with your New Relic account.
-  license_key: '9d4e8d9485c22d54d7c46e13d25d9daaFFFFNRAL'
+  # license_key: '732ada2b84e2f289d65d524ebbc7cf76FFFFNRAL'
+  license_key: <%= ENV["NEW_RELIC_LISCENSE_KEY"] %>
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
-  app_name: 'VisitmeetV2'
+  app_name: 'VisitMeetV2'
 
   distributed_tracing:
     enabled: true
@@ -51,7 +52,7 @@ common: &default_settings
 # If your application has other named environments, configure them here.
 development:
   <<: *default_settings
-  app_name: 'VisitmeetV2 (Development)'
+  app_name: 'VisitMeetV2 (Development)'
 
 test:
   <<: *default_settings
@@ -60,7 +61,7 @@ test:
 
 staging:
   <<: *default_settings
-  app_name: 'VisitmeetV2 (Staging)'
+  app_name: 'VisitMeetV2 (Staging)'
 
 production:
   <<: *default_settings
