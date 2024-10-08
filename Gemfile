@@ -77,3 +77,5 @@ gem 'foreman'
 gem 'newrelic_rpm'
 gem 'rollbar'
 
+
+gem "ostruct", "~> 0.6.0"
