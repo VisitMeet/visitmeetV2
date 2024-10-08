@@ -1,0 +1,126 @@
+/* Footer styles */
+.footer {
+  background-color: #1a1a1a; /* Change from black (#000000) to dark gray (#1a1a1a) */
+  color: #e0e0e0; /* Change from white (#ffffff) to off-white (#e0e0e0) */
+  padding: 20px; /* Padding for top and bottom */
+  text-align: center; /* Centered text */
+}
+
+.footer-content {
+  display: flex; /* Flexbox layout */
+  justify-content: space-between; /* Space between columns */
+  padding: 0 20px; /* Side padding */
+}
+
+.footer-column {
+  flex: 1; /* Equal width for columns */
+  padding: 0 20px; /* Padding for inner columns */
+}
+
+.logo-column {
+  text-align: center; /* Center content in the logo column */
+}
+
+.footer-logo {
+  max-width: 100px; /* Adjust logo size */
+  margin-bottom: 10px; /* Space below the logo */
+}
+
+.links-column {
+  display: flex; /* Flex layout for link parts */
+  justify-content: space-between; /* Space between link parts */
+}
+
+.links-part {
+  text-align: left; /* Left align text */
+}
+
+.links-part h4 {
+  margin-bottom: 5px; /* Space below headings */
+}
+
+.links-part ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+}
+
+.links-part li {
+  margin-bottom: 5px; /* Space between list items */
+}
+
+.links-part a {
+  color: #fff; /* White link color */
+  text-decoration: none; /* No underline */
+}
+
+.links-part a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+hr {
+  margin: 20px 0; /* Space above and below the horizontal line */
+  border: 1px solid #fff; /* White horizontal line */
+}
+
+.footer-bottom {
+  display: flex; /* Flex layout for footer bottom */
+  justify-content: space-between; /* Space between left and right */
+  padding: 0 20px; /* Side padding */
+}
+
+.footer-bottom-left,
+.footer-bottom-right {
+  flex: 1; /* Equal width for bottom columns */
+}
+
+.footer-bottom-right {
+  text-align: right; /* Right align text */
+}
+
+.footer-bottom a {
+  color: #fff; /* White link color */
+  margin-left: 10px; /* Space between links */
+}
+
+footer button {
+  background-color: transparent; /* Make the background transparent */
+  color: #fff; /* White text color */
+  border: 2px solid #fff; /* White border */
+  padding: 10px 20px; /* Padding inside the button */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+footer button:hover {
+  background-color: #fff; /* Change background on hover */
+  color: #000; /* Change text color on hover */
+}
+
+.subscribe-container {
+  margin-top: 10px; /* Adds space between the textbox and button */
+}
+
+footer input[type="text"] {
+  width: 100%; /* Makes the textbox full width */
+  padding: 10px; /* Adds padding */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px; /* Rounded corners */
+}
+
+footer button {
+  background-color: transparent; /* Make the background transparent */
+  color: #fff; /* White text color */
+  border: 2px solid #fff; /* White border */
+  padding: 10px 20px; /* Padding inside the button */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  margin-top: 10px; /* Adds space above the button */
+  width: 100%; /* Makes the button full width */
+}
+
+footer button:hover {
+  background-color: #fff; /* Change background on hover */
+  color: #000; /* Change text color on hover */
+}
