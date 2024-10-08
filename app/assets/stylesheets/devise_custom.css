@@ -60,3 +60,26 @@
 #log-in-btn:hover {
   background-color: #0056b3;
 }
+
+.flash-messages {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.notice {
+  background-color: #e0f7fa; /* Soft cyan for success */
+  color: #00695c; /* Dark cyan for better contrast */
+  border: 1px solid #d6e9c6;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 18px; /* Adjust the font size */
+}
+
+.alert {
+  background-color: #ffebee; /* Soft red for error */
+  color: #c62828; /* Dark red for better contrast */
+  border: 1px solid #ebccd1;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 18px; /* Adjust the font size */
+}
