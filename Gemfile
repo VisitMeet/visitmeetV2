@@ -79,3 +79,4 @@ gem 'rollbar'
 
 
 gem "ostruct", "~> 0.6.0"
+gem 'recaptcha'

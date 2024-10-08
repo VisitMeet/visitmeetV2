@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :tags
-  devise_for :users
+  # config/routes.rb
+  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
   get 'home/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
