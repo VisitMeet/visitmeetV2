@@ -13,6 +13,19 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
+    <% if resource.username.blank? %>
+    <div class="field">
+      <%= f.label :username, "Add Username" %><br />
+      <%= f.text_field :username, placeholder: "Enter your username" %>
+    </div>
+  <% else %>
+    <div class="field">
+      <%= f.label :username %><br />
+      <%= f.text_field :username, value: resource.username, disabled: true %>
+      <small>You have already set a username.</small>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
