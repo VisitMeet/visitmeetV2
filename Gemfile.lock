@@ -288,6 +288,7 @@ DEPENDENCIES
   foreman
   importmap-rails
   jbuilder
+  logger (~> 1.6)
   newrelic_rpm
   ostruct (~> 0.6.0)
   pg (~> 1.1)

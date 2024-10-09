@@ -80,3 +80,4 @@ gem 'rollbar'
 
 gem "ostruct", "~> 0.6.0"
 gem 'recaptcha'
+gem "logger", "~> 1.6"
