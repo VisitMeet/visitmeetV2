@@ -1,9 +1,19 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Clear existing data to avoid duplicates
+LocationTag.destroy_all
+ProfessionTag.destroy_all
+
+# Seed Location Tags
+locations = ["pokhara", "dolpa", "apihimal", "kathmandu", "mustang", "lamjung", "manang"]
+locations.each do |location|
+  LocationTag.create(location: location)
+end
+
+puts "Location tags seeded successfully."
+
+# Seed Profession Tags
+professions = ["cyclist", "climber", "paragliding pilot", "trekking guide", "photographer", "yoga instructor", "wildlife biologist"]
+professions.each do |profession|
+  ProfessionTag.create(profession: profession)
+end
+
+puts "Profession tags seeded successfully."
