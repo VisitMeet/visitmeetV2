@@ -83,3 +83,5 @@ gem 'recaptcha'
 gem "logger", "~> 1.6"
 
 gem "tailwindcss-rails", "~> 2.7"
+
+gem 'unsplash'
