@@ -70,7 +70,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "tailwindcss-rails", "~> 2.7"
+
 
 gem 'foreman'
 
@@ -81,3 +81,5 @@ gem 'rollbar'
 gem "ostruct", "~> 0.6.0"
 gem 'recaptcha'
 gem "logger", "~> 1.6"
+
+gem "tailwindcss-rails", "~> 2.7"

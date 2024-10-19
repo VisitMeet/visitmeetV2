@@ -1,24 +1,55 @@
-<%= stylesheet_link_tag "navbar" %>
+<nav class="bg-sky-200 shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Navbar Brand / Logo -->
+      <div class="flex-shrink-0">
+        <%= link_to home_index_path do %>
+          <%= image_tag("tablet.png", alt: "logo", class: "h-12 w-auto") %>
+        <% end %>
+      </div>
 
-<div class="navbar">
-  <div class="navbar-brand">
-    <%= link_to image_tag("tablet.png", alt: "logo", style: "width:55px;"), home_index_path %>
+      <!-- Navbar Links -->
+      <div class="hidden md:flex space-x-4">
+        <% if user_signed_in? %>
+          <!-- Tags link -->
+          <%= link_to "Tags", tags_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+
+          <!-- Account and Sign Out links -->
+          <div class="flex space-x-4 items-center">
+            <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "text-red-500 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium" %>
+          </div>
+        <% else %>
+          <!-- Sign up and Log in links for guests -->
+          <div class="flex space-x-4">
+            <%= link_to "Sign up", new_user_registration_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Log in", new_user_session_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button type="button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div class="navbar-links">
-    <% if user_signed_in? %>
-      <!-- Add the Tags link for signed-in users -->
-      <%= link_to "Tags", tags_path, class: "nav-link" %>
-
-      <div class="navbar-user">
-        <%= link_to "My account", edit_user_registration_path, class: "nav-link"%>
-        <%= link_to "Sign out", destroy_user_session_path, class: "nav-link", style:"border:none;" %>
-      </div>
-    <% else %>
-      <div class="navbar-auth">
-        <%= link_to "Sign up", new_user_registration_path, class: "nav-link"%>
-        <%= link_to "Log in", new_user_session_path, class: "nav-link" %>
-      </div>
-    <% end %>
+  <!-- Mobile Menu (hidden by default) -->
+  <div class="md:hidden" id="mobile-menu">
+    <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+      <% if user_signed_in? %>
+        <%= link_to "Tags", tags_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
+        <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
+        <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "text-red-500 hover:text-red-700 block px-3 py-2 rounded-md text-base font-medium" %>
+      <% else %>
+        <%= link_to "Sign up", new_user_registration_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
+        <%= link_to "Log in", new_user_session_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
+      <% end %>
+    </div>
   </div>
-</div>
+</nav>

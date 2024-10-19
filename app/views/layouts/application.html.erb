@@ -16,22 +16,24 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <%= render "layouts/navbar" %>
+    
     <div class="flash-messages">
       <% if notice.present? %>
-        <p class="notice"><%= notice %></p>
+        <p class="notice bg-green-500 text-white p-4 rounded-md"><%= notice %></p>
       <% end %>
 
       <% if alert.present? %>
-        <p class="alert"><%= alert %></p>
+        <p class="alert bg-red-500 text-white p-4 rounded-md"><%= alert %></p>
       <% end %>
     </div>
+
     <%= yield %>
+
     <%= render 'layouts/footer' %>
   </body>
 </html>

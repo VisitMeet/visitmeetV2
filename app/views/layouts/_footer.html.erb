@@ -1,59 +1,68 @@
-<footer class="footer">
-  <div class="footer-content">
-    <div class="footer-column logo-column">
-      <img src="path/to/your/logo.png" alt="Logo" class="footer-logo" />
-      <h4>Subscribe to our Newsletter</h4>
-      <form>
-        <input type="email" placeholder="Enter your email" required />
-        <button type="submit">Subscribe</button>
-        
-      </form>
-    </div>
-    <div class="footer-column links-column">
-      <div class="links-part">
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Terms of Use</a></li>
-        </ul>
+<footer class="bg-gray-800 text-white py-8 mt-auto">
+  <div class="container mx-auto px-4">
+    <div class="md:flex md:justify-between md:gap-8 space-y-8 md:space-y-0">
+      <!-- Logo and Newsletter -->
+      <div class="md:w-1/4">
+        <img src="path/to/your/logo.png" alt="Logo" class="h-12 mb-4" />
+        <h4 class="text-lg font-semibold mb-4">Subscribe to our Newsletter</h4>
+        <form class="flex flex-col space-y-4">
+          <input type="email" placeholder="Enter your email" required class="p-2 rounded-md text-gray-800" />
+          <button type="submit" class="bg-sky-500 hover:bg-sky-600 text-white py-2 px-4 rounded-md">Subscribe</button>
+        </form>
       </div>
-      <div class="links-part">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Cookie Policy</a></li>
-          <li><a href="#">Disclaimer</a></li>
-          <li><a href="#">Refund Policy</a></li>
-          <li><a href="#">Copyright Policy</a></li>
-        </ul>
-      </div>
-      <div class="links-part">
-        <h4>Connect with Us</h4>
-        <ul>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">X</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">YouTube</a></li>
-          <li><a href="#">TikTok</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
-  <hr />
+      <!-- Footer Links -->
+      <div class="md:flex md:w-3/4 md:justify-between">
+        <!-- Explore Section -->
+        <div class="md:w-1/4">
+          <h4 class="text-lg font-semibold mb-4">Explore</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:underline">About Us</a></li>
+            <li><a href="#" class="hover:underline">Contact Us</a></li>
+            <li><a href="#" class="hover:underline">FAQ</a></li>
+            <li><a href="#" class="hover:underline">Blog</a></li>
+            <li><a href="#" class="hover:underline">Terms of Use</a></li>
+          </ul>
+        </div>
 
-  <div class="footer-bottom">
-    <div class="footer-bottom-left">
+        <!-- Legal Section -->
+        <div class="md:w-1/4">
+          <h4 class="text-lg font-semibold mb-4">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:underline">Privacy Policy</a></li>
+            <li><a href="#" class="hover:underline">Cookie Policy</a></li>
+            <li><a href="#" class="hover:underline">Disclaimer</a></li>
+            <li><a href="#" class="hover:underline">Refund Policy</a></li>
+            <li><a href="#" class="hover:underline">Copyright Policy</a></li>
+          </ul>
+        </div>
+
+        <!-- Connect Section -->
+        <div class="md:w-1/4">
+          <h4 class="text-lg font-semibold mb-4">Connect with Us</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:underline">Facebook</a></li>
+            <li><a href="#" class="hover:underline">Instagram</a></li>
+            <li><a href="#" class="hover:underline">X</a></li>
+            <li><a href="#" class="hover:underline">LinkedIn</a></li>
+            <li><a href="#" class="hover:underline">YouTube</a></li>
+            <li><a href="#" class="hover:underline">TikTok</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-8 border-gray-600" />
+
+    <!-- Footer Bottom -->
+    <div class="flex justify-between items-center text-sm text-gray-400">
       <p>Designed and developed by Good Works on Earth</p>
-    </div>
-    <div class="footer-bottom-right">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Cookie Settings</a>
+      <div class="space-x-4">
+        <a href="#" class="hover:underline">Privacy Policy</a>
+        <a href="#" class="hover:underline">Terms of Service</a>
+        <a href="#" class="hover:underline">Cookie Settings</a>
+      </div>
     </div>
   </div>
 </footer>
