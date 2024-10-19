@@ -22,7 +22,7 @@
   <body>
 
 
-    <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+    <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
       <%= render "layouts/navbar" %>
     <% end %>
 
@@ -40,7 +40,7 @@
     <%= yield %>
 
     
-     <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+     <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
       <%= render 'layouts/footer' %>
     <% end %>
   </body>
