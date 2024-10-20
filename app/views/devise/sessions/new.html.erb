@@ -3,11 +3,11 @@
     LOG IN
   </div>
 
-<div class="w-2/3 bg-gray-200 p-8 flex items-center justify-center">
+  <div class="w-2/3 bg-gray-200 p-8 flex items-center justify-center">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="mb-4">
         <%= f.label :login, "Username or Email", class: "block text-gray-700 font-bold mb-2" %>
-        <%= f.text_field :login, autofocus: true, autocomplete: "username", class: "block w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= f.text_field :login, autofocus: true,  class: "block w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
       </div>
 
       <div class="mb-4">
