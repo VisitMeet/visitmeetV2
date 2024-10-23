@@ -3,6 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, authentication_keys: [:login]
+  
+  # Relationship setup
+  has_many :user_location_tags
+  has_many :location_tags, through: :user_location_tags
+
+  has_many :user_profession_tags
+  has_many :profession_tags, through: :user_profession_tags
+
 
   attr_writer :login
 
