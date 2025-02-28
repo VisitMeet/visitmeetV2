@@ -1,0 +1,7 @@
+<%= form_with(model: @offering, local: true) do |form| %>
+  <%= form.text_field :title, placeholder: "Title" %>
+  <%= form.text_area :description, placeholder: "Description" %>
+  <%= form.number_field :price, placeholder: "Price" %>
+  <%= form.text_field :location, placeholder: "Location" %>
+  <%= form.submit "Create Offering" %>
+<% end %>

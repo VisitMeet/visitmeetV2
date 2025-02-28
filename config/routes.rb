@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :profiles, only: [:show] do
+    post 'add_tag', on: :member
+  end
+  get 'offerings/new'
+  get 'offerings/create'
   resources :tags
   # config/routes.rb
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
@@ -14,4 +19,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
+
+  resources :offerings
 end

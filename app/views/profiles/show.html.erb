@@ -1,0 +1,17 @@
+<div>
+  <h1><%= @user.username %>'s Profile</h1>
+  <p>Email: <%= @user.email %></p>
+
+  <h2>Tags:</h2>
+  <ul>
+    <% @tags.each do |tag| %>
+      <li>#<%= tag.name %></li>
+    <% end %>
+  </ul>
+
+  <h3>Add a Tag:</h3>
+  <%= form_with url: add_tag_profile_path(@user), method: :post do %>
+    <%= text_field_tag :tag_name %>
+    <%= submit_tag 'Add Tag' %>
+  <% end %>
+</div>

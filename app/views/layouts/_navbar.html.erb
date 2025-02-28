@@ -14,6 +14,9 @@
           <!-- Tags link -->
           <%= link_to "Tags", tags_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
 
+          <!-- Profile link -->
+          <%= link_to "Profile", profile_path(current_user), class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+
           <!-- Account and Sign Out links -->
           <div class="flex space-x-4 items-center">
             <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
@@ -44,6 +47,7 @@
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
       <% if user_signed_in? %>
         <%= link_to "Tags", tags_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
+        <%= link_to "Profile", profile_path(current_user), class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
         <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
         <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "text-red-500 hover:text-red-700 block px-3 py-2 rounded-md text-base font-medium" %>
       <% else %>
