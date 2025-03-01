@@ -1,17 +1,56 @@
-<div>
-  <h1><%= @user.username %>'s Profile</h1>
-  <p>Email: <%= @user.email %></p>
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+  <h1 class="text-3xl font-bold mb-4 text-center"><%= @user.username %>'s Profile</h1>
+  <p class="text-gray-700 mb-6 text-center">Email: <%= @user.email %></p>
 
-  <h2>Tags:</h2>
-  <ul>
+  <h2 class="text-2xl font-semibold mb-2 text-center">Tags:</h2>
+  <ul class="list-disc list-inside mb-6 text-center">
     <% @tags.each do |tag| %>
-      <li>#<%= tag.name %></li>
+      <li class="text-blue-500 inline-block bg-gray-100 p-2 rounded-md m-1">
+        #<%= tag.name %>
+        <button class="ml-2 text-red-500" data-tag-id="<%= tag.id %>">
+          <i class="fas fa-minus-circle"></i>
+        </button>
+      </li>
     <% end %>
   </ul>
 
-  <h3>Add a Tag:</h3>
-  <%= form_with url: add_tag_profile_path(@user), method: :post do %>
-    <%= text_field_tag :tag_name %>
-    <%= submit_tag 'Add Tag' %>
+  <h3 class="text-xl font-semibold mb-2 text-center">Add a Tag:</h3>
+  <%= form_with url: add_tag_profile_path(@user), method: :post, class: "flex items-center justify-center space-x-2" do %>
+    <%= text_field_tag :tag_name, nil, id: "tag_name", class: "border border-gray-300 rounded-md p-2 flex-grow" %>
+    <%= submit_tag 'Add Tag', class: "bg-blue-500 text-white rounded-md px-4 py-2" %>
   <% end %>
 </div>
+
+<%= javascript_include_tag 'https://code.jquery.com/jquery-3.6.0.min.js' %>
+<%= javascript_include_tag 'https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' %>
+<%= stylesheet_link_tag 'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js' %>
+
+<script>
+  $(document).ready(function() {
+    var availableTags = <%= raw @existing_tags.to_json %>;
+    $("#tag_name").autocomplete({
+      source: availableTags
+    });
+
+    $("button[data-tag-id]").click(function() {
+      var tagId = $(this).data("tag-id");
+      console.log("Removing tag with ID:", tagId); // Debugging line
+      $.ajax({
+        url: "<%= remove_tag_profile_path(@user) %>",
+        method: "DELETE",
+        data: { tag_id: tagId },
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function() {
+          console.log("Tag removed successfully"); // Debugging line
+          location.reload();
+        },
+        error: function() {
+          console.log("Error removing tag"); // Debugging line
+        }
+      });
+    });
+  });
+</script>

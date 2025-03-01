@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :profiles, only: [:show] do
-    post 'add_tag', on: :member
+    member do
+      post :add_tag
+      delete :remove_tag
+    end
   end
   get 'offerings/new'
   get 'offerings/create'
