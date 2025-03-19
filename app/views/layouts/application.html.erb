@@ -18,8 +18,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'autocomplete', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag 'autosuggestion', 'data-turbo-track': 'reload' %>
   </head>
 
   <body>
@@ -41,6 +43,10 @@
     </div>
 
     <%= yield %>
+
+    <div id="autosuggestion-container" class="autosuggestion-container">
+      <!-- Autosuggestion content will be dynamically inserted here -->
+    </div>
 
     
      <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>

@@ -1,19 +1,32 @@
 <%= stylesheet_link_tag "home" %>
+<%= javascript_include_tag "autocomplete" %>
 
-<section class="landing_page">
+<section class="landing_page bg-cover bg-center h-screen" style="background-image: url('/assets/images/bgimage.jpg');">
   <!-- Hero content and Explore subtitle -->
-  <div class="content-wrapper">
-    <div class="hero-content">
-      <h1 class="hero-text">I want to visit</h1>
-      <input type="text" id="visit-place" placeholder="Enter the location tags you want to visit">
-      <h1 class="hero-text1">and meet</h1>
-      <input type="text" id="meet-person" placeholder="Enter the person you want to meet">
-      <%= button_to "New", "#", class: "button" %>
+  <div class="content-wrapper flex flex-col items-center justify-center h-full text-white bg-black bg-opacity-50">
+    <div class="hero-content text-center">
+      <h1 class="hero-text text-5xl font-bold mb-4">find your next destination</h1>
+      <input type="text" id="tags" placeholder="Search..." class="input-field mb-4 p-2 rounded-md text-black">
+      <%= button_to "Explore", "#", class: "button bg-blue-500 text-white px-4 py-2 rounded-md mt-4", id: "explore-button" %>
     </div>
 
     <!-- Subtitle section -->
-    <div class="explore-subtitle">
-      <h2>Explore Authentic Stays in Emerging Destinations</h2>
+    <div class="explore-subtitle mt-8">
+      <h2 class="text-3xl font-semibold">Explore Authentic Stays in Emerging Destinations</h2>
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize autocomplete for tags
+    new Autocomplete('#tags', { /* options */ });
+
+    // Handle Explore button click
+    document.getElementById('explore-button').addEventListener('click', function(event) {
+      event.preventDefault();
+      const tags = document.getElementById('tags').value;
+      window.location.href = `/results?tags=${encodeURIComponent(tags)}`;
+    });
+  });
+</script>

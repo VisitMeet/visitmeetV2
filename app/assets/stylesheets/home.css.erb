@@ -9,10 +9,11 @@ body, html {
     position: relative;
     width: 100%;
     height: 100vh; /* Cover full viewport height */
-    background: url('bgimage.jpg') center center/cover no-repeat; /* Set background image */
+    background: url('<%= asset_path 'bgimage.jpg' %>') center center/cover no-repeat; /* Set background image */
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
   }
   
   .landing_page::before {
@@ -35,13 +36,16 @@ body, html {
     align-items: center;
     text-align: center;
     color: #fff; /* White text for readability */
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
   }
   
   /* Styling for the hero text and input fields */
   .hero-text, .hero-text1 {
     font-family: "Poppins", sans-serif;
-    font-size: 58px;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: bold;
     text-transform: uppercase;
     color: #fff; /* White text for readability */
     margin: 10px 0;
@@ -65,23 +69,38 @@ body, html {
     width: 400px;
   }
   
+  .input-field {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+  }
+
   .button {
     width: 200px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     margin-top: 20px;
-    padding: 10px 0;
-    background-color: rgb(121, 3, 255);
-    color: aliceblue;
+    padding: 0.75rem 1.5rem;
+    background-color: #1d4ed8;
+    color: white;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
     cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
   }
   
   /* Explore subtitle styling */
+  .explore-subtitle {
+    margin-top: 2rem;
+  }
+
   .explore-subtitle h2 {
     font-family: "Poppins", sans-serif;
-    font-size: 28px;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 600;
     color: #fff;
     opacity: 0.9;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);

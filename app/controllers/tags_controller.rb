@@ -4,7 +4,9 @@ class TagsController < ApplicationController
 
   # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    query = params[:query]
+    tags = Tag.where('name LIKE ?', "%#{query}%").limit(10)
+    render json: tags.map(&:name)
   end
 
   # GET /tags/1 or /tags/1.json
@@ -56,6 +58,12 @@ class TagsController < ApplicationController
       format.html { redirect_to tags_path, status: :see_other, notice: "Tag was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def autocomplete
+    term = params[:term]
+    tags = Tag.where('name LIKE ?', "%#{term}%").pluck(:name)
+    render json: tags
   end
 
   private

@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'offerings/new'
   get 'offerings/create'
   resources :tags
+  get 'tags', to: 'tags#index'
+  get 'results', to: 'results#index'
   # config/routes.rb
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
   get 'home/index'
@@ -24,4 +26,5 @@ Rails.application.routes.draw do
   end
 
   resources :offerings
+  resources :users, only: [:show]
 end

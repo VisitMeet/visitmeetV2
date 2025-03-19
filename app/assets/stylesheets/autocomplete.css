@@ -1,0 +1,17 @@
+.autocomplete-suggestions {
+  border: 1px solid #ccc;
+  background: #fff;
+  position: absolute;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.autocomplete-suggestion {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.autocomplete-suggestion:hover {
+  background: #f0f0f0;
+}
