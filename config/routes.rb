@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   get 'offerings/create'
   resources :tags
   get 'tags', to: 'tags#index'
+  get 'tags/autocomplete', to: 'tags#autocomplete'
   get 'results', to: 'results#index'
+  get 'search', to: 'results#index', as: 'search_results'
   # config/routes.rb
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
   get 'home/index'
