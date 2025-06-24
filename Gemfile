@@ -15,7 +15,6 @@ gem 'devise'
 group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
-  gem 'rspec-rails' # Added RSpec gem
   gem 'factory_bot_rails' # For creating test data
   gem "debug", platforms: %i[ mri windows ]
 end
@@ -25,10 +24,12 @@ group :development do
 end
 
 group :test do
+  gem 'rspec-rails' # Added RSpec gem
   gem "capybara"
   gem "selenium-webdriver"
   gem 'shoulda-matchers' # Added Shoulda Matchers gem
   gem 'simplecov', require: false # Added SimpleCov gem for test coverage
+  gem "webdrivers" 
 end
 
 gem 'foreman'
