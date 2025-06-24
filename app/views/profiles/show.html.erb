@@ -1,56 +1,265 @@
-<div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
-  <h1 class="text-3xl font-bold mb-4 text-center"><%= @user.username %>'s Profile</h1>
-  <p class="text-gray-700 mb-6 text-center">Email: <%= @user.email %></p>
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Profile Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div class="flex items-center space-x-6">
+        <!-- Avatar -->
+        <div class="w-24 h-24 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-3xl">
+          <%= @user.initials %>
+        </div>
+        
+        <!-- User Info -->
+        <div class="flex-1">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            <%= @is_own_profile ? "Your Profile" : "#{@user.display_name}'s Profile" %>
+          </h1>
+          <p class="text-gray-600 mb-1"><%= @user.display_name %></p>
+          <p class="text-sm text-gray-500 mb-2">@<%= @user.username %></p>
+          <% unless @is_own_profile %>
+            <p class="text-sm text-gray-500">Member since <%= @user.created_at.strftime("%B %Y") %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
-  <h2 class="text-2xl font-semibold mb-2 text-center">Tags:</h2>
-  <ul class="list-disc list-inside mb-6 text-center">
-    <% @tags.each do |tag| %>
-      <li class="text-blue-500 inline-block bg-gray-100 p-2 rounded-md m-1">
-        #<%= tag.name %>
-        <button class="ml-2 text-red-500" data-tag-id="<%= tag.id %>">
-          <i class="fas fa-minus-circle"></i>
-        </button>
-      </li>
-    <% end %>
-  </ul>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Left Column: Tags -->
+      <div class="lg:col-span-1">
+        <!-- Location Tags Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-900">Locations</h2>
+            <% if @is_own_profile %>
+              <button id="add-location-btn" class="text-blue-600 hover:text-blue-800 text-sm font-medium">+ Add</button>
+            <% end %>
+          </div>
+          
+          <!-- Add Location Form (hidden by default) -->
+          <% if @is_own_profile %>
+            <div id="location-form" class="hidden mb-4">
+              <%= form_with url: add_tag_profile_path(@user), method: :post, local: true, class: "space-y-2" do |f| %>
+                <%= hidden_field_tag :tag_type, 'location' %>
+                <%= text_field_tag :tag_name, nil,
+                                   id: "location_tag_input",
+                                   placeholder: "Enter a location",
+                                   class: "w-full border border-gray-300 rounded-md p-2" %>
+                <div class="flex space-x-2">
+                  <%= f.submit "Add", class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" %>
+                  <button type="button" id="cancel-location" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-3 py-1 rounded text-sm">Cancel</button>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          
+          <!-- Location Tags Display -->
+          <div class="space-y-2">
+            <% if @location_tags.any? %>
+              <% @location_tags.each do |tag| %>
+                <div class="inline-flex items-center bg-green-100 text-green-800 rounded-full px-3 py-1 m-1">
+                  📍 <%= tag.location.titleize %>
+                  <% if @is_own_profile %>
+                    <button data-tag-id="<%= tag.id %>" data-tag-type="location"
+                            class="ml-2 text-red-500 hover:text-red-700 remove-tag-btn">
+                      ×
+                    </button>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <p class="text-gray-500 text-sm">No locations added yet</p>
+            <% end %>
+          </div>
+        </div>
 
-  <h3 class="text-xl font-semibold mb-2 text-center">Add a Tag:</h3>
-  <%= form_with url: add_tag_profile_path(@user), method: :post, class: "flex items-center justify-center space-x-2" do %>
-    <%= text_field_tag :tag_name, nil, id: "tag_name", class: "border border-gray-300 rounded-md p-2 flex-grow" %>
-    <%= submit_tag 'Add Tag', class: "bg-blue-500 text-white rounded-md px-4 py-2" %>
-  <% end %>
+        <!-- Profession Tags Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-900">Expertise</h2>
+            <% if @is_own_profile %>
+              <button id="add-profession-btn" class="text-blue-600 hover:text-blue-800 text-sm font-medium">+ Add</button>
+            <% end %>
+          </div>
+          
+          <!-- Add Profession Form (hidden by default) -->
+          <% if @is_own_profile %>
+            <div id="profession-form" class="hidden mb-4">
+              <%= form_with url: add_tag_profile_path(@user), method: :post, local: true, class: "space-y-2" do |f| %>
+                <%= hidden_field_tag :tag_type, 'profession' %>
+                <%= text_field_tag :tag_name, nil,
+                                   id: "profession_tag_input",
+                                   placeholder: "Enter a profession",
+                                   class: "w-full border border-gray-300 rounded-md p-2" %>
+                <div class="flex space-x-2">
+                  <%= f.submit "Add", class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" %>
+                  <button type="button" id="cancel-profession" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-3 py-1 rounded text-sm">Cancel</button>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          
+          <!-- Profession Tags Display -->
+          <div class="space-y-2">
+            <% if @profession_tags.any? %>
+              <% @profession_tags.each do |tag| %>
+                <div class="inline-flex items-center bg-blue-100 text-blue-800 rounded-full px-3 py-1 m-1">
+                  💼 <%= tag.profession.titleize %>
+                  <% if @is_own_profile %>
+                    <button data-tag-id="<%= tag.id %>" data-tag-type="profession"
+                            class="ml-2 text-red-500 hover:text-red-700 remove-tag-btn">
+                      ×
+                    </button>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <p class="text-gray-500 text-sm">No expertise areas added yet</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Offerings -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900">
+              <%= @is_own_profile ? "Your Offerings" : "#{@user.display_name}'s Offerings" %>
+            </h2>
+            <% if @is_own_profile %>
+              <%= link_to "Create New Offering", new_offering_path, 
+                  class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium" %>
+            <% end %>
+          </div>
+          
+          <% if @offerings.any? %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <% @offerings.each do |offering| %>
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <%= link_to offering, class: "block" do %>
+                    <h3 class="font-semibold text-lg mb-2 text-gray-900 hover:text-blue-600">
+                      <%= offering.title %>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                      <%= truncate(offering.description, length: 100) %>
+                    </p>
+                    <div class="flex justify-between items-center">
+                      <span class="text-2xl font-bold text-green-600">$<%= offering.price %></span>
+                      <span class="text-gray-500 text-sm">📍 <%= offering.location.titleize %></span>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-12">
+              <div class="text-gray-400 text-6xl mb-4">🏠</div>
+              <% if @is_own_profile %>
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">Share your local expertise</h3>
+                <p class="text-gray-500 mb-6">Create offerings to help travelers discover hidden gems in your area.</p>
+                <%= link_to "Create Your First Offering", new_offering_path, 
+                    class: "bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium" %>
+              <% else %>
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">No offerings yet</h3>
+                <p class="text-gray-500">This host hasn't created any offerings yet.</p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%= javascript_include_tag 'https://code.jquery.com/jquery-3.6.0.min.js' %>
-<%= javascript_include_tag 'https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' %>
-<%= stylesheet_link_tag 'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' %>
-<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js' %>
+<% if @is_own_profile %>
+  <%= javascript_include_tag "https://code.jquery.com/jquery-3.6.0.min.js" %>
+  <%= javascript_include_tag "https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" %>
+  <%= stylesheet_link_tag "https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
 
-<script>
-  $(document).ready(function() {
-    var availableTags = <%= raw @existing_tags.to_json %>;
-    $("#tag_name").autocomplete({
-      source: availableTags
-    });
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Show/hide location form
+      const addLocationBtn = document.getElementById('add-location-btn');
+      const locationForm = document.getElementById('location-form');
+      const cancelLocationBtn = document.getElementById('cancel-location');
+      
+      if (addLocationBtn) {
+        addLocationBtn.addEventListener('click', function() {
+          locationForm.classList.remove('hidden');
+          addLocationBtn.style.display = 'none';
+        });
+      }
+      
+      if (cancelLocationBtn) {
+        cancelLocationBtn.addEventListener('click', function() {
+          locationForm.classList.add('hidden');
+          addLocationBtn.style.display = 'block';
+        });
+      }
 
-    $("button[data-tag-id]").click(function() {
-      var tagId = $(this).data("tag-id");
-      console.log("Removing tag with ID:", tagId); // Debugging line
-      $.ajax({
-        url: "<%= remove_tag_profile_path(@user) %>",
-        method: "DELETE",
-        data: { tag_id: tagId },
-        headers: {
-          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function() {
-          console.log("Tag removed successfully"); // Debugging line
-          location.reload();
-        },
-        error: function() {
-          console.log("Error removing tag"); // Debugging line
-        }
+      // Show/hide profession form
+      const addProfessionBtn = document.getElementById('add-profession-btn');
+      const professionForm = document.getElementById('profession-form');
+      const cancelProfessionBtn = document.getElementById('cancel-profession');
+      
+      if (addProfessionBtn) {
+        addProfessionBtn.addEventListener('click', function() {
+          professionForm.classList.remove('hidden');
+          addProfessionBtn.style.display = 'none';
+        });
+      }
+      
+      if (cancelProfessionBtn) {
+        cancelProfessionBtn.addEventListener('click', function() {
+          professionForm.classList.add('hidden');
+          addProfessionBtn.style.display = 'block';
+        });
+      }
+
+      // Remove tag functionality
+      document.querySelectorAll('.remove-tag-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+          const tagId = this.getAttribute('data-tag-id');
+          const tagType = this.getAttribute('data-tag-type');
+          
+          if (confirm('Are you sure you want to remove this tag?')) {
+            fetch('<%= remove_tag_profile_path(@user) %>', {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              },
+              body: JSON.stringify({
+                tag_id: tagId,
+                tag_type: tagType
+              })
+            })
+            .then(response => {
+              if (response.ok) {
+                location.reload();
+              } else {
+                alert('Could not remove tag. Please try again.');
+              }
+            })
+            .catch(error => {
+              alert('Could not remove tag. Please try again.');
+            });
+          }
+        });
       });
     });
-  });
-</script>
+
+    // jQuery autocomplete functionality
+    $(function() {
+      var availableLocationTags = <%= raw(@existing_location_tags.to_json) %>;
+      var availableProfessionTags = <%= raw(@existing_profession_tags.to_json) %>;
+
+      $("#location_tag_input").autocomplete({
+        source: availableLocationTags
+      });
+      
+      $("#profession_tag_input").autocomplete({
+        source: availableProfessionTags
+      });
+    });
+  </script>
+<% end %>

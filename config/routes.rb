@@ -1,32 +1,45 @@
 Rails.application.routes.draw do
+  # Devise authentication
+  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
+
+  # Root and home
+  root "home#index"
+  get 'home/index'
+
+  # User profiles
   resources :profiles, only: [:show] do
     member do
       post :add_tag
       delete :remove_tag
     end
   end
-  get 'offerings/new'
-  get 'offerings/create'
+  resources :users, only: [:show]
+
+  # Tags
   resources :tags
-  get 'tags', to: 'tags#index'
   get 'tags/autocomplete', to: 'tags#autocomplete'
+
+  # Search and results
   get 'results', to: 'results#index'
   get 'search', to: 'results#index', as: 'search_results'
-  # config/routes.rb
-  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
-  get 'home/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  # Defines the root path route ("/")
-  root "home#index"
-  devise_scope :user do
-    get '/users/sign_out' => 'devise/sessions#destroy'
+  # Offerings with nested bookings
+  resources :offerings do
+    resources :bookings, only: [:new, :create]
   end
 
-  resources :offerings
-  resources :users, only: [:show]
+  # Bookings management
+  resources :bookings, except: [:new, :create] do
+    member do
+      patch :accept
+      patch :decline
+      patch :cancel
+    end
+  end
+
+  # Health check
+  get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -1,24 +1,58 @@
+# app/controllers/profiles_controller.rb
+
 class ProfilesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user
+  before_action :authorize_user, except: [:show]
+
   def show
-    @user = User.find(params[:id])
-    @tags = @user.tags
-    @existing_tags = Tag.pluck(:name)
+    @location_tags            = @user.location_tags
+    @profession_tags          = @user.profession_tags
+    @existing_location_tags   = LocationTag.pluck(:location)
+    @existing_profession_tags = ProfessionTag.pluck(:profession)
+    @is_own_profile          = @user == current_user
+    @offerings               = @user.offerings.order(created_at: :desc)
   end
 
   def add_tag
-    @user = User.find(params[:id])
-    tag = Tag.find_or_create_by(name: params[:tag_name])
-    @user.tags << tag unless @user.tags.include?(tag)
+    tag_name = params[:tag_name].strip.downcase
+    tag_type = params[:tag_type]
+
+    if tag_type == 'location'
+      tag = LocationTag.find_or_create_by(location: tag_name)
+      @user.location_tags << tag unless @user.location_tags.include?(tag)
+    elsif tag_type == 'profession'
+      tag = ProfessionTag.find_or_create_by(profession: tag_name)
+      @user.profession_tags << tag unless @user.profession_tags.include?(tag)
+    end
+
     redirect_to profile_path(@user)
   end
 
   def remove_tag
+    tag_type = params[:tag_type]
+    tag_id   = params[:tag_id]
+
+    if tag_type == 'location'
+      tag = LocationTag.find_by(id: tag_id)
+      @user.location_tags.delete(tag) if tag
+    elsif tag_type == 'profession'
+      tag = ProfessionTag.find_by(id: tag_id)
+      @user.profession_tags.delete(tag) if tag
+    end
+
+    head :ok
+  end
+
+  private
+
+  def set_user
     @user = User.find(params[:id])
-    tag = Tag.find(params[:tag_id])
-    if @user.tags.delete(tag)
-      head :ok
-    else
-      head :unprocessable_entity
+  end
+
+  def authorize_user
+    unless @user == current_user
+      redirect_to root_path, alert: "You are not authorized to access this page."
     end
   end
 end

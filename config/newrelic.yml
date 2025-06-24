@@ -53,6 +53,8 @@ common: &default_settings
 development:
   <<: *default_settings
   app_name: 'VisitMeetV2 (Development)'
+  # Disable New Relic in development to avoid CORS errors
+  agent_enabled: false
 
 test:
   <<: *default_settings

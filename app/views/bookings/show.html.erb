@@ -1,0 +1,141 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header with Status -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div class="flex justify-between items-start mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 mb-2">Booking Details</h1>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= status_badge_class(@booking.status) %>">
+            <%= @booking.status.titleize %>
+          </span>
+        </div>
+        <div class="text-sm text-gray-500">
+          Booking #<%= @booking.id %><br>
+          Created <%= @booking.created_at.strftime("%B %d, %Y") %>
+        </div>
+      </div>
+
+      <!-- Action Buttons for Host -->
+      <% if @booking.offering.user == current_user && @booking.pending? %>
+        <div class="flex gap-3 mb-6">
+          <%= link_to "Accept Booking", accept_booking_path(@booking), method: :patch,
+              class: "bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium" %>
+          <%= link_to "Decline Booking", decline_booking_path(@booking), method: :patch,
+              data: { confirm: "Are you sure you want to decline this booking?" },
+              class: "bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-medium" %>
+        </div>
+      <% end %>
+
+      <!-- Cancel Button -->
+      <% if @booking.can_be_cancelled? %>
+        <div class="mb-6">
+          <%= link_to "Cancel Booking", cancel_booking_path(@booking), method: :patch,
+              data: { confirm: "Are you sure you want to cancel this booking?" },
+              class: "border border-red-300 text-red-600 px-4 py-2 rounded-md hover:bg-red-50 font-medium" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Booking Information -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Booking Information</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Date</label>
+            <p class="text-lg text-gray-900"><%= @booking.requested_date.strftime("%A, %B %d, %Y") %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Number of Guests</label>
+            <p class="text-lg text-gray-900"><%= @booking.guests %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Total Amount</label>
+            <p class="text-2xl font-bold text-green-600">$<%= @booking.total_amount %></p>
+            <p class="text-sm text-gray-500">$<%= @booking.offering.price %> × <%= @booking.guests %> guests</p>
+          </div>
+          
+          <% if @booking.message.present? %>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Message from <%= @booking.user == current_user ? "you" : "traveler" %></label>
+              <div class="mt-1 bg-gray-50 rounded-md p-3">
+                <p class="text-gray-900"><%= @booking.message %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Offering Details -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Experience Details</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-lg font-medium text-gray-900">
+              <%= link_to @booking.offering.title, @booking.offering, class: "hover:text-blue-600" %>
+            </h3>
+            <p class="text-gray-600"><%= @booking.offering.location.titleize %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Description</label>
+            <p class="text-gray-900 mt-1"><%= @booking.offering.description %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Price per Person</label>
+            <p class="text-lg font-semibold text-gray-900">$<%= @booking.offering.price %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- People Involved -->
+    <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">People</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Traveler</label>
+          <div class="mt-2 flex items-center">
+            <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-semibold">
+              <%= @booking.user.initials %>
+            </div>
+            <div class="ml-3">
+              <p class="text-lg font-medium text-gray-900"><%= @booking.user.display_name %></p>
+              <p class="text-sm text-gray-500">@<%= @booking.user.username %> • Member since <%= @booking.user.created_at.strftime("%B %Y") %></p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Host</label>
+          <div class="mt-2 flex items-center">
+            <div class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-semibold">
+              <%= @booking.offering.user.initials %>
+            </div>
+            <div class="ml-3">
+              <p class="text-lg font-medium text-gray-900"><%= @booking.offering.user.display_name %></p>
+              <p class="text-sm text-gray-500">@<%= @booking.offering.user.username %> • Member since <%= @booking.offering.user.created_at.strftime("%B %Y") %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="mt-8 flex justify-between">
+      <%= link_to "← Back to Bookings", bookings_path, 
+          class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+      
+      <% if @booking.offering.user != current_user %>
+        <%= link_to "View Offering", @booking.offering, 
+            class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+      <% end %>
+    </div>
+  </div>
+</div>

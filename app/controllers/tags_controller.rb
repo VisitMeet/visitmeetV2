@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  before_action :authenticate_user! 
+  before_action :authenticate_user!, except: [:autocomplete]
   before_action :set_tag, only: %i[ show edit update destroy ]
 
   # GET /tags or /tags.json
@@ -61,9 +61,35 @@ class TagsController < ApplicationController
   end
 
   def autocomplete
-    term = params[:term]
-    tags = Tag.where('name LIKE ?', "%#{term}%").pluck(:name)
-    render json: tags
+    term = params[:term].to_s.downcase
+    tag_type = params[:tag_type]
+    
+    # Popular suggestions if no term provided
+    popular_locations = %w[tokyo paris london newyork bali barcelona istanbul rome amsterdam berlin]
+    popular_professions = %w[photographer chef guide artist musician historian architect designer foodie local]
+    
+    tags = case tag_type
+           when 'location'
+             if term.blank?
+               popular_locations
+             else
+               db_results = LocationTag.where('location ILIKE ?', "%#{term}%").pluck(:location)
+               suggested = popular_locations.select { |loc| loc.include?(term) }
+               (db_results + suggested).uniq.first(10)
+             end
+           when 'profession'
+             if term.blank?
+               popular_professions
+             else
+               db_results = ProfessionTag.where('profession ILIKE ?', "%#{term}%").pluck(:profession)
+               suggested = popular_professions.select { |prof| prof.include?(term) }
+               (db_results + suggested).uniq.first(10)
+             end
+           else
+             []
+           end
+    
+    render json: tags.first(10)
   end
 
   private

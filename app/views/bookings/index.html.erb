@@ -1,0 +1,185 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">My Bookings</h1>
+
+      <!-- Tab Navigation -->
+      <div class="border-b border-gray-200 mb-6">
+        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+          <button id="traveler-tab" class="tab-button active border-blue-500 text-blue-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+            My Trips (<%= @traveler_bookings.count %>)
+          </button>
+          <button id="host-tab" class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+            My Hosted Bookings (<%= @host_bookings.count %>)
+          </button>
+        </nav>
+      </div>
+
+      <!-- Traveler Bookings Tab -->
+      <div id="traveler-content" class="tab-content">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Bookings I've Made</h2>
+        
+        <% if @traveler_bookings.any? %>
+          <div class="space-y-4">
+            <% @traveler_bookings.each do |booking| %>
+              <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                      <h3 class="text-lg font-semibold text-gray-900">
+                        <%= link_to booking.offering.title, booking_path(booking), class: "hover:text-blue-600" %>
+                      </h3>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= status_badge_class(booking.status) %>">
+                        <%= booking.status.titleize %>
+                      </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                      <div>
+                        <span class="font-medium">Date:</span>
+                        <%= booking.requested_date.strftime("%B %d, %Y") %>
+                      </div>
+                      <div>
+                        <span class="font-medium">Guests:</span>
+                        <%= booking.guests %>
+                      </div>
+                      <div>
+                        <span class="font-medium">Total:</span>
+                        $<%= booking.total_amount %>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-2 text-sm text-gray-600">
+                      <span class="font-medium">Location:</span>
+                      <%= booking.offering.location.titleize %>
+                    </div>
+                    
+                    <div class="mt-2 text-sm text-gray-600">
+                      <span class="font-medium">Host:</span>
+                      <%= booking.offering.user.display_name %>
+                    </div>
+                  </div>
+                  
+                  <div class="flex gap-2 ml-4">
+                    <%= link_to "View", booking_path(booking), class: "px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50" %>
+                    <% if booking.can_be_cancelled? %>
+                      <%= link_to "Cancel", cancel_booking_path(booking), method: :patch, 
+                          data: { confirm: "Are you sure you want to cancel this booking?" },
+                          class: "px-3 py-1 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <p class="text-gray-500 text-lg">You haven't made any bookings yet.</p>
+            <%= link_to "Browse Offerings", offerings_path, class: "mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Host Bookings Tab -->
+      <div id="host-content" class="tab-content hidden">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Bookings for My Offerings</h2>
+        
+        <% if @host_bookings.any? %>
+          <div class="space-y-4">
+            <% @host_bookings.each do |booking| %>
+              <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                      <h3 class="text-lg font-semibold text-gray-900">
+                        <%= link_to booking.offering.title, booking_path(booking), class: "hover:text-blue-600" %>
+                      </h3>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= status_badge_class(booking.status) %>">
+                        <%= booking.status.titleize %>
+                      </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                      <div>
+                        <span class="font-medium">Date:</span>
+                        <%= booking.requested_date.strftime("%B %d, %Y") %>
+                      </div>
+                      <div>
+                        <span class="font-medium">Guests:</span>
+                        <%= booking.guests %>
+                      </div>
+                      <div>
+                        <span class="font-medium">Total:</span>
+                        $<%= booking.total_amount %>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-2 text-sm text-gray-600">
+                      <span class="font-medium">Traveler:</span>
+                      <%= booking.user.display_name %>
+                    </div>
+                    
+                    <% if booking.message.present? %>
+                      <div class="mt-2 text-sm text-gray-600">
+                        <span class="font-medium">Message:</span>
+                        <%= booking.message %>
+                      </div>
+                    <% end %>
+                  </div>
+                  
+                  <div class="flex gap-2 ml-4">
+                    <%= link_to "View", booking_path(booking), class: "px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50" %>
+                    <% if booking.can_be_accepted? %>
+                      <%= link_to "Accept", accept_booking_path(booking), method: :patch, 
+                          class: "px-3 py-1 text-sm bg-green-600 text-white rounded-md hover:bg-green-700" %>
+                      <%= link_to "Decline", decline_booking_path(booking), method: :patch, 
+                          data: { confirm: "Are you sure you want to decline this booking?" },
+                          class: "px-3 py-1 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <p class="text-gray-500 text-lg">No one has booked your offerings yet.</p>
+            <%= link_to "Create an Offering", new_offering_path, class: "mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const travelerTab = document.getElementById('traveler-tab');
+    const hostTab = document.getElementById('host-tab');
+    const travelerContent = document.getElementById('traveler-content');
+    const hostContent = document.getElementById('host-content');
+    
+    function showTravelerTab() {
+      travelerTab.classList.add('active', 'border-blue-500', 'text-blue-600');
+      travelerTab.classList.remove('border-transparent', 'text-gray-500');
+      hostTab.classList.remove('active', 'border-blue-500', 'text-blue-600');
+      hostTab.classList.add('border-transparent', 'text-gray-500');
+      
+      travelerContent.classList.remove('hidden');
+      hostContent.classList.add('hidden');
+    }
+    
+    function showHostTab() {
+      hostTab.classList.add('active', 'border-blue-500', 'text-blue-600');
+      hostTab.classList.remove('border-transparent', 'text-gray-500');
+      travelerTab.classList.remove('active', 'border-blue-500', 'text-blue-600');
+      travelerTab.classList.add('border-transparent', 'text-gray-500');
+      
+      hostContent.classList.remove('hidden');
+      travelerContent.classList.add('hidden');
+    }
+    
+    travelerTab.addEventListener('click', showTravelerTab);
+    hostTab.addEventListener('click', showHostTab);
+  });
+</script>
