@@ -44,10 +44,23 @@ class ProfilesController < ApplicationController
     head :ok
   end
 
+  def update_picture
+    if current_user.update(profile_picture_params)
+      redirect_to profile_path, notice: "Profile picture updated successfully."
+    else
+      redirect_to profile_url, alert: "Failed to update profile picture."
+    end
+  end
+
   private
 
   def set_user
-    @user = User.find(params[:id])
+    # @user = User.find(params[:id])
+    @user = current_user
+  end
+  
+  def profile_picture_params
+    params.require(:user).permit(:profile_picture)
   end
 
   def authorize_user

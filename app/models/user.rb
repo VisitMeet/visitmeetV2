@@ -33,6 +33,9 @@ class User < ApplicationRecord
   has_many :bookings, dependent: :destroy  # Bookings I've made as traveler
   has_many :host_bookings, through: :offerings, source: :bookings  # Bookings for my offerings
 
+  has_one_attached :profile_picture
+
+
   # Devise login override (username OR email)
   def login
     @login || username || email

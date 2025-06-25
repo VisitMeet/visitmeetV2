@@ -10,12 +10,14 @@ Rails.application.routes.draw do
   get 'home/index'
 
   # User profiles
-  resources :profiles, only: [:show] do
-    member do
-      post :add_tag
-      delete :remove_tag
-    end
+
+  
+  resource :profile, only: [:show, :update] do
+    patch :update_picture
+    post :add_tag
+    delete :remove_tag
   end
+
   resources :users, only: [:show]
 
   # Tags

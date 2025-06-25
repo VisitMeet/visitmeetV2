@@ -41,3 +41,4 @@ gem "tailwindcss-rails", "~> 2.7"
 gem 'unsplash'
 gem 'jquery-rails'
 gem 'recaptcha', require: 'recaptcha/rails'
+gem "image_processing", "~> 1.2"
