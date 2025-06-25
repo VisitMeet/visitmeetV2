@@ -1,5 +1,5 @@
 <% content_for :recaptcha_script do %>
-  <script src="https://www.google.com/recaptcha/api.js?render='<%= ENV["RECAPTCHA_SITE_KEY"] %>'"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=<%= ENV["RECAPTCHA_SITE_KEY"] %>"></script>
 <% end %>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-400 via-cyan-500 to-teal-500 flex items-center justify-center relative overflow-hidden">
