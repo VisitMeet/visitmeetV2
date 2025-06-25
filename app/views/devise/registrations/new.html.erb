@@ -78,6 +78,7 @@
       <div class="pt-4">
         <%= f.submit "Sign Up",
                      class: "w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transform transition hover:scale-[1.02] shadow-lg" %>
+        <%= recaptcha_v3(action: 'signup') %>
       </div>
 <div class="pt-6">
         <div class="relative">
@@ -119,3 +120,15 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  grecaptcha.ready(function() {
+    grecaptcha.execute('<%= Rails.application.credentials.dig(:recaptcha, :site_key) %>', {action: 'signup'}).then(function(token) {
+      let el = document.createElement("input");
+      el.setAttribute("type", "hidden");
+      el.setAttribute("name", "recaptcha_token");
+      el.setAttribute("value", token);
+      document.querySelector("form").appendChild(el);
+    });
+  });
+</script>

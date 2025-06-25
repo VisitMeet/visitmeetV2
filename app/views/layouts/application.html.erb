@@ -22,6 +22,10 @@
 
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag 'autosuggestion', 'data-turbo-track': 'reload' %>
+
+    <% if Rails.application.credentials.dig(:recaptcha, :site_key).present? %>
+      <script src="https://www.google.com/recaptcha/api.js?render=<%= Rails.application.credentials.dig(:recaptcha, :site_key) %>"></script>
+    <% end %>
   </head>
 
   <body>

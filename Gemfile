@@ -36,8 +36,8 @@ gem 'foreman'
 gem 'newrelic_rpm'
 gem 'rollbar'
 gem "ostruct", "~> 0.6.0"
-gem 'recaptcha'
 gem "logger", "~> 1.6"
 gem "tailwindcss-rails", "~> 2.7"
 gem 'unsplash'
 gem 'jquery-rails'
+gem 'recaptcha', require: 'recaptcha/rails'

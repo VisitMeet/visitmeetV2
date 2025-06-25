@@ -95,3 +95,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
+
+Recaptcha.configure do |config|
+  config.site_key  = Rails.application.credentials.dig(:recaptcha, :site_key)
+  config.secret_key = Rails.application.credentials.dig(:recaptcha, :secret_key)
+end
