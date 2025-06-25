@@ -118,3 +118,15 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  grecaptcha.ready(function() {
+    grecaptcha.execute('<%= Rails.application.credentials.dig(:recaptcha, :site_key) %>', {action: 'signup'}).then(function(token) {
+      let el = document.createElement("input");
+      el.setAttribute("type", "hidden");
+      el.setAttribute("name", "recaptcha_token");
+      el.setAttribute("value", token);
+      document.querySelector("form").appendChild(el);
+    });
+  });
+</script>
