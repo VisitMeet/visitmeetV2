@@ -13,7 +13,7 @@
       <div class="hidden md:flex space-x-4">
         <% if user_signed_in? %>
           <!-- Profile link -->
-          <%= link_to "My Profile", profile_path(current_user), class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= link_to "My Profile", profile_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
           
           <!-- Offerings link -->
           <%= link_to "My Offerings", offerings_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
