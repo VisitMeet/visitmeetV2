@@ -37,8 +37,8 @@ gem 'newrelic_rpm'
 gem 'rollbar'
 gem "ostruct", "~> 0.6.0"
 gem "logger", "~> 1.6"
-# gem "tailwindcss-rails", "~> 2.7"
 gem 'unsplash'
 gem 'jquery-rails'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem "image_processing", "~> 1.2"
+gem "aws-sdk-s3", require: false
