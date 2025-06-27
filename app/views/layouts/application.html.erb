@@ -1,58 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>VisitmeetV2</title>
+    <title>VisitMeet</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Analytics -->
     <meta name="msvalidate.01" content="842B3EF5D666507F03FC98CF9415CCF5" />
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZSMFSQDZM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-YZSMFSQDZM');
     </script>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="csrf-param" content="<%= request_forgery_protection_token %>">
-    <meta name="csrf-token" content="<%= form_authenticity_token %>">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag 'autocomplete', media: 'all', 'data-turbolinks-track': 'reload' %>
 
+    <!-- Styles -->
+      <link rel="stylesheet" href="/tailwind.css">
+
+    
+
+    <!-- JavaScript -->
     <%= javascript_importmap_tags %>
-    <%= javascript_include_tag 'autosuggestion', 'data-turbo-track': 'reload' %>
-
-   <%= yield :recaptcha_script %>
+    <%= yield :recaptcha_script %>
   </head>
 
   <body>
-
-
-    <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
+    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
       <%= render "layouts/navbar" %>
     <% end %>
 
-    
     <div class="flash-messages">
-      <% if notice.present? %>
+      <% if notice %>
         <p class="notice bg-green-500 text-white p-4 rounded-md"><%= notice %></p>
       <% end %>
-
-      <% if alert.present? %>
+      <% if alert %>
         <p class="alert bg-red-500 text-white p-4 rounded-md"><%= alert %></p>
       <% end %>
     </div>
 
     <%= yield %>
 
-    <div id="autosuggestion-container" class="autosuggestion-container">
-      <!-- Autosuggestion content will be dynamically inserted here -->
-    </div>
+    <div id="autosuggestion-container" class="autosuggestion-container"></div>
 
-    
-     <% unless  current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
-      <%= render 'layouts/footer' %>
+    <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
+      <%= render "layouts/footer" %>
     <% end %>
   </body>
 </html>

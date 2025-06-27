@@ -39,10 +39,8 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Asset management settings for development
-  config.assets.debug = true          # Ensures assets are not concatenated/minified in development mode
-  config.assets.digest = false        # Ensures asset digests and caching don't affect changes
-  config.assets.compile = true        # Ensures changes to assets are reflected immediately
+
+  
 
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
@@ -72,7 +70,7 @@ Rails.application.configure do
   config.active_job.verbose_enqueue_logs = true
 
   # Suppress logger output for asset requests.
-  config.assets.quiet = true
+  
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

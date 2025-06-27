@@ -1,13 +1,9 @@
+@import './autocomplete.css';
+@import './devise_custom.css';
+@import './footer.css';
+@import './home.css';
+@import './navbar.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  }
-}
-
-*/
