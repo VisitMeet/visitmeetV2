@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "3.3.5"
 gem "rails", "~> 7.1.4"
-gem "sprockets-rails"
+# gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
@@ -37,7 +37,7 @@ gem 'newrelic_rpm'
 gem 'rollbar'
 gem "ostruct", "~> 0.6.0"
 gem "logger", "~> 1.6"
-gem "tailwindcss-rails", "~> 2.7"
+# gem "tailwindcss-rails", "~> 2.7"
 gem 'unsplash'
 gem 'jquery-rails'
 gem 'recaptcha', require: 'recaptcha/rails'
