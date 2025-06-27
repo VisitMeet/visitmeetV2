@@ -8,6 +8,8 @@ class UsersController < ApplicationController
     @profession_tags = @user.profession_tags
     @is_own_profile = (@user == current_user)
     @offerings = @user.offerings.order(created_at: :desc)
+    @user = User.find(params[:id])
+    render "profiles/show"
   end
 
   private
