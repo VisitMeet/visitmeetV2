@@ -1,13 +1,15 @@
 /* Only apply these styles to the login page */
 .login-page {
-  height: 100vh; /* 100% of the viewport height */
+  min-height: 100vh; /* Ensure full viewport height */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px; /* Small padding on mobile */
 }
 
 .login-container {
-  width: 300px;
+  width: 100%;
+  max-width: 400px; /* Allow it to grow on larger screens */
   padding: 20px;
   text-align: center;
   border: 1px solid #ccc;
@@ -17,6 +19,7 @@
 
 .login-container h2 {
   margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .login-container .field, 
@@ -47,7 +50,7 @@
 #sign-up-btn,
 #log-in-btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -66,48 +69,67 @@
   margin-bottom: 20px;
 }
 
-.notice {
-  background-color: #e0f7fa; /* Soft cyan for success */
-  color: #00695c; /* Dark cyan for better contrast */
-  border: 1px solid #d6e9c6;
+.notice,
+.alert {
   padding: 10px;
   border-radius: 5px;
-  font-size: 18px; /* Adjust the font size */
+  font-size: 1rem;
+}
+
+.notice {
+  background-color: #e0f7fa; /* Soft cyan for success */
+  color: #00695c; /* Dark cyan for contrast */
+  border: 1px solid #d6e9c6;
 }
 
 .alert {
   background-color: #ffebee; /* Soft red for error */
-  color: #c62828; /* Dark red for better contrast */
+  color: #c62828; /* Dark red for contrast */
   border: 1px solid #ebccd1;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 18px; /* Adjust the font size */
 }
 
 .edit-account-wrapper {
-  max-width: 600px; /* Maximum width for the wrapper */
-  margin: 0 auto; /* Center the wrapper */
-  padding: 20px; /* Padding around the content */
-  background-color: #f9f9f9; /* Light background for contrast */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .update-button {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
-  border: none; /* No border */
-  padding: 10px 20px; /* Padding */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* No underline */
-  display: inline-block; /* Align with other elements */
-  font-size: 16px; /* Font size */
-  margin: 4px 2px; /* Margin */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s; /* Transition effect */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .update-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049;
+}
+
+/* RESPONSIVE adjustments */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 15px;
+  }
+  
+  .login-container h2 {
+    font-size: 1.25rem;
+  }
+
+  #sign-up-btn,
+  #log-in-btn,
+  .update-button {
+    font-size: 15px;
+    padding: 10px;
+  }
 }

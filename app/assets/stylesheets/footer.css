@@ -1,126 +1,150 @@
 /* Footer styles */
 .footer {
-  background-color: #1a1a1a; /* Change from black (#000000) to dark gray (#1a1a1a) */
-  color: #e0e0e0; /* Change from white (#ffffff) to off-white (#e0e0e0) */
-  padding: 20px; /* Padding for top and bottom */
-  text-align: center; /* Centered text */
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  padding: 20px;
+  text-align: center;
 }
 
 .footer-content {
-  display: flex; /* Flexbox layout */
-  justify-content: space-between; /* Space between columns */
-  padding: 0 20px; /* Side padding */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  padding: 0 20px;
 }
 
 .footer-column {
-  flex: 1; /* Equal width for columns */
-  padding: 0 20px; /* Padding for inner columns */
+  flex: 1;
+  min-width: 200px; /* Prevent columns from getting too narrow */
+  padding: 0 20px;
+  margin-bottom: 20px; /* Space between rows on small screens */
 }
 
 .logo-column {
-  text-align: center; /* Center content in the logo column */
+  text-align: center;
 }
 
 .footer-logo {
-  max-width: 100px; /* Adjust logo size */
-  margin-bottom: 10px; /* Space below the logo */
+  max-width: 100px;
+  margin-bottom: 10px;
 }
 
 .links-column {
-  display: flex; /* Flex layout for link parts */
-  justify-content: space-between; /* Space between link parts */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Wrap links on small screens */
 }
 
 .links-part {
-  text-align: left; /* Left align text */
+  text-align: left;
+  min-width: 120px; /* Prevent collapsing too much */
+  margin-bottom: 20px; /* Space between columns on small screens */
 }
 
 .links-part h4 {
-  margin-bottom: 5px; /* Space below headings */
+  margin-bottom: 5px;
 }
 
 .links-part ul {
-  list-style: none; /* Remove bullet points */
-  padding: 0; /* Remove padding */
+  list-style: none;
+  padding: 0;
 }
 
 .links-part li {
-  margin-bottom: 5px; /* Space between list items */
+  margin-bottom: 5px;
 }
 
 .links-part a {
-  color: #fff; /* White link color */
-  text-decoration: none; /* No underline */
+  color: #fff;
+  text-decoration: none;
 }
 
 .links-part a:hover {
-  text-decoration: underline; /* Underline on hover */
+  text-decoration: underline;
 }
 
 hr {
-  margin: 20px 0; /* Space above and below the horizontal line */
-  border: 1px solid #fff; /* White horizontal line */
+  margin: 20px 0;
+  border: 1px solid #fff;
 }
 
 .footer-bottom {
-  display: flex; /* Flex layout for footer bottom */
-  justify-content: space-between; /* Space between left and right */
-  padding: 0 20px; /* Side padding */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Allow stacking on small screens */
+  padding: 0 20px;
 }
 
 .footer-bottom-left,
 .footer-bottom-right {
-  flex: 1; /* Equal width for bottom columns */
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 10px; /* Space between stacked items */
 }
 
 .footer-bottom-right {
-  text-align: right; /* Right align text */
+  text-align: right;
 }
 
 .footer-bottom a {
-  color: #fff; /* White link color */
-  margin-left: 10px; /* Space between links */
+  color: #fff;
+  margin-left: 10px;
 }
 
-footer button {
-  background-color: transparent; /* Make the background transparent */
-  color: #fff; /* White text color */
-  border: 2px solid #fff; /* White border */
-  padding: 10px 20px; /* Padding inside the button */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Change cursor on hover */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
-}
-
-footer button:hover {
-  background-color: #fff; /* Change background on hover */
-  color: #000; /* Change text color on hover */
-}
-
-.subscribe-container {
-  margin-top: 10px; /* Adds space between the textbox and button */
+/* Subscription styles */
+footer .subscribe-container {
+  margin-top: 10px;
 }
 
 footer input[type="text"] {
-  width: 100%; /* Makes the textbox full width */
-  padding: 10px; /* Adds padding */
-  border: 1px solid #ccc; /* Light gray border */
-  border-radius: 5px; /* Rounded corners */
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 footer button {
-  background-color: transparent; /* Make the background transparent */
-  color: #fff; /* White text color */
-  border: 2px solid #fff; /* White border */
-  padding: 10px 20px; /* Padding inside the button */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Change cursor on hover */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
-  margin-top: 10px; /* Adds space above the button */
-  width: 100%; /* Makes the button full width */
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
 }
 
 footer button:hover {
-  background-color: #fff; /* Change background on hover */
-  color: #000; /* Change text color on hover */
+  background-color: #fff;
+  color: #000;
+}
+
+/* RESPONSIVE adjustments */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .links-column {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .links-part {
+    text-align: center;
+    min-width: auto;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-bottom-right {
+    text-align: center;
+  }
 }

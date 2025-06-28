@@ -1,45 +1,36 @@
-<nav class="bg-neutral-100 shadow-lg">
+<nav class="bg-white/80 backdrop-blur-md shadow-lg w-full z-50 transition-all duration-300 ease-in-out">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Navbar Brand / Logo -->
       <div class="flex-shrink-0">
         <%= link_to home_index_path do %>
-          
-          <img src="/images/logo.svg" alt="logo" class="h-12 w-auto">
+          <img src="/images/logo.svg" alt="VisitMeet Logo" class="h-10 w-auto transition-all duration-300 hover:scale-105">
         <% end %>
       </div>
 
-      <!-- Navbar Links -->
-      <div class="hidden md:flex space-x-4">
+      <!-- Navbar Links (Desktop) -->
+      <div class="hidden md:flex space-x-6 items-center">
         <% if user_signed_in? %>
-          <!-- Profile link -->
-          <%= link_to "My Profile", profile_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-          
-          <!-- Offerings link -->
-          <%= link_to "My Offerings", offerings_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-          
-          <!-- Bookings link -->
-          <%= link_to "My Bookings", bookings_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-
-          <!-- Account and Sign Out links -->
+          <%= link_to "My Profile", profile_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "My Offerings", offerings_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "My Bookings", bookings_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
           <div class="flex space-x-4 items-center">
-            <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Sign out", destroy_user_session_path, 
-                data: { "turbo-method": :delete, confirm: "Are you sure you want to sign out?" }, 
-                class: "text-red-500 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+            <%= link_to "Sign out", destroy_user_session_path,
+              data: { "turbo-method": :delete, confirm: "Are you sure you want to sign out?" },
+              class: "text-red-500 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
           </div>
         <% else %>
-          <!-- Sign up and Log in links for guests -->
           <div class="flex space-x-4">
-            <%= link_to "Sign up", new_user_registration_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Log in", new_user_session_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Sign up", new_user_registration_path, class: "text-blue-600 hover:text-blue-800 px-4 py-2 rounded-full border border-blue-600 hover:border-blue-800 text-sm font-semibold transition-all duration-200" %>
+            <%= link_to "Log in", new_user_session_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition-colors" %>
           </div>
         <% end %>
       </div>
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden flex items-center">
-        <button type="button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+        <button id="mobile-menu-button" type="button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 p-2 rounded-md transition-colors">
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
@@ -49,20 +40,35 @@
   </div>
 
   <!-- Mobile Menu (hidden by default) -->
-  <div class="md:hidden" id="mobile-menu">
+  <div class="md:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-40 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0" id="mobile-menu">
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
       <% if user_signed_in? %>
-        <%= link_to "My Profile", profile_path(current_user), class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
-        <%= link_to "My Offerings", offerings_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
-        <%= link_to "My Bookings", bookings_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
-        <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
-        <%= link_to "Sign out", destroy_user_session_path, 
-            data: { "turbo-method": :delete, confirm: "Are you sure you want to sign out?" }, 
-            class: "text-red-500 hover:text-red-700 block px-3 py-2 rounded-md text-base font-medium" %>
+        <%= link_to "My Profile", profile_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
+        <%= link_to "My Offerings", offerings_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
+        <%= link_to "My Bookings", bookings_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
+        <%= link_to "My account", edit_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
+        <%= link_to "Sign out", destroy_user_session_path,
+            data: { "turbo-method": :delete, confirm: "Are you sure you want to sign out?" },
+            class: "block px-3 py-2 rounded-md text-base font-medium text-red-500 hover:text-red-700" %>
       <% else %>
-        <%= link_to "Sign up", new_user_registration_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
-        <%= link_to "Log in", new_user_session_path, class: "text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:text-blue-800" %>
+        <%= link_to "Log in", new_user_session_path, class: "block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:text-blue-800" %>
       <% end %>
     </div>
   </div>
 </nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const button = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+
+  button.addEventListener("click", function() {
+    menu.classList.toggle("hidden");
+    menu.classList.toggle("-translate-y-full");
+    menu.classList.toggle("opacity-0");
+    menu.classList.toggle("translate-y-0");
+    menu.classList.toggle("opacity-100");
+  });
+});
+</script>

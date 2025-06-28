@@ -5,6 +5,9 @@
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
+  width: 100%;
+  max-width: 400px; /* Prevents it from being too wide on large screens */
+  box-sizing: border-box;
 }
 
 .autocomplete-suggestion {
@@ -14,4 +17,18 @@
 
 .autocomplete-suggestion:hover {
   background: #f0f0f0;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .autocomplete-suggestions {
+    max-width: 95vw; /* Almost full width */
+    left: 0;         /* Align to screen edge if needed */
+    right: 0;
+    margin: 0 auto;  /* Center horizontally if needed */
+  }
+
+  .autocomplete-suggestion {
+    padding: 14px; /* Bigger tap targets */
+  }
 }

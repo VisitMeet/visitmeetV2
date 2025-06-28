@@ -1,108 +1,240 @@
-/* Remove default margin/padding from body and sections */
-body, html {
-    margin: 0;
-    padding: 0;
-  }
-  
 /* Background image with dark overlay */
 .landing_page {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* Cover full viewport height */
-    background: url('<%= asset_path 'bgimage.jpg' %>') center center/cover no-repeat; /* Set background image */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-  }
-  
-  .landing_page::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
-    z-index: 1; /* Ensure it covers the image but behind the content */
-  }
-  
-  .content-wrapper {
-    position: relative;
-    z-index: 2; /* Place content above the overlay */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: #fff; /* White text for readability */
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2rem;
-    border-radius: 10px;
-  }
-  
-  /* Styling for the hero text and input fields */
-  .hero-text, .hero-text1 {
-    font-family: "Poppins", sans-serif;
-    font-size: 3rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #fff; /* White text for readability */
-    margin: 10px 0;
-    text-align: center;
-  }
-  
-  #visit-place, #meet-person {
-    background: rgba(255, 255, 255, 0.8); /* Light background with transparency */
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #007bff;
-  }
-  
-  #visit-place {
-    width: 600px;
-  }
-  
-  #meet-person {
-    width: 400px;
-  }
-  
-  .input-field {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: none;
-  }
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('/images/bgimage.jpg') center center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 4rem; /* same as h-16 */
+  padding-top: 4rem; /* same as pt-16 */
+  min-height: 100vh;
 
-  .button {
-    width: 200px;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    padding: 0.75rem 1.5rem;
-    background-color: #1d4ed8;
-    color: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-  
-  /* Explore subtitle styling */
-  .explore-subtitle {
-    margin-top: 2rem;
-  }
 
-  .explore-subtitle h2 {
-    font-family: "Poppins", sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #fff;
-    opacity: 0.9;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    margin-top: 40px;
+
+}
+
+.landing_page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* Hero text */
+.hero-text, .hero-text1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 10px 0;
+  text-align: center;
+}
+
+/* Inputs */
+#visit-place, #meet-person {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #007bff;
+  width: 100%;
+}
+
+/* Input field */
+.input-field {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Buttons */
+.button, #search-submit-btn {
+  width: 200px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  padding: 0.75rem 1.5rem;
+  background-color: #1d4ed8;
+  color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Explore subtitle */
+.explore-subtitle {
+  margin-top: 2rem;
+}
+
+.explore-subtitle h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  margin-top: 40px;
+}
+
+/* Autocomplete Dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+  font-family: inherit;
+  margin-top: 8px;
+  backdrop-filter: blur(10px);
+}
+.autocomplete-dropdown.show {
+  display: block;
+  animation: fadeInUp 0.2s ease-out;
+}
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.autocomplete-item {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+.autocomplete-item:last-child { border-bottom: none; }
+.autocomplete-item:hover, .autocomplete-item.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateX(4px);
+}
+.autocomplete-item-icon {
+  margin-right: 12px;
+  font-size: 16px;
+  min-width: 20px;
+}
+.input-container {
+  position: relative;
+}
+
+/* Quick Filters */
+.quick-filter {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  margin: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+.quick-filter::before {
+  content: '';
+  position: absolute;
+  top:0; left:-100%;
+  width:100%; height:100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+.quick-filter:hover::before { left:100%; }
+
+/* Input focus effect */
+.input-container input:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59,130,246,0.15);
+}
+
+/* Advanced Options */
+#advanced-options {
+  transition: all 0.3s ease;
+  transform: translateY(-10px);
+  opacity: 0;
+}
+#advanced-options.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Loading Spinner */
+#search-submit-btn.loading {
+  position: relative;
+  color: transparent;
+}
+#search-submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  top:50%; left:50%;
+  width:20px; height:20px;
+  margin:-10px 0 0 -10px;
+  border:2px solid #fff;
+  border-radius:50%;
+  border-top-color:transparent;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE adjustments */
+@media (max-width: 1024px) {
+  .hero-text, .hero-text1 { font-size: 2.5rem; }
+}
+@media (max-width: 768px) {
+  .hero-text, .hero-text1 { font-size: 2rem; }
+  .content-wrapper { padding: 1rem; }
+  .explore-subtitle h2 { font-size: 1.5rem; }
+  .button, #search-submit-btn { width: 100%; }
+  .quick-filter { font-size: 0.85rem; }
+  .autocomplete-dropdown {
+    position: fixed;
+    left: 10%;
+    right: 10%;
+    top: auto;
+    bottom: 20px;
+    max-height: 50vh;
   }
+}
+@media (max-width: 480px) {
+  .hero-text, .hero-text1 { font-size: 1.5rem; }
+  .explore-subtitle h2 { font-size: 1.2rem; }
+  .quick-filter { font-size: 0.75rem; }
+  .input-container input {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+}

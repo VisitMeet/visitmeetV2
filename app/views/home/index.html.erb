@@ -1,309 +1,143 @@
+<main class="w-full">
+  <section class="landing_page min-h-screen bg-cover bg-center relative overflow-hidden" style="background-image: url('/images/bgimage.jpg');">
+    <!-- Overlay for better text contrast -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/60 to-purple-600/60 z-10"></div>
 
+    <div class="container mx-auto px-4 flex items-center justify-center h-full relative z-20">
+      <div class="content-wrapper flex flex-col items-center justify-center w-full text-white text-center">
+        <div class="hero-content w-full max-w-3xl mx-auto mb-12">
+          <h1 class="hero-text text-5xl md:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg">Discover Hidden Places</h1>
+          <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            Connect with local hosts and guides who know the secret spots travelers love
+          </p>
 
-<section class="landing_page bg-cover bg-center h-screen" style="background-image: url('/images/bgimage.jpg');">
-  <!-- Hero content and Explore subtitle -->
-  <div class="content-wrapper flex flex-col items-center justify-center h-full text-white bg-black bg-opacity-50">
-    <div class="hero-content text-center">
-      <h1 class="hero-text text-5xl font-bold mb-4">Discover Hidden Places</h1>
-      <p class="text-xl mb-8 max-w-2xl mx-auto">Connect with local hosts and guides who know the secret spots travelers love</p>
-      
-      <%= form_with url: search_results_path, method: :get, local: true, class: "max-w-4xl mx-auto", id: "hero-search-form" do %>
-        <div class="bg-white bg-opacity-95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-white border-opacity-20">
-          <!-- Search Header -->
-          <div class="text-center mb-6">
-            <h3 class="text-2xl font-bold text-gray-800 mb-2">Find Your Perfect Local Experience</h3>
-            <p class="text-gray-600">Connect with authentic local hosts and discover hidden gems</p>
-          </div>
+          <%= form_with url: search_results_path, method: :get, local: true, class: "max-w-4xl mx-auto", id: "hero-search-form" do %>
+            <div class="bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-6 md:p-8 border border-white/20">
+              <!-- Search Header -->
+              <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Find Your Perfect Local Experience</h3>
+                <p class="text-gray-600">Connect with authentic local hosts and discover hidden gems</p>
+              </div>
 
-          <!-- Main Search Row -->
-          <div class="flex flex-col lg:flex-row gap-4 mb-6">
-            <!-- Location Input -->
-            <div class="input-container flex-1">
-              <label for="location-input" class="block text-sm font-semibold text-gray-700 mb-3 flex items-center">
-                <span class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-2 text-green-600">🌍</span>
-                Where do you want to explore?
-              </label>
-              <div class="relative">
-                <input type="text" 
-                       id="location-input" 
-                       name="location"
-                       placeholder="City, country, or region..." 
-                       class="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl text-black focus:ring-3 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md text-lg bg-gray-50 focus:bg-white"
-                       autocomplete="off">
-                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-500 text-xl pointer-events-none">
-                  📍
+              <!-- Main Search Row -->
+              <div class="flex flex-col lg:flex-row gap-4 mb-6">
+                <!-- Location Input -->
+                <div class="input-container flex-1 relative">
+                  <label for="location-input" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <span class="w-6 h-6 flex items-center justify-center mr-2 text-green-600">🌍</span>
+                    Where do you want to explore?
+                  </label>
+                  <input type="text"
+                         id="location-input"
+                         name="location"
+                         placeholder="City, country, or region..."
+                         class="w-full px-6 py-3 border-none rounded-full text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none transition-all duration-200 shadow-sm"
+                         autocomplete="off">
+                  <div id="location-dropdown" class="autocomplete-dropdown"></div>
                 </div>
-                <div id="location-dropdown" class="autocomplete-dropdown"></div>
-              </div>
-            </div>
 
-            <!-- Connector -->
-            <div class="hidden lg:flex items-center justify-center px-4 pt-8">
-              <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <span class="text-blue-600 text-xl">+</span>
-              </div>
-            </div>
-
-            <!-- Profession Input -->
-            <div class="input-container flex-1">
-              <label for="profession-input" class="block text-sm font-semibold text-gray-700 mb-3 flex items-center">
-                <span class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-blue-600">👥</span>
-                What type of local expert?
-              </label>
-              <div class="relative">
-                <input type="text" 
-                       id="profession-input" 
-                       name="profession"
-                       placeholder="Photographer, chef, guide..." 
-                       class="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl text-black focus:ring-3 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md text-lg bg-gray-50 focus:bg-white"
-                       autocomplete="off">
-                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-500 text-xl pointer-events-none">
-                  💼
+                <!-- Connector -->
+                <div class="hidden lg:flex items-center justify-center px-2">
+                  <div class="w-10 h-10 bg-blue-100/50 rounded-full flex items-center justify-center text-blue-600 text-xl font-bold">
+                    +
+                  </div>
                 </div>
-                <div id="profession-dropdown" class="autocomplete-dropdown"></div>
+
+                <!-- Profession Input -->
+                <div class="input-container flex-1 relative">
+                  <label for="profession-input" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <span class="w-6 h-6 flex items-center justify-center mr-2 text-blue-600">👥</span>
+                    What type of local expert?
+                  </label>
+                  <input type="text"
+                         id="profession-input"
+                         name="profession"
+                         placeholder="Photographer, chef, guide..."
+                         class="w-full px-6 py-3 border-none rounded-full text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none transition-all duration-200 shadow-sm"
+                         autocomplete="off">
+                  <div id="profession-dropdown" class="autocomplete-dropdown"></div>
+                </div>
+              </div>
+
+              <!-- Quick Filters -->
+              <div class="mb-6">
+                <p class="text-sm font-medium text-gray-600 mb-3 text-center">Popular combinations:</p>
+                <div class="flex flex-wrap justify-center gap-2">
+                  <button type="button" class="quick-filter px-4 py-2 bg-blue-100/50 text-blue-800 rounded-full text-sm font-medium transition-all duration-200 hover:bg-blue-200/70 hover:shadow-md transform hover:scale-105" data-location="tokyo" data-profession="photographer">
+                    📸 Tokyo Photographer
+                  </button>
+                  <button type="button" class="quick-filter px-4 py-2 bg-blue-100/50 text-blue-800 rounded-full text-sm font-medium transition-all duration-200 hover:bg-blue-200/70 hover:shadow-md transform hover:scale-105" data-location="paris" data-profession="chef">
+                    👨‍🍳 Paris Chef
+                  </button>
+                  <button type="button" class="quick-filter px-4 py-2 bg-blue-100/50 text-blue-800 rounded-full text-sm font-medium transition-all duration-200 hover:bg-blue-200/70 hover:shadow-md transform hover:scale-105" data-location="bali" data-profession="guide">
+                    🏝️ Bali Guide
+                  </button>
+                  <button type="button" class="quick-filter px-4 py-2 bg-blue-100/50 text-blue-800 rounded-full text-sm font-medium transition-all duration-200 hover:bg-blue-200/70 hover:shadow-md transform hover:scale-105" data-location="barcelona" data-profession="artist">
+                    🎨 Barcelona Artist
+                  </button>
+                </div>
+              </div>
+
+              <!-- Advanced Options Toggle -->
+              <div class="text-center mb-6">
+                <button type="button" id="advanced-toggle" class="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center mx-auto transition-colors">
+                  <span>More search options</span>
+                  <svg class="w-4 h-4 ml-1 transform transition-transform" id="advanced-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Advanced Options -->
+              <div id="advanced-options" class="hidden mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Experience Type</label>
+                    <select name="experience_type" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                      <option value="">Any experience</option>
+                      <option value="food">Food & Dining</option>
+                      <option value="culture">Culture & History</option>
+                      <option value="adventure">Adventure & Outdoors</option>
+                      <option value="arts">Arts & Creativity</option>
+                      <option value="nightlife">Nightlife & Entertainment</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Group Size</label>
+                    <select name="group_size" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                      <option value="">Any size</option>
+                      <option value="solo">Solo traveler</option>
+                      <option value="couple">Couple (2 people)</option>
+                      <option value="small">Small group (3-5)</option>
+                      <option value="large">Large group (6+)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Search Button -->
+              <div class="text-center">
+                <%= submit_tag 'Discover Amazing Local Experiences',
+                    class: "w-full lg:w-auto px-12 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-blue-300 focus:outline-none",
+                    id: "search-submit-btn" %>
+              </div>
+
+              <!-- Search Stats -->
+              <div class="mt-6 text-center">
+                <p class="text-sm text-gray-500">
+                  <span class="font-semibold text-blue-600">1,247</span> local hosts ready to show you hidden gems
+                </p>
               </div>
             </div>
-          </div>
-
-          <!-- Quick Filters -->
-          <div class="mb-6">
-            <p class="text-sm font-medium text-gray-600 mb-3 text-center">Popular combinations:</p>
-            <div class="flex flex-wrap justify-center gap-2">
-              <button type="button" class="quick-filter px-4 py-2 bg-gradient-to-r from-green-100 to-blue-100 hover:from-green-200 hover:to-blue-200 rounded-full text-sm font-medium text-gray-700 transition-all duration-200 hover:shadow-md transform hover:scale-105" data-location="tokyo" data-profession="photographer">
-                📸 Tokyo Photographer
-              </button>
-              <button type="button" class="quick-filter px-4 py-2 bg-gradient-to-r from-red-100 to-orange-100 hover:from-red-200 hover:to-orange-200 rounded-full text-sm font-medium text-gray-700 transition-all duration-200 hover:shadow-md transform hover:scale-105" data-location="paris" data-profession="chef">
-                👨‍🍳 Paris Chef
-              </button>
-              <button type="button" class="quick-filter px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 hover:from-purple-200 hover:to-pink-200 rounded-full text-sm font-medium text-gray-700 transition-all duration-200 hover:shadow-md transform hover:scale-105" data-location="bali" data-profession="guide">
-                🏝️ Bali Guide
-              </button>
-              <button type="button" class="quick-filter px-4 py-2 bg-gradient-to-r from-yellow-100 to-orange-100 hover:from-yellow-200 hover:to-orange-200 rounded-full text-sm font-medium text-gray-700 transition-all duration-200 hover:shadow-md transform hover:scale-105" data-location="barcelona" data-profession="artist">
-                🎨 Barcelona Artist
-              </button>
-            </div>
-          </div>
-
-          <!-- Advanced Options Toggle -->
-          <div class="text-center mb-6">
-            <button type="button" id="advanced-toggle" class="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center mx-auto transition-colors">
-              <span>More search options</span>
-              <svg class="w-4 h-4 ml-1 transform transition-transform" id="advanced-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Advanced Options (Hidden by default) -->
-          <div id="advanced-options" class="hidden mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Experience Type</label>
-                <select name="experience_type" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
-                  <option value="">Any experience</option>
-                  <option value="food">Food & Dining</option>
-                  <option value="culture">Culture & History</option>
-                  <option value="adventure">Adventure & Outdoors</option>
-                  <option value="arts">Arts & Creativity</option>
-                  <option value="nightlife">Nightlife & Entertainment</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Group Size</label>
-                <select name="group_size" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
-                  <option value="">Any size</option>
-                  <option value="solo">Solo traveler</option>
-                  <option value="couple">Couple (2 people)</option>
-                  <option value="small">Small group (3-5)</option>
-                  <option value="large">Large group (6+)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Search Button -->
-          <div class="text-center">
-            <%= submit_tag 'Discover Amazing Local Experiences', 
-                class: "w-full lg:w-auto px-12 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl focus:ring-4 focus:ring-blue-300 focus:outline-none", 
-                id: "search-submit-btn" %>
-          </div>
-
-          <!-- Search Stats -->
-          <div class="mt-6 text-center">
-            <p class="text-sm text-gray-500">
-              <span class="font-semibold text-blue-600">1,247</span> local hosts ready to show you hidden gems
-            </p>
-          </div>
+          <% end %>
         </div>
-      <% end %>
+        <div class="explore-subtitle mt-12">
+          <h2 class="text-3xl font-semibold">Explore Authentic Stays in Emerging Destinations</h2>
+        </div>
+      </div>
     </div>
-
-    <!-- Subtitle section -->
-    <div class="explore-subtitle mt-12">
-      <h2 class="text-3xl font-semibold">Explore Authentic Stays in Emerging Destinations</h2>
-    </div>
-  </div>
-</section>
-
-<style>
-  /* Enhanced autocomplete dropdown styling */
-  .autocomplete-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-    max-height: 250px;
-    overflow-y: auto;
-    z-index: 1000;
-    display: none;
-    font-family: inherit;
-    margin-top: 8px;
-    backdrop-filter: blur(10px);
-  }
-  
-  .autocomplete-dropdown.show {
-    display: block;
-    animation: fadeInUp 0.2s ease-out;
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .autocomplete-item {
-    padding: 14px 18px;
-    border-bottom: 1px solid #f3f4f6;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s ease;
-    font-size: 16px;
-  }
-  
-  .autocomplete-item:last-child {
-    border-bottom: none;
-  }
-  
-  .autocomplete-item:hover,
-  .autocomplete-item.selected {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    transform: translateX(4px);
-  }
-  
-  .autocomplete-item-icon {
-    margin-right: 12px;
-    font-size: 16px;
-    min-width: 20px;
-  }
-  
-  .input-container {
-    position: relative;
-  }
-
-  /* Enhanced form animations */
-  #hero-search-form {
-    animation: slideInUp 0.6s ease-out;
-  }
-
-  @keyframes slideInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Quick filter enhancements */
-  .quick-filter {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .quick-filter::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: left 0.5s;
-  }
-
-  .quick-filter:hover::before {
-    left: 100%;
-  }
-
-  /* Input focus enhancements */
-  .input-container input:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
-  }
-
-  /* Button loading state */
-  #search-submit-btn.loading {
-    position: relative;
-    color: transparent;
-  }
-
-  #search-submit-btn.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    margin-left: -10px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* Advanced options animation */
-  #advanced-options {
-    transition: all 0.3s ease;
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-
-  #advanced-options.show {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  /* Mobile responsiveness */
-  @media (max-width: 768px) {
-    .autocomplete-dropdown {
-      position: fixed;
-      left: 20px;
-      right: 20px;
-      top: auto;
-    }
-  }
-</style>
+  </section>
+</main>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -460,11 +294,11 @@ document.addEventListener("DOMContentLoaded", function() {
   const inputs = document.querySelectorAll('.landing_page form input');
   inputs.forEach(input => {
     input.addEventListener('focus', function() {
-      this.closest('.bg-white').classList.add('transform', 'scale-105', 'transition-transform', 'duration-200');
+      this.closest('.bg-white/90').classList.add('transform', 'scale-105', 'transition-transform', 'duration-200');
     });
     
     input.addEventListener('blur', function() {
-      this.closest('.bg-white').classList.remove('transform', 'scale-105');
+      this.closest('.bg-white/90').classList.remove('transform', 'scale-105');
     });
   });
   
