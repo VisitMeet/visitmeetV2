@@ -64,6 +64,7 @@ Rails.application.configure do
 
 
   #### MAILER CONFIGURATION START ####
+  config.action_mailer.default_options = { from: 'do-not-reply@visitmeet.com' }
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
