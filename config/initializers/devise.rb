@@ -268,10 +268,7 @@ Devise.setup do |config|
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
-  # ==> OmniAuth
-  # Add a new OmniAuth provider. Check the wiki for more information on setting
-  # up on your models and hooks.
-  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+ 
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -312,6 +309,18 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   # https://github.com/heartcombo/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
-
-  config.authentication_keys = [ :login ]
+   # ==> OmniAuth
+  # Add a new OmniAuth provider. Check the wiki for more information on setting
+  # up on your models and hooks.
+  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  config.omniauth :google_oauth2,
+    Rails.application.credentials.dig(:google, :client_id),
+    Rails.application.credentials.dig(:google, :client_secret),
+    {
+      scope: 'email,profile',
+      prompt: 'select_account',
+      access_type: 'offline'
+    }
+  Rails.logger.info "[DEBUG] Omniauth Strategies Loaded: #{OmniAuth.strategies.inspect}"
+  # config.authentication_keys = [ :login ]
 end

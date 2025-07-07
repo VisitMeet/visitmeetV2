@@ -42,3 +42,4 @@ gem 'jquery-rails'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem "image_processing", "~> 1.2"
 gem "aws-sdk-s3", require: false
+gem "omniauth-google-oauth2"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_25_073014) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_05_120734) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_25_073014) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_identities", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider", "uid"], name: "index_user_identities_on_provider_and_uid", unique: true
+    t.index ["user_id"], name: "index_user_identities_on_user_id"
+  end
+
   create_table "user_location_tags", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "location_tag_id", null: false
@@ -137,6 +147,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_25_073014) do
     t.datetime "updated_at", null: false
     t.string "username"
     t.string "full_name"
+    t.string "provider"
+    t.string "uid"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -148,6 +160,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_25_073014) do
   add_foreign_key "bookings", "offerings"
   add_foreign_key "bookings", "users"
   add_foreign_key "offerings", "users"
+  add_foreign_key "user_identities", "users"
   add_foreign_key "user_location_tags", "location_tags"
   add_foreign_key "user_location_tags", "users"
   add_foreign_key "user_profession_tags", "profession_tags"

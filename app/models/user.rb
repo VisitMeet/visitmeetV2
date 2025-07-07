@@ -1,8 +1,13 @@
 class User < ApplicationRecord
   # Devise modules
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         authentication_keys: [:login]
+  devise :database_authenticatable,
+       :registerable,
+       :recoverable,
+       :rememberable,
+       :validatable,
+       :omniauthable,
+       authentication_keys: [:login],
+       omniauth_providers: [:google_oauth2]
 
   attr_writer :login
 
@@ -32,6 +37,9 @@ class User < ApplicationRecord
   # Booking associations
   has_many :bookings, dependent: :destroy  # Bookings I've made as traveler
   has_many :host_bookings, through: :offerings, source: :bookings  # Bookings for my offerings
+
+  # User Identities (OAuth)
+  has_many :user_identities, dependent: :destroy
 
   has_one_attached :profile_picture
 
@@ -70,6 +78,46 @@ class User < ApplicationRecord
     full_name.present? ? full_name.split.map(&:first).join.upcase : username.first.upcase
   rescue NoMethodError
     username.first.upcase
+  end
+
+  # == Omniauth
+  #
+  # This method finds or creates a user based on OmniAuth authentication data.
+  # It handles linking social accounts to existing users (by email), or creating
+  # a new user and associated identity record if needed.
+  #
+  # @param auth [OmniAuth::AuthHash] The authentication hash from OmniAuth.
+  # @return [User] The user that was found or created.
+  def self.from_omniauth(auth)
+    # Try to find an existing identity (UserIdentity) for this provider & UID
+    identity = UserIdentity.find_or_initialize_by(
+      provider: auth.provider,
+      uid: auth.uid
+    )
+
+    # If the identity already has a user linked, return that user
+    return identity.user if identity.user.present?
+
+    # Otherwise, try to find a user by email (to avoid duplicate accounts)
+    user = User.find_by(email: auth.info.email)
+
+    if user.nil?
+      # No user exists yet, create a new one
+      user = User.new(
+        email: auth.info.email,
+        password: Devise.friendly_token[0, 20], # Generate a random password
+        full_name: auth.info.name || "",        # Full name from provider
+        username: auth.info.nickname.presence || auth.info.email.split("@").first
+      )
+      user.save!
+    end
+
+    # Associate the identity with the user (creating a link between them)
+    identity.user = user
+    identity.save!
+
+    # Return the user
+    user
   end
 
   private
