@@ -38,6 +38,7 @@ gem 'rollbar'
 gem "ostruct", "~> 0.6.0"
 gem "logger", "~> 1.6"
 gem 'unsplash'
+gem 'carmen'
 gem 'jquery-rails'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem "image_processing", "~> 1.2"

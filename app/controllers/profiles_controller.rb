@@ -52,6 +52,14 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def update
+    if current_user.update(profile_params)
+      redirect_to profile_path, notice: "Profile updated successfully."
+    else
+      redirect_to profile_path, alert: "Failed to update profile."
+    end
+  end
+
   private
 
   def set_user
@@ -61,6 +69,10 @@ class ProfilesController < ApplicationController
   
   def profile_picture_params
     params.require(:user).permit(:profile_picture)
+  end
+
+  def profile_params
+    params.require(:user).permit(:country)
   end
 
   def authorize_user

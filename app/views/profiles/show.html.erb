@@ -21,6 +21,16 @@
     </div>
     <%= f.submit "Upload", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
   <% end %>
+
+  <div class="mt-4">
+    <%= form_with model: current_user, url: profile_path, method: :patch, local: true do |f| %>
+      <div class="mb-4">
+        <%= f.label :country, "Country", class: "block text-gray-700 font-medium mb-2" %>
+        <%= f.select :country, options_for_select(Carmen::Country.all.map { |c| [c.name, c.alpha_2_code] }, current_user.country), { include_blank: 'Select your country' }, { class: "block w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", id: "country_select" } %>
+      </div>
+      <%= f.submit "Update Country", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
+    <% end %>
+  </div>
 <% end %>
 
 
@@ -32,6 +42,9 @@
           </h1>
           <p class="text-gray-600 mb-1"><%= @user.display_name %></p>
           <p class="text-sm text-gray-500 mb-2">@<%= @user.username %></p>
+          <% if @user.country.present? %>
+            <p class="text-sm text-gray-500 mb-2">Country: <%= Carmen::Country.coded(@user.country).name %></p>
+          <% end %>
           <% unless @is_own_profile %>
             <p class="text-sm text-gray-500">Member since <%= @user.created_at.strftime("%B %Y") %></p>
           <% end %>
