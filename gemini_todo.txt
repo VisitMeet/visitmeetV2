@@ -1,0 +1,11 @@
+TODO:
+
+DOING:
+
+DONE:
+- Add country column to users table.
+- Permit country parameter in Devise.
+- Revert country input field from user edit page (Devise).
+- Add country input field to user profile show page.
+- Handle country update in profiles_controller.rb.
+- Display country on user profile show page.
