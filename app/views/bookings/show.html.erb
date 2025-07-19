@@ -18,9 +18,9 @@
       <!-- Action Buttons for Host -->
       <% if @booking.offering.user == current_user && @booking.pending? %>
         <div class="flex gap-3 mb-6">
-          <%= link_to "Accept Booking", accept_booking_path(@booking), method: :patch,
+          <%= button_to "Accept Booking", accept_booking_path(@booking), method: :patch,
               class: "bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium" %>
-          <%= link_to "Decline Booking", decline_booking_path(@booking), method: :patch,
+          <%= button_to "Decline Booking", decline_booking_path(@booking), method: :patch,
               data: { confirm: "Are you sure you want to decline this booking?" },
               class: "bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-medium" %>
         </div>
@@ -29,7 +29,7 @@
       <!-- Cancel Button -->
       <% if @booking.can_be_cancelled? %>
         <div class="mb-6">
-          <%= link_to "Cancel Booking", cancel_booking_path(@booking), method: :patch,
+          <%= button_to "Cancel Booking", cancel_booking_path(@booking), method: :patch,
               data: { confirm: "Are you sure you want to cancel this booking?" },
               class: "border border-red-300 text-red-600 px-4 py-2 rounded-md hover:bg-red-50 font-medium" %>
         </div>

@@ -63,7 +63,7 @@
                   <div class="flex gap-2 ml-4">
                     <%= link_to "View", booking_path(booking), class: "px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50" %>
                     <% if booking.can_be_cancelled? %>
-                      <%= link_to "Cancel", cancel_booking_path(booking), method: :patch, 
+                      <%= button_to "Cancel", cancel_booking_path(booking), method: :patch, 
                           data: { confirm: "Are you sure you want to cancel this booking?" },
                           class: "px-3 py-1 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50" %>
                     <% end %>
@@ -130,9 +130,9 @@
                   <div class="flex gap-2 ml-4">
                     <%= link_to "View", booking_path(booking), class: "px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50" %>
                     <% if booking.can_be_accepted? %>
-                      <%= link_to "Accept", accept_booking_path(booking), method: :patch, 
+                      <%= button_to "Accept", accept_booking_path(booking), method: :patch, 
                           class: "px-3 py-1 text-sm bg-green-600 text-white rounded-md hover:bg-green-700" %>
-                      <%= link_to "Decline", decline_booking_path(booking), method: :patch, 
+                      <%= button_to "Decline", decline_booking_path(booking), method: :patch, 
                           data: { confirm: "Are you sure you want to decline this booking?" },
                           class: "px-3 py-1 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50" %>
                     <% end %>
