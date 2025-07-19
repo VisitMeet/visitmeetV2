@@ -1,16 +1,13 @@
-# app/controllers/profiles_controller.rb
-
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
-  before_action :authorize_user, except: [:show]
 
   def show
     @location_tags            = @user.location_tags
     @profession_tags          = @user.profession_tags
     @existing_location_tags   = LocationTag.pluck(:location)
     @existing_profession_tags = ProfessionTag.pluck(:profession)
-    @is_own_profile          = @user == current_user
+    @is_own_profile          = true
     @offerings               = @user.offerings.order(created_at: :desc)
   end
 
@@ -26,7 +23,7 @@ class ProfilesController < ApplicationController
       @user.profession_tags << tag unless @user.profession_tags.include?(tag)
     end
 
-    redirect_to profile_path(@user)
+    redirect_to profile_path
   end
 
   def remove_tag
@@ -48,7 +45,7 @@ class ProfilesController < ApplicationController
     if current_user.update(profile_picture_params)
       redirect_to profile_path, notice: "Profile picture updated successfully."
     else
-      redirect_to profile_url, alert: "Failed to update profile picture."
+      redirect_to profile_path, alert: "Failed to update profile picture."
     end
   end
 
@@ -63,7 +60,6 @@ class ProfilesController < ApplicationController
   private
 
   def set_user
-    # @user = User.find(params[:id])
     @user = current_user
   end
   
@@ -73,11 +69,5 @@ class ProfilesController < ApplicationController
 
   def profile_params
     params.require(:user).permit(:country)
-  end
-
-  def authorize_user
-    unless @user == current_user
-      redirect_to root_path, alert: "You are not authorized to access this page."
-    end
   end
 end

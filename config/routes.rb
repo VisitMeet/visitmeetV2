@@ -18,7 +18,12 @@ Rails.application.routes.draw do
     delete :remove_tag
   end
 
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      post :follow
+      delete :unfollow
+    end
+  end
 
   # Tags
   resources :tags

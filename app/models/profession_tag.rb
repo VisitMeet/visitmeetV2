@@ -1,5 +1,5 @@
 class ProfessionTag < ApplicationRecord
-  validates :profession, presence: true, uniqueness: true, format: { with: /\A[a-z\s]+\z/, message: "only allows lowercase letters and spaces" }
+  validates :profession, presence: true, uniqueness: true
 
   before_validation :downcase_profession
 

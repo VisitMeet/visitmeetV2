@@ -95,7 +95,7 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    base64 (0.2.0)
+    base64 (0.3.0)
     bcrypt (3.1.20)
     benchmark (0.4.1)
     bigdecimal (3.1.8)
@@ -218,7 +218,7 @@ GEM
     json (2.7.2)
     jwt (2.9.3)
       base64
-    logger (1.6.1)
+    logger (1.7.0)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -233,6 +233,7 @@ GEM
       benchmark
       logger
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (5.25.1)
     msgpack (1.7.2)
     multi_test (1.1.0)
@@ -253,17 +254,18 @@ GEM
       net-protocol
     newrelic_rpm (9.14.0)
     nio4r (2.7.3)
-    nokogiri (1.16.7-aarch64-linux)
+    nokogiri (1.18.8)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.7-arm-linux)
+    nokogiri (1.18.8-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.16.7-arm64-darwin)
+    nokogiri (1.18.8-arm-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86-linux)
+    nokogiri (1.18.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-darwin)
+    nokogiri (1.18.8-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-linux)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -303,6 +305,10 @@ GEM
       activesupport (= 7.1.4)
       bundler (>= 1.15.0)
       railties (= 7.1.4)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -328,7 +334,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.8)
+    rexml (3.4.1)
     rollbar (3.6.0)
     rspec-core (3.13.3)
       rspec-support (~> 3.13.0)
@@ -350,8 +356,8 @@ GEM
     ruby-vips (2.2.4)
       ffi (~> 1.12)
       logger
-    rubyzip (2.3.2)
-    selenium-webdriver (4.25.0)
+    rubyzip (2.4.1)
+    selenium-webdriver (4.34.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -435,6 +441,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.4)
+  rails-controller-testing
   recaptcha
   rollbar
   rspec-rails

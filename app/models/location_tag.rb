@@ -1,5 +1,5 @@
 class LocationTag < ApplicationRecord
-  validates :location, presence: true, uniqueness: true, format: { with: /\A[a-z\s]+\z/, message: "only allows lowercase letters and spaces" }
+  validates :location, presence: true, uniqueness: true
 
   before_validation :downcase_location
 

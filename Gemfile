@@ -17,6 +17,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails' # For creating test data
   gem "debug", platforms: %i[ mri windows ]
+  gem 'rails-controller-testing'
 end
 
 group :development do

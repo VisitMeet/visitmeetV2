@@ -5,6 +5,14 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'shoulda/matchers'
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
 
 # Load support files
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
@@ -16,6 +24,9 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
+  config.include Shoulda::Matchers::ActiveRecord, type: :model
+  config.include Shoulda::Matchers::ActiveModel, type: :model
+
   # Fixture files location
   config.fixture_path = "#{Rails.root}/spec/fixtures"
 
@@ -27,4 +38,7 @@ RSpec.configure do |config|
 
   # Filter Rails gems from backtraces
   config.filter_rails_from_backtrace!
+
+  Capybara.javascript_driver = :firefox_headless
+  Capybara.default_driver = :firefox_headless
 end
