@@ -9,6 +9,6 @@ import "autosuggestion"
 import "autocomplete"
 import "custom/messages"
 import "controllers/message_form_controller"
-import "channels"
+import "channels/index.js"
 
 Rails.start()
