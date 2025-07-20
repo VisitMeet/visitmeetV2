@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
       respond_to do |format|
         format.html { redirect_to conversation_messages_path(@conversation) }
         format.turbo_stream do
-          Turbo::StreamsChannel.broadcast_append_to @conversation, target: "messages", partial: "messages/message", locals: { message: @message, current_user: current_user }
+          Turbo::StreamsChannel.broadcast_append_to @conversation, target: "messages", partial: "messages/message", locals: { message: @message, is_current_user_message: (@message.user == current_user) }
           render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { conversation: @conversation, message: Message.new })
         end
       end
