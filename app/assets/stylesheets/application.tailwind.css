@@ -6,6 +6,7 @@
 
 .message-row {
   display: flex;
+  margin-bottom: 10px;
 }
 
 .message-row.sent {
@@ -16,11 +17,29 @@
   justify-content: flex-start;
 }
 
-.message-bubble {
+.message-content {
+  display: flex;
+  flex-direction: column;
   max-width: 70%;
+}
+
+.message-row.sent .message-content {
+  align-items: flex-end;
+}
+
+.message-row.received .message-content {
+  align-items: flex-start;
+}
+
+.message-sender-name {
+  font-size: 0.75rem; /* text-xs */
+  color: #6B7280; /* gray-500 */
+  margin-bottom: 2px;
+}
+
+.message-bubble {
   padding: 10px 15px;
   border-radius: 20px;
-  margin-bottom: 10px;
   word-wrap: break-word;
 }
 
@@ -34,6 +53,12 @@
   background-color: #E5E7EB;
   color: #374151;
   border-bottom-left-radius: 5px;
+}
+
+.message-timestamp {
+  font-size: 0.625rem; /* text-xs */
+  color: #9CA3AF; /* gray-400 */
+  margin-top: 2px;
 }
 
 @tailwind base;

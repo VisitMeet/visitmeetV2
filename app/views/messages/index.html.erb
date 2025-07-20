@@ -10,7 +10,7 @@
     <div class="bg-white shadow-md flex-grow">
       <%= turbo_stream_from @conversation %>
       <div id="messages" class="p-4 space-y-4 overflow-y-auto h-[calc(100vh-250px)]">
-        <%= render @messages %>
+        <%= render @messages, is_current_user_message: ->(message) { message.user == current_user } %>
       </div>
     </div>
 

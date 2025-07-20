@@ -7,5 +7,6 @@ window.$ = window.jQuery = jQuery
 
 import "autosuggestion"
 import "autocomplete"
+import "custom/messages"
 
 Rails.start()
