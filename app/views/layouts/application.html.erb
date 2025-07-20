@@ -22,7 +22,7 @@
     
 
     <!-- JavaScript -->
-    <%= javascript_importmap_tags %>
+    <%= javascript_importmap_tags data: { turbo_track: "reload" } %>
     <%= yield :recaptcha_script %>
   </head>
 

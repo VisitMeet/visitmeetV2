@@ -1,4 +1,4 @@
-<div class="message-row <%= is_current_user_message ? 'sent' : 'received' %>">
+<div class="message-row <%= is_current_user_message ? 'sent' : 'received' %> <%= local_assigns[:new_message] ? 'new-message' : '' %>">
   <div class="message-content">
     <div class="message-sender-name">
       <%= message.user.display_name %>

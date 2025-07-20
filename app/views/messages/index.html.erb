@@ -1,25 +1,24 @@
-<div class="min-h-screen bg-gray-50 flex flex-col">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-grow">
+<div class="min-h-screen bg-gray-50 flex flex-col chat-container">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-grow flex flex-col">
     <!-- Header -->
-    <div class="bg-white rounded-t-lg shadow-md p-4 sticky top-0 z-10">
+    <div class="bg-white rounded-t-lg shadow-md chat-header">
       <% other_user = @conversation.sender == current_user ? @conversation.recipient : @conversation.sender %>
       <h1 class="text-xl font-bold text-gray-900">Conversation with <%= other_user.display_name %></h1>
     </div>
 
     <!-- Message List -->
-    <div class="bg-white shadow-md flex-grow">
+    <div class="bg-white shadow-md chat-messages" id="messages">
       <%= turbo_stream_from @conversation %>
       <%= turbo_stream_from @conversation, :typing_indicator %>
-      <div id="messages" class="p-4 space-y-4 overflow-y-auto h-[calc(100vh-250px)]">
-        <%= render @messages, is_current_user_message: ->(message) { message.user == current_user } %>
-      </div>
-      <div id="typing_indicator" class="text-gray-500 text-sm px-4 pb-2">
-        <%= render "conversations/typing_indicator", conversation: @conversation %>
-      </div>
+      <%= render @messages, is_current_user_message: ->(message) { message.user == current_user } %>
+    </div>
+
+    <div id="typing_indicator" class="bg-white px-4 pb-2 text-gray-500 text-sm">
+      <%= render "conversations/typing_indicator", conversation: @conversation %>
     </div>
 
     <!-- Message Form -->
-    <div class="bg-white rounded-b-lg shadow-md p-4 sticky bottom-0 z-10" id="new_message">
+    <div class="bg-white rounded-b-lg shadow-md chat-input-form" id="new_message">
       <%= render "form", conversation: @conversation, message: @message %>
     </div>
   </div>
