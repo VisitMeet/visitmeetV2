@@ -4,6 +4,38 @@
 @import './home.css';
 @import './navbar.css';
 
+.message-row {
+  display: flex;
+}
+
+.message-row.sent {
+  justify-content: flex-end;
+}
+
+.message-row.received {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.message-row.sent .message-bubble {
+  background-color: #3B82F6;
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.message-row.received .message-bubble {
+  background-color: #E5E7EB;
+  color: #374151;
+  border-bottom-left-radius: 5px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

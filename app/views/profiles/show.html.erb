@@ -55,12 +55,13 @@
           </div>
 
           <% unless @is_own_profile %>
-            <div class="mt-4">
+            <div class="mt-4 flex space-x-2">
               <% if current_user.following?(@user) %>
                 <%= button_to "Unfollow", unfollow_user_path(@user), method: :delete, class: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600" %>
               <% else %>
                 <%= button_to "Follow", follow_user_path(@user), method: :post, class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
               <% end %>
+              <%= button_to "Message", conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: :post, class: "bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600" %>
             </div>
           <% end %>
 
