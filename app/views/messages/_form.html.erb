@@ -1,4 +1,4 @@
-<%= form_with(model: [conversation, message], class: "flex items-center space-x-4") do |form| %>
-  <%= form.text_area :body, class: "flex-grow border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", rows: 1, placeholder: "Type your message..." %>
-  <%= form.submit "Send", class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-medium" %>
+<%= form_with(model: [conversation, message], class: "flex items-center space-x-4", data: { controller: "message-form", "message-form-conversation-id-value": conversation.id, "message-form-current-user-id-value": current_user.id }) do |form| %>
+  <%= form.text_area :body, class: "flex-grow border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", rows: 1, placeholder: "Type your message...", data: { action: "keydown->message-form#handleKeydown input->message-form#resize input->message-form#typing", "message-form-target": "textarea" } %>
+  <%= form.submit "Send", class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-medium", data: { "message-form-target": "submitButton" } %>
 <% end %>

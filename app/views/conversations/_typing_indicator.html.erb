@@ -1,0 +1,3 @@
+<% if conversation.typing_user_id && conversation.typing_user_id != current_user.id %>
+  <p><%= conversation.typing_user.display_name %> is typing...</p>
+<% end %>

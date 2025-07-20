@@ -61,6 +61,12 @@
   margin-top: 2px;
 }
 
+.read-status {
+  font-size: 0.625rem; /* text-xs */
+  color: #9CA3AF; /* gray-400 */
+  margin-left: 5px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -9,8 +9,12 @@
     <!-- Message List -->
     <div class="bg-white shadow-md flex-grow">
       <%= turbo_stream_from @conversation %>
+      <%= turbo_stream_from @conversation, :typing_indicator %>
       <div id="messages" class="p-4 space-y-4 overflow-y-auto h-[calc(100vh-250px)]">
         <%= render @messages, is_current_user_message: ->(message) { message.user == current_user } %>
+      </div>
+      <div id="typing_indicator" class="text-gray-500 text-sm px-4 pb-2">
+        <%= render "conversations/typing_indicator", conversation: @conversation %>
       </div>
     </div>
 

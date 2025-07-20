@@ -27,8 +27,22 @@ RSpec.configure do |config|
   config.include Shoulda::Matchers::ActiveRecord, type: :model
   config.include Shoulda::Matchers::ActiveModel, type: :model
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :system
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include Devise::Test::ControllerHelpers, type: :controller
+
+  require 'selenium/webdriver'
+
+  Capybara.register_driver :selenium_firefox do |app|
+    options = Selenium::WebDriver::Firefox::Options.new
+    options.add_argument('-headless')
+    options.binary = '/Applications/Firefox.app/Contents/MacOS/firefox' # Explicitly set Firefox binary path
+    Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+  end
+
+  Capybara.javascript_driver = :selenium_firefox
+  Capybara.default_driver = :selenium_firefox
+  Capybara.default_max_wait_time = 5
 
   # Fixture files location
   config.fixture_path = "#{Rails.root}/spec/fixtures"
@@ -42,6 +56,6 @@ RSpec.configure do |config|
   # Filter Rails gems from backtraces
   config.filter_rails_from_backtrace!
 
-  Capybara.javascript_driver = :firefox_headless
-  Capybara.default_driver = :firefox_headless
+  Capybara.javascript_driver = :selenium_firefox
+  Capybara.default_driver = :selenium_firefox
 end

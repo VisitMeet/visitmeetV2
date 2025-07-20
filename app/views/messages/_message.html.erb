@@ -8,6 +8,9 @@
     </div>
     <div class="message-timestamp">
       <%= message.created_at.strftime("%b %d, %Y %H:%M") %>
+      <% if is_current_user_message && message.read_at.present? %>
+        <span class="read-status">Read</span>
+      <% end %>
     </div>
   </div>
 </div>

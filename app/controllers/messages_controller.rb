@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
 
   def index
     @messages = @conversation.messages.includes(:user)
+    @messages.unread.where.not(user: current_user).update_all(read_at: Time.current)
     @message = @conversation.messages.new
   end
 
@@ -12,6 +13,7 @@ class MessagesController < ApplicationController
     @message.user = current_user
 
     if @message.save
+      @conversation.update(typing_user_id: nil)
       respond_to do |format|
         format.html { redirect_to conversation_messages_path(@conversation) }
         format.turbo_stream do
