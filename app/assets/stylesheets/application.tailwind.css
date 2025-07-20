@@ -37,6 +37,20 @@
   margin-bottom: 2px;
 }
 
+.message-details {
+  font-size: 0.625rem; /* text-xs */
+  color: #9CA3AF; /* gray-400 */
+  margin-top: 2px;
+}
+
+.message-row.sent .message-details {
+  padding-right: 10px; /* Align with bubble */
+}
+
+.message-row.received .message-details {
+  padding-left: 10px; /* Align with bubble */
+}
+
 .message-bubble {
   padding: 10px 15px;
   border-radius: 18px;
@@ -70,18 +84,6 @@
 
 .message-row.new-message {
   animation: slide-in 0.3s ease-out;
-}
-
-.message-timestamp {
-  font-size: 0.625rem; /* text-xs */
-  color: #9CA3AF; /* gray-400 */
-  margin-top: 2px;
-}
-
-.read-status {
-  font-size: 0.625rem; /* text-xs */
-  color: #9CA3AF; /* gray-400 */
-  margin-left: 5px;
 }
 
 .chat-container {

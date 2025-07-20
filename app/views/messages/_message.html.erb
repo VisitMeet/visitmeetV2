@@ -1,13 +1,13 @@
 <div class="message-row <%= is_current_user_message ? 'sent' : 'received' %> <%= local_assigns[:new_message] ? 'new-message' : '' %>">
   <div class="message-content">
-    <div class="message-sender-name">
+    <div class="message-sender-name <%= is_current_user_message ? 'text-right' : 'text-left' %>">
       <%= message.user.display_name %>
     </div>
     <div class="message-bubble">
       <%= message.body %>
     </div>
-    <div class="message-timestamp">
-      <%= message.created_at.strftime("%b %d, %Y %H:%M") %>
+    <div class="message-details <%= is_current_user_message ? 'text-right' : 'text-left' %>">
+      <span class="message-timestamp"><%= message.created_at.strftime("%H:%M") %></span>
       <% if is_current_user_message && message.read_at.present? %>
         <span class="read-status">Read</span>
       <% end %>
