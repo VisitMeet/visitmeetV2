@@ -8,6 +8,9 @@ class OfferingsController < ApplicationController
   end
 
   def show
+    @reviews = @offering.reviews.includes(:user)
+    @review = Review.new
+    @can_review = @offering.bookings.where(user: current_user, status: :completed).exists?
   end
 
   def new
