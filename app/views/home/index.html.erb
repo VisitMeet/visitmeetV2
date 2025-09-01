@@ -1,14 +1,14 @@
 <main class="w-full">
   <section class="landing_page min-h-screen bg-cover bg-center relative overflow-hidden" style="background-image: url('/images/bgimage.jpg');">
     <!-- Overlay for better text contrast -->
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/60 to-purple-600/60 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-indigo-700/70 to-emerald-500/70 z-10"></div>
 
     <div class="container mx-auto px-4 flex items-center justify-center h-full relative z-20">
       <div class="content-wrapper flex flex-col items-center justify-center w-full text-white text-center">
         <div class="hero-content w-full max-w-3xl mx-auto mb-12">
-          <h1 class="hero-text text-5xl md:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg">Discover Hidden Places</h1>
+          <h1 class="hero-text text-5xl md:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg">Experience Cities Like a Local</h1>
           <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
-            Connect with local hosts and guides who know the secret spots travelers love
+            Book unique experiences and stay with trusted locals around the world
           </p>
 
           <%= form_with url: search_results_path, method: :get, local: true, class: "max-w-4xl mx-auto", id: "hero-search-form" do %>
@@ -133,6 +133,29 @@
         </div>
         <div class="explore-subtitle mt-12">
           <h2 class="text-3xl font-semibold">Explore Authentic Stays in Emerging Destinations</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Why VisitMeet?</h2>
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="text-center">
+          <div class="text-4xl mb-4">🌟</div>
+          <h3 class="text-xl font-semibold mb-2">Authentic Hosts</h3>
+          <p class="text-gray-600">Connect with passionate locals who love their city.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-4">🗺️</div>
+          <h3 class="text-xl font-semibold mb-2">Hidden Gems</h3>
+          <p class="text-gray-600">Discover places that guidebooks often miss.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-4">👍</div>
+          <h3 class="text-xl font-semibold mb-2">Easy Booking</h3>
+          <p class="text-gray-600">Secure your spot with a few simple clicks.</p>
         </div>
       </div>
     </div>
