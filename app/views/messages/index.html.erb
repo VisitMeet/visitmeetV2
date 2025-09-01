@@ -7,7 +7,7 @@
     </div>
 
     <!-- Message List -->
-    <div class="chat-messages" id="messages">
+    <div class="chat-messages" id="messages" data-controller="chat">
       <%= turbo_stream_from @conversation %>
       <%= turbo_stream_from @conversation, :typing_indicator %>
       <%= render @messages, is_current_user_message: ->(message) { message.user == current_user } %>
