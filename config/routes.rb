@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   # Offerings with nested bookings
   resources :offerings do
     resources :bookings, only: [:new, :create]
+    resources :reviews, only: [:create, :destroy]
   end
 
   # Bookings management

@@ -24,10 +24,11 @@ class User < ApplicationRecord
 
   # Offerings association
   has_many :offerings, dependent: :destroy
-  
+
   # Booking associations
   has_many :bookings, dependent: :destroy  # Bookings I've made as traveler
   has_many :host_bookings, through: :offerings, source: :bookings  # Bookings for my offerings
+  has_many :reviews, dependent: :destroy
 
   has_one_attached :profile_picture
 
