@@ -55,4 +55,46 @@ RSpec.describe MessagesController, type: :request do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    context 'when the message belongs to the current user' do
+      it 'deletes the message' do
+        message = create(:message, conversation: conversation, user: user1)
+        expect do
+          delete conversation_message_path(conversation, message)
+        end.to change(Message, :count).by(-1)
+        expect(response).to redirect_to(conversation_messages_path(conversation))
+      end
+    end
+
+    context "when the message belongs to another user" do
+      it 'does not delete the message and returns forbidden' do
+        message = create(:message, conversation: conversation, user: user2)
+        expect do
+          delete conversation_message_path(conversation, message)
+        end.not_to change(Message, :count)
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'when the message belongs to the current user' do
+      it 'updates the message' do
+        message = create(:message, conversation: conversation, user: user1, body: 'Old body')
+        patch conversation_message_path(conversation, message), params: { message: { body: 'Updated body' } }
+        expect(response).to redirect_to(conversation_messages_path(conversation))
+        expect(message.reload.body).to eq('Updated body')
+      end
+    end
+
+    context 'when the message belongs to another user' do
+      it 'does not update the message and returns forbidden' do
+        message = create(:message, conversation: conversation, user: user2, body: 'Original body')
+        patch conversation_message_path(conversation, message), params: { message: { body: 'Hacked body' } }
+        expect(response).to have_http_status(:forbidden)
+        expect(message.reload.body).to eq('Original body')
+      end
+    end
+  end
 end

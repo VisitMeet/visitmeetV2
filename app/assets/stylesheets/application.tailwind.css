@@ -65,13 +65,13 @@
 }
 
 .message-row.sent .message-bubble {
-  background-color: #2563EB; /* Deeper blue */
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
   color: white;
   border-bottom-right-radius: 4px;
 }
 
 .message-row.received .message-bubble {
-  background-color: #F3F4F6; /* Lighter gray */
+  background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
   color: #1F2937; /* Darker text */
   border-bottom-left-radius: 4px;
 }
