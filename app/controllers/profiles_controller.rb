@@ -12,8 +12,10 @@ class ProfilesController < ApplicationController
   end
 
   def add_tag
-    tag_name = params[:tag_name].strip.downcase
+    tag_name = params[:tag_name].to_s.strip.downcase
     tag_type = params[:tag_type]
+
+    return redirect_to(profile_path, alert: 'Tag name cannot be blank.') if tag_name.blank?
 
     if tag_type == 'location'
       tag = LocationTag.find_or_create_by(location: tag_name)

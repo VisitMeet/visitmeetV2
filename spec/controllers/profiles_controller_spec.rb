@@ -76,6 +76,13 @@ RSpec.describe ProfilesController, type: :controller do
       end
     end
 
+    context "without tag_name" do
+      it "redirects to the profile page" do
+        post :add_tag, params: { tag_type: "location" }
+        expect(response).to redirect_to(profile_path)
+      end
+    end
+
     it "redirects to the profile page" do
       post :add_tag, params: { tag_name: "some tag", tag_type: "location" }
       expect(response).to redirect_to(profile_path)
