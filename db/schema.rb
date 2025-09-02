@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_01_001000) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_01_002000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_01_001000) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["location"], name: "index_location_tags_on_location", using: :gin, opclass: :gin_trgm_ops
   end
 
   create_table "messages", force: :cascade do |t|
@@ -170,6 +171,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_01_001000) do
     t.string "tag_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", using: :gin, opclass: :gin_trgm_ops
   end
 
   create_table "user_identities", force: :cascade do |t|
