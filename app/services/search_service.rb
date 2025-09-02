@@ -1,15 +1,18 @@
 class SearchService
-  def initialize(tags, limit: nil)
-    @tags = Array(tags).map(&:strip).reject(&:blank?)
+  # Initializes the service with a collection of search terms.
+  #
+  # terms - Array or comma separated String of search words.
+  # limit - Integer limit for each result set (optional).
+  def initialize(terms, limit: nil)
+    @terms = Array(terms).map(&:strip).reject(&:blank?)
     @limit = limit
   end
 
-  # Returns a hash with results for each searchable model
-  # { users: <ActiveRecord::Relation>, offerings: <Relation>, reviews: <Relation|Array> }
+  # Executes the search across users, offerings and reviews.
+  #
+  # Returns a Hash with keys :users, :offerings and :reviews.
   def call
-    if @tags.empty?
-      return { users: User.none, offerings: Offering.none, reviews: [] }
-    end
+    return { users: User.none, offerings: Offering.none, reviews: [] } if @terms.empty?
 
     {
       users: search_users,
@@ -20,38 +23,59 @@ class SearchService
 
   private
 
+  # Builds an OR based ILIKE query for the given SQL fragment and columns.
+  def build_ilike_query(columns)
+    return nil if @terms.empty?
+
+    sql_fragments = []
+    values = []
+
+    @terms.each do |term|
+      like = "%#{ActiveRecord::Base.sanitize_sql_like(term)}%"
+      sql_fragments << columns.map { |col| "#{col} ILIKE ?" }.join(" OR ")
+      values.concat([like] * columns.length)
+    end
+
+    [sql_fragments.map { |f| "(#{f})" }.join(' OR '), *values]
+  end
+
+  # Search for users by username, name, bio, country and associated tags/locations.
   def search_users
-    raw_query = @tags.join(' ')
-    quoted_query = @tags.map { |t| ActiveRecord::Base.connection.quote(t) }.join(" || ' ' || ")
-    tsquery_sql = "websearch_to_tsquery('english', #{quoted_query})"
+    columns = [
+      'users.username',
+      'users.full_name',
+      'users.bio',
+      'users.country',
+      'location_tags.location',
+      'profession_tags.profession',
+      'tags.name'
+    ]
 
-    User.select("users.*, ts_rank(search_vector, #{tsquery_sql}) AS rank")
-        .where("search_vector @@ websearch_to_tsquery('english', ?)", raw_query)
-        .order(Arel.sql('rank DESC'))
-        .limit(@limit)
+    query = build_ilike_query(columns)
+    scope = User.left_outer_joins(:tags, :location_tags, :profession_tags).distinct
+    scope = scope.where(query) if query
+    @limit ? scope.limit(@limit) : scope
   end
 
+  # Search for offerings by title, description and location.
   def search_offerings
+    columns = [
+      'offerings.title',
+      'offerings.description',
+      'offerings.location'
+    ]
+
+    query = build_ilike_query(columns)
     scope = Offering.all
-    @tags.each do |t|
-      like = "%#{t}%"
-      scope = scope.where(
-        "(title ILIKE :like OR description ILIKE :like OR location ILIKE :like)",
-        like: like
-      )
-    end
-    scope.limit(@limit)
+    scope = scope.where(query) if query
+    @limit ? scope.limit(@limit) : scope
   end
 
+  # Search for reviews by comment.
   def search_reviews
+    query = build_ilike_query(['comment'])
     scope = Review.all
-    @tags.each do |t|
-      like = "%#{t}%"
-      scope = scope.where(
-        "comment ILIKE :like",
-        like: like
-      )
-    end
+    scope = scope.where(query) if query
     @limit ? scope.limit(@limit) : scope
   end
 
