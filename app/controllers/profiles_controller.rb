@@ -70,6 +70,8 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:user).permit(:country)
+    permitted = [:country]
+    permitted &= User.column_names.map(&:to_sym)
+    params.require(:user).permit(*permitted)
   end
 end
