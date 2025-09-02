@@ -6,8 +6,8 @@ import { definitionsFromContext } from "@hotwired/stimulus-loading"
 
 import "controllers"
 import "jquery"
-import "./custom/autocomplete"
-import "./custom/autosuggestion"
+import "autocomplete"
+import "autosuggestion"
 
 // Expose jQuery globally if needed
 window.$ = window.jQuery = jQuery
