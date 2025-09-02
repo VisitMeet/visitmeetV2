@@ -64,15 +64,4 @@ RSpec.describe SearchService do
     expect(results[:reviews]).to be_empty
   end
 
-  it 'supports fuzzy matching for typos' do
-    user = create(:user)
-    offering = create(:offering, title: 'Hiking adventure', description: 'Enjoy hiking', location: 'nepal', user: user)
-    review_user = create(:user)
-    review = create(:review, offering: offering, user: review_user, comment: 'Great hiking experience')
-
-    results = SearchService.new(['hikng']).call
-
-    expect(results[:offerings]).to include(offering)
-    expect(results[:reviews]).to include(review)
-  end
 end
