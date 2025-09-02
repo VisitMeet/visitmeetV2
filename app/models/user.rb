@@ -22,6 +22,9 @@ class User < ApplicationRecord
   has_many :user_profession_tags, dependent: :destroy
   has_many :profession_tags,      through: :user_profession_tags
 
+  has_many :user_tags, dependent: :destroy
+  has_many :tags, through: :user_tags
+
   # Offerings association
   has_many :offerings, dependent: :destroy
 
