@@ -6,16 +6,16 @@
     <%= f.hidden_field :reset_password_token %>
 
     <div class="mb-4">
-      <%= f.label :password, "New password", class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.label :password, "New password", class: "block text-gray-700 dark:text-gray-200 font-bold mb-2" %>
       <% if @minimum_password_length %>
-        <p class="text-gray-500"><em>(<%= @minimum_password_length %> characters minimum)</em></p>
+        <p class="text-gray-500 dark:text-gray-400"><em>(<%= @minimum_password_length %> characters minimum)</em></p>
       <% end %>
-      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "block w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
     </div>
 
     <div class="mb-4">
-      <%= f.label :password_confirmation, "Confirm new password", class: "block text-gray-700 font-bold mb-2" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      <%= f.label :password_confirmation, "Confirm new password", class: "block text-gray-700 dark:text-gray-200 font-bold mb-2" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
     </div>
 
     <div class="text-center">
@@ -23,7 +23,7 @@
     </div>
   <% end %>
 
-  <div class="mt-4 text-center text-gray-500">
+  <div class="mt-4 text-center text-gray-500 dark:text-gray-400">
     <%= render "devise/shared/links" %>
   </div>
 </div>
