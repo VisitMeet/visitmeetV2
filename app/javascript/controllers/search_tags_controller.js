@@ -6,6 +6,11 @@ export default class extends Controller {
   connect() {
     const existing = this.hiddenTarget?.value || ""
     this.tags = existing.split(',').filter(t => t.length > 0)
+    this.suggestionsTarget.setAttribute("role", "listbox")
+    this.inputTarget.addEventListener("blur", () => {
+      setTimeout(() => this.clearSuggestions(), 100)
+    })
+    this.debounceTimeout = null
     this.renderTags()
   }
 
@@ -20,29 +25,41 @@ export default class extends Controller {
         this.element.requestSubmit()
       }
       this.inputTarget.value = ""
-      this.suggestionsTarget.innerHTML = ""
+      this.clearSuggestions()
     }
   }
 
   fetchSuggestions() {
-    const query = this.inputTarget.value.trim()
-    if (query.length < 2) {
-      this.suggestionsTarget.innerHTML = ""
-      return
-    }
+    clearTimeout(this.debounceTimeout)
+    this.debounceTimeout = setTimeout(() => {
+      const query = this.inputTarget.value.trim()
+      if (query.length < 2) {
+        this.clearSuggestions()
+        return
+      }
 
-    fetch(`/search_suggestions?q=${encodeURIComponent(query)}`)
-      .then(response => response.json())
-      .then(data => {
-        this.suggestionsTarget.innerHTML = ""
-        data.forEach(suggestion => {
+      fetch(`/search_suggestions?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          this.clearSuggestions()
+          data.forEach(suggestion => {
+            const li = document.createElement("li")
+            li.textContent = suggestion
+            li.className = "px-2 py-1 cursor-pointer hover:bg-gray-100"
+            li.setAttribute("role", "option")
+            li.addEventListener("click", () => this.addSuggestion(suggestion))
+            this.suggestionsTarget.appendChild(li)
+          })
+        })
+        .catch(() => {
+          this.clearSuggestions()
           const li = document.createElement("li")
-          li.textContent = suggestion
-          li.className = "px-2 py-1 cursor-pointer hover:bg-gray-100"
-          li.addEventListener("click", () => this.addSuggestion(suggestion))
+          li.textContent = "Error fetching suggestions"
+          li.className = "px-2 py-1 text-red-500"
+          li.setAttribute("role", "option")
           this.suggestionsTarget.appendChild(li)
         })
-      })
+    }, 300)
   }
 
   addSuggestion(tag) {
@@ -53,7 +70,7 @@ export default class extends Controller {
       this.element.requestSubmit()
     }
     this.inputTarget.value = ""
-    this.suggestionsTarget.innerHTML = ""
+    this.clearSuggestions()
   }
 
   removeTag(event) {
@@ -74,8 +91,20 @@ export default class extends Controller {
     this.tags.forEach(tag => {
       const span = document.createElement("span")
       span.className = "bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded-full mr-2 mb-2 inline-flex items-center"
-      span.innerHTML = `${tag} <button type="button" data-action="search-tags#removeTag" data-tag="${tag}" class="ml-1">&times;</button>`
+      const text = document.createTextNode(`${tag} `)
+      const button = document.createElement("button")
+      button.type = "button"
+      button.dataset.action = "search-tags#removeTag"
+      button.dataset.tag = tag
+      button.className = "ml-1"
+      button.textContent = "×"
+      span.appendChild(text)
+      span.appendChild(button)
       this.tagsTarget.appendChild(span)
     })
+  }
+
+  clearSuggestions() {
+    this.suggestionsTarget.innerHTML = ""
   }
 }
