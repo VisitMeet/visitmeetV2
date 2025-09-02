@@ -67,3 +67,4 @@ staging:
 
 production:
   <<: *default_settings
+  agent_enabled: true
