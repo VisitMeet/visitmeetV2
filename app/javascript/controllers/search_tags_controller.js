@@ -64,6 +64,11 @@ export default class extends Controller {
     this.element.requestSubmit()
   }
 
+  tagsTargetConnected() {
+    // Re-render selected tags when the tag container is replaced (e.g., Turbo frame updates)
+    this.renderTags()
+  }
+
   renderTags() {
     this.tagsTarget.innerHTML = ""
     this.tags.forEach(tag => {
