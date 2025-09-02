@@ -15,4 +15,25 @@ RSpec.describe SearchService do
     expect(results[:offerings]).to include(offering)
     expect(results[:reviews]).to include(review)
   end
+
+  it 'respects result limits when provided' do
+    tag = create(:tag, name: 'photography')
+    user1 = create(:user)
+    user2 = create(:user)
+    UserTag.create!(user: user1, tag: tag)
+    UserTag.create!(user: user2, tag: tag)
+
+    offering1 = create(:offering, title: 'Photography tour', description: 'Great shots', location: 'nepal', user: user1)
+    offering2 = create(:offering, title: 'Photography workshop', description: 'Learn skills', location: 'india', user: user2)
+
+    review_user = create(:user)
+    create(:review, offering: offering1, user: review_user, comment: 'Amazing photography experience')
+    create(:review, offering: offering2, user: review_user, comment: 'Another photography review')
+
+    results = SearchService.new(['photography'], limit: 1).call
+
+    expect(results[:users].count).to eq(1)
+    expect(results[:offerings].count).to eq(1)
+    expect(results[:reviews].count).to eq(1)
+  end
 end

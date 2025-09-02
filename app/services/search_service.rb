@@ -1,6 +1,7 @@
 class SearchService
-  def initialize(tags)
+  def initialize(tags, limit: nil)
     @tags = Array(tags).map(&:strip).reject(&:blank?)
+    @limit = limit
   end
 
   # Returns a hash with results for each searchable model
@@ -14,20 +15,37 @@ class SearchService
   private
 
   def search_users
-    query = @tags.map { |t| ActiveRecord::Base.connection.quote_string(t) }.join(' & ')
-    User.where("search_vector @@ plainto_tsquery('english', ?)", query)
-        .order(Arel.sql("ts_rank_cd(search_vector, plainto_tsquery('english', '#{query}')) DESC"))
+    raw_query = @tags.join(' ')
+    quoted_query = @tags.map { |t| ActiveRecord::Base.connection.quote(t) }.join(" || ' ' || ")
+    tsquery_sql = "websearch_to_tsquery('english', #{quoted_query})"
+
+    User.select("users.*, ts_rank(search_vector, #{tsquery_sql}) AS rank")
+        .where("search_vector @@ websearch_to_tsquery('english', ?)", raw_query)
+        .order(Arel.sql('rank DESC'))
+        .limit(@limit)
   end
 
   def search_offerings
-    sql = @tags.map { |t| "(title ILIKE ? OR description ILIKE ? OR location ILIKE ?)" }.join(' AND ')
-    args = @tags.flat_map { |t| ["%#{t}%", "%#{t}%", "%#{t}%"] }
-    Offering.where(sql, *args)
+    scope = Offering.all
+    @tags.each do |t|
+      like = "%#{t}%"
+      scope = scope.where(
+        "(title ILIKE :like OR description ILIKE :like OR location ILIKE :like OR title % :raw OR description % :raw OR location % :raw)",
+        like: like, raw: t
+      )
+    end
+    scope.limit(@limit)
   end
 
   def search_reviews
-    sql = @tags.map { |t| "comment ILIKE ?" }.join(' AND ')
-    args = @tags.map { |t| "%#{t}%" }
-    Review.where(sql, *args)
+    scope = Review.all
+    @tags.each do |t|
+      like = "%#{t}%"
+      scope = scope.where(
+        "(comment ILIKE :like OR comment % :raw)",
+        like: like, raw: t
+      )
+    end
+    scope.limit(@limit)
   end
 end
