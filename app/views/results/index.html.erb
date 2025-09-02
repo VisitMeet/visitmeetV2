@@ -10,7 +10,7 @@
       <turbo-frame id="search_results">
         <div class="flex flex-wrap gap-2 mb-2" data-search-tags-target="tags"></div>
 
-        <% if @profiles.any? %>
+        <% if @profiles.present? %>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <% @profiles.each do |profile| %>
               <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
@@ -44,7 +44,7 @@
           </div>
         <% end %>
 
-        <% if @offerings.any? %>
+        <% if @offerings.present? %>
           <h2 class="text-2xl font-bold mt-10 mb-4">Offerings</h2>
           <ul class="space-y-4">
             <% @offerings.each do |offering| %>
@@ -56,7 +56,7 @@
           </ul>
         <% end %>
 
-        <% if @reviews.any? %>
+        <% if @reviews.present? %>
           <h2 class="text-2xl font-bold mt-10 mb-4">Reviews</h2>
           <ul class="space-y-4">
             <% @reviews.each do |review| %>
@@ -68,7 +68,7 @@
           </ul>
         <% end %>
 
-        <% unless @profiles.any? || @offerings.any? || @reviews.any? %>
+        <% unless @profiles.present? || @offerings.present? || @reviews.present? %>
           <div class="text-center py-12">
             <div class="text-gray-400 text-6xl mb-4">🔍</div>
             <h2 class="text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-2">No matches found</h2>
