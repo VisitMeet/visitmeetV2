@@ -166,9 +166,9 @@
 
 /* Hero text */
 
-.hero-text, .hero-text1 {
+.hero-text {
   font-family: "Poppins", sans-serif;
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 5vw, 3rem);
   font-weight: bold;
   text-transform: uppercase;
   color: #fff;
