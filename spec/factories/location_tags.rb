@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :location_tag do
-    # use a unique sequence so you can create multiple different tags if needed
-    location { "validlocation" }
+    sequence(:location) { |n| "location#{n}" }
   end
 end
