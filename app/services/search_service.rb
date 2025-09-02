@@ -39,22 +39,35 @@ class SearchService
     [sql_fragments.map { |f| "(#{f})" }.join(' OR '), *values]
   end
 
-  # Search for users by username, name, bio, country and associated tags/locations.
+  # Search for users by username, name, country and associated tags/locations.
   def search_users
     columns = [
       'users.username',
       'users.full_name',
-      'users.bio',
       'users.country',
       'location_tags.location',
       'profession_tags.profession',
       'tags.name'
     ]
 
+    # Include optional columns only if they exist
+    columns << 'users.bio' if column_exists?(:users, :bio)
+    columns.select! do |col|
+      table, column = col.split('.')
+      data_source_exists?(table) && column_exists?(table, column)
+    end
+
     query = build_ilike_query(columns)
-    scope = User.left_outer_joins(:tags, :location_tags, :profession_tags).distinct
+
+    scope = User.all
+    scope = scope.left_outer_joins(:tags) if data_source_exists?('tags')
+    scope = scope.left_outer_joins(:location_tags) if data_source_exists?('location_tags')
+    scope = scope.left_outer_joins(:profession_tags) if data_source_exists?('profession_tags')
     scope = scope.where(query) if query
+    scope = scope.distinct
     @limit ? scope.limit(@limit) : scope
+  rescue ActiveRecord::StatementInvalid
+    User.none
   end
 
   # Search for offerings by title, description and location.
@@ -82,6 +95,18 @@ class SearchService
   def reviews_table?
     ActiveRecord::Base.connection.data_source_exists?('reviews')
   rescue ActiveRecord::NoDatabaseError
+    false
+  end
+
+  def data_source_exists?(name)
+    ActiveRecord::Base.connection.data_source_exists?(name.to_s)
+  rescue ActiveRecord::StatementInvalid, ActiveRecord::NoDatabaseError
+    false
+  end
+
+  def column_exists?(table, column)
+    ActiveRecord::Base.connection.column_exists?(table, column)
+  rescue ActiveRecord::StatementInvalid, ActiveRecord::NoDatabaseError
     false
   end
 end
