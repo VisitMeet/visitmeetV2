@@ -16,10 +16,15 @@
       gtag('config', 'G-YZSMFSQDZM');
     </script>
 
-    <!-- Styles -->
-      <link rel="stylesheet" href="/tailwind.css">
+    <!-- Dark mode initialiser -->
+    <script>
+      if (localStorage.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
 
-    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/tailwind.css">
 
     <!-- JavaScript -->
     <%= javascript_importmap_tags %>
@@ -27,7 +32,7 @@
     <%= Sentry.get_trace_propagation_meta.html_safe %>
   </head>
 
-  <body class="pt-16 flex flex-col min-h-screen">
+  <body class="pt-16 flex flex-col min-h-screen bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 dark:bg-gray-900 dark:text-gray-100">
     <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) || current_page?(new_user_password_path) %>
       <%= render "layouts/navbar" %>
     <% end %>

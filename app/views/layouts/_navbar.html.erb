@@ -1,4 +1,4 @@
-<nav class="bg-white/80 backdrop-blur-md shadow-lg w-full z-50 transition-all duration-300 ease-in-out">
+<nav class="bg-white dark:bg-gray-800/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg w-full z-50 transition-all duration-300 ease-in-out">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Navbar Brand / Logo -->
@@ -11,12 +11,12 @@
       <!-- Navbar Links (Desktop) -->
       <div class="hidden md:flex space-x-6 items-center">
         <% if user_signed_in? %>
-          <%= link_to "My Profile", profile_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
-          <%= link_to "My Offerings", offerings_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
-          <%= link_to "My Bookings", bookings_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
-          <%= link_to "Conversations", conversations_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "My Profile", profile_path, class: "text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "My Offerings", offerings_path, class: "text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "My Bookings", bookings_path, class: "text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "Conversations", conversations_path, class: "text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
           <div class="flex space-x-4 items-center">
-            <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+            <%= link_to "My account", edit_user_registration_path, class: "text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
             <%= link_to "Sign out", destroy_user_session_path,
               data: { "turbo-method": :delete, confirm: "Are you sure you want to sign out?" },
               class: "text-red-500 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
@@ -27,11 +27,15 @@
             <%= link_to "Log in", new_user_session_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition-colors" %>
           </div>
         <% end %>
+        <button id="theme-toggle" type="button" class="p-2 rounded-full text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-blue-600 dark:hover:text-yellow-300 transition-colors">
+          <svg id="theme-toggle-light-icon" class="h-5 w-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 01 1 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 1.78a1 1 0 011.42 1.42l-.7.7a1 1 0 11-1.42-1.42l.7-.7zM18 9a1 1 0 100 2h-1a1 1 0 100-2h1zM4.22 3.78a1 1 0 00-1.42 1.42l.7.7a1 1 0 001.42-1.42l-.7-.7zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm6.78-2.22a1 1 0 00-1.42-1.42l-.7.7a1 1 0 001.42 1.42l.7-.7zM4 9a1 1 0 100 2H3a1 1 0 100-2h1zm1.64 4.95a1 1 0 011.42 1.42l-.7.7a1 1 0 01-1.42-1.42l.7-.7zM10 5a5 5 0 100 10A5 5 0 0010 5z"/></svg>
+          <svg id="theme-toggle-dark-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        </button>
       </div>
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden flex items-center">
-        <button id="mobile-menu-button" type="button" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 p-2 rounded-md transition-colors">
+        <button id="mobile-menu-button" type="button" class="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 p-2 rounded-md transition-colors">
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
@@ -41,14 +45,14 @@
   </div>
 
   <!-- Mobile Menu (hidden by default) -->
-  <div class="md:hidden absolute top-16 left-0 w-full bg-white shadow-lg z-40 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0" id="mobile-menu">
+    <div class="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-gray-800 dark:bg-gray-800 shadow-lg z-40 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0" id="mobile-menu">
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
       <% if user_signed_in? %>
-        <%= link_to "My Profile", profile_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
-        <%= link_to "My Offerings", offerings_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
-        <%= link_to "My Bookings", bookings_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
-        <%= link_to "Conversations", conversations_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
-        <%= link_to "My account", edit_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900" %>
+        <%= link_to "My Profile", profile_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" %>
+        <%= link_to "My Offerings", offerings_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" %>
+        <%= link_to "My Bookings", bookings_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" %>
+        <%= link_to "Conversations", conversations_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" %>
+        <%= link_to "My account", edit_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" %>
         <%= link_to "Sign out", destroy_user_session_path,
             data: { "turbo-method": :delete, confirm: "Are you sure you want to sign out?" },
             class: "block px-3 py-2 rounded-md text-base font-medium text-red-500 hover:text-red-700" %>
@@ -64,6 +68,13 @@
 document.addEventListener("DOMContentLoaded", function() {
   const button = document.getElementById("mobile-menu-button");
   const menu = document.getElementById("mobile-menu");
+  const themeToggle = document.getElementById("theme-toggle");
+  const html = document.documentElement;
+
+  if (html.classList.contains("dark")) {
+    document.getElementById('theme-toggle-dark-icon').classList.add('hidden');
+    document.getElementById('theme-toggle-light-icon').classList.remove('hidden');
+  }
 
   button.addEventListener("click", function() {
     menu.classList.toggle("hidden");
@@ -72,5 +83,20 @@ document.addEventListener("DOMContentLoaded", function() {
     menu.classList.toggle("translate-y-0");
     menu.classList.toggle("opacity-100");
   });
+
+  themeToggle.addEventListener("click", function() {
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
+      localStorage.theme = 'light';
+      document.getElementById('theme-toggle-light-icon').classList.add('hidden');
+      document.getElementById('theme-toggle-dark-icon').classList.remove('hidden');
+    } else {
+      html.classList.add("dark");
+      localStorage.theme = 'dark';
+      document.getElementById('theme-toggle-dark-icon').classList.add('hidden');
+      document.getElementById('theme-toggle-light-icon').classList.remove('hidden');
+    }
+  });
 });
 </script>
+

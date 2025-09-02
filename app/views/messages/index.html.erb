@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50 flex flex-col chat-container">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col chat-container">
   <div class="max-w-4xl mx-auto w-full flex-grow flex flex-col rounded-lg shadow-lg overflow-hidden">
     <!-- Header -->
     <div class="chat-header">
       <% other_user = @conversation.sender == current_user ? @conversation.recipient : @conversation.sender %>
-      <h1 class="text-xl font-bold text-gray-900">Conversation with <%= other_user.display_name %></h1>
+      <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">Conversation with <%= other_user.display_name %></h1>
     </div>
 
     <!-- Message List -->
@@ -13,7 +13,7 @@
       <%= render @messages, is_current_user_message: ->(message) { message.user == current_user } %>
     </div>
 
-    <div id="typing_indicator" class="bg-white px-4 pb-2 text-gray-500 text-sm border-t border-gray-200">
+    <div id="typing_indicator" class="bg-white dark:bg-gray-800 px-4 pb-2 text-gray-500 dark:text-gray-400 text-sm border-t border-gray-200 dark:border-gray-700">
       <%= render "conversations/typing_indicator", conversation: @conversation %>
     </div>
 

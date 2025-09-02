@@ -1,28 +1,28 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Header -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-      <h1 class="text-2xl font-bold text-gray-900 mb-4">Book This Experience</h1>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Book This Experience</h1>
       
       <!-- Offering Details -->
       <div class="border-l-4 border-blue-500 pl-4 mb-6">
-        <h2 class="text-xl font-semibold text-gray-800"><%= @offering.title %></h2>
-        <p class="text-gray-600 mt-1"><%= @offering.location.titleize %></p>
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100"><%= @offering.title %></h2>
+        <p class="text-gray-600 dark:text-gray-300 mt-1"><%= @offering.location.titleize %></p>
         <p class="text-2xl font-bold text-green-600 mt-2">$<%= @offering.price %> per person</p>
-        <p class="text-gray-700 mt-2"><%= truncate(@offering.description, length: 150) %></p>
+        <p class="text-gray-700 dark:text-gray-200 mt-2"><%= truncate(@offering.description, length: 150) %></p>
       </div>
       
       <!-- Host Info -->
-      <div class="bg-gray-50 rounded-lg p-4">
-        <p class="text-sm text-gray-600">Hosted by</p>
-        <p class="text-lg font-semibold text-gray-800"><%= @offering.user.display_name %></p>
-        <p class="text-sm text-gray-500">@<%= @offering.user.username %></p>
+      <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+        <p class="text-sm text-gray-600 dark:text-gray-300">Hosted by</p>
+        <p class="text-lg font-semibold text-gray-800 dark:text-gray-100"><%= @offering.user.display_name %></p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">@<%= @offering.user.username %></p>
       </div>
     </div>
 
     <!-- Booking Form -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-4">Request to Book</h3>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Request to Book</h3>
       
       <%= form_with model: [@offering, @booking], local: true, class: "space-y-6" do |form| %>
         <% if @booking.errors.any? %>
@@ -47,40 +47,40 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Date Selection -->
           <div>
-            <%= form.label :requested_date, class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.label :requested_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2" %>
             <%= form.date_field :requested_date, 
-                class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                 min: Date.current,
                 required: true %>
           </div>
 
           <!-- Guest Count -->
           <div>
-            <%= form.label :guests, class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.label :guests, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2" %>
             <%= form.number_field :guests, 
-                class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                 min: 1, max: 20, required: true %>
           </div>
         </div>
 
         <!-- Message -->
         <div>
-          <%= form.label :message, "Message to Host (Optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.label :message, "Message to Host (Optional)", class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2" %>
           <%= form.text_area :message, 
-              class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+              class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
               rows: 4,
               placeholder: "Tell the host why you're interested in this experience or any special requests..." %>
         </div>
 
         <!-- Price Calculation -->
-        <div class="bg-gray-50 rounded-lg p-4">
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
           <div class="flex justify-between items-center">
-            <span class="text-lg font-medium text-gray-700">Total Amount:</span>
+            <span class="text-lg font-medium text-gray-700 dark:text-gray-200">Total Amount:</span>
             <span class="text-2xl font-bold text-green-600" id="total-amount">
               $<span id="price-per-person"><%= @offering.price %></span> × <span id="guest-count">1</span> = $<span id="total"><%= @offering.price %></span>
             </span>
           </div>
-          <p class="text-sm text-gray-500 mt-1">Final amount will be calculated based on your guest count</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Final amount will be calculated based on your guest count</p>
         </div>
 
         <!-- Submit Button -->
@@ -88,7 +88,7 @@
           <%= form.submit "Send Booking Request", 
               class: "flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium" %>
           <%= link_to "Cancel", @offering, 
-              class: "px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+              class: "px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
         </div>
       <% end %>
     </div>
