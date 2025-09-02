@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "hidden", "tags"]
+  static targets = ["input", "hidden", "tags", "suggestions"]
 
   connect() {
     const existing = this.hiddenTarget?.value || ""
@@ -20,7 +20,40 @@ export default class extends Controller {
         this.element.requestSubmit()
       }
       this.inputTarget.value = ""
+      this.suggestionsTarget.innerHTML = ""
     }
+  }
+
+  fetchSuggestions() {
+    const query = this.inputTarget.value.trim()
+    if (query.length < 2) {
+      this.suggestionsTarget.innerHTML = ""
+      return
+    }
+
+    fetch(`/search_suggestions?q=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(data => {
+        this.suggestionsTarget.innerHTML = ""
+        data.forEach(suggestion => {
+          const li = document.createElement("li")
+          li.textContent = suggestion
+          li.className = "px-2 py-1 cursor-pointer hover:bg-gray-100"
+          li.addEventListener("click", () => this.addSuggestion(suggestion))
+          this.suggestionsTarget.appendChild(li)
+        })
+      })
+  }
+
+  addSuggestion(tag) {
+    if (!this.tags.includes(tag)) {
+      this.tags.push(tag)
+      this.hiddenTarget.value = this.tags.join(",")
+      this.renderTags()
+      this.element.requestSubmit()
+    }
+    this.inputTarget.value = ""
+    this.suggestionsTarget.innerHTML = ""
   }
 
   removeTag(event) {
