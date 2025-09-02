@@ -21,4 +21,17 @@ RSpec.describe 'Search', type: :system do
 
     expect(page).to have_content('No matches found')
   end
+
+  it 'finds users by location', js: true do
+    user = create(:user, full_name: 'Guide In Pokhara')
+    location_tag = create(:location_tag, location: 'pokhara')
+    UserLocationTag.create!(user: user, location_tag: location_tag)
+
+    visit search_results_path
+
+    find('[data-search-tags-target="input"]').fill_in(with: 'pokhara')
+    find('[data-search-tags-target="input"]').send_keys(:enter)
+
+    expect(page).to have_content('Guide In Pokhara')
+  end
 end
