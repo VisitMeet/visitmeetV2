@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :profession_tag do
-        profession { "validprofession" }
+    sequence(:profession) { |n| "profession#{n}" }
   end
 end
