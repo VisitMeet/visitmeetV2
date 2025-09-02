@@ -5,11 +5,17 @@ class SearchService
   end
 
   # Returns a hash with results for each searchable model
-  # { users: <ActiveRecord::Relation>, offerings: <Relation>, reviews: <Relation> }
+  # { users: <ActiveRecord::Relation>, offerings: <Relation>, reviews: <Relation|Array> }
   def call
-    return { users: User.none, offerings: Offering.none, reviews: Review.none } if @tags.empty?
+    if @tags.empty?
+      return { users: User.none, offerings: Offering.none, reviews: [] }
+    end
 
-    { users: search_users, offerings: search_offerings, reviews: search_reviews }
+    {
+      users: search_users,
+      offerings: search_offerings,
+      reviews: reviews_table? ? search_reviews : []
+    }
   end
 
   private
@@ -46,6 +52,12 @@ class SearchService
         like: like
       )
     end
-    scope.limit(@limit)
+    @limit ? scope.limit(@limit) : scope
+  end
+
+  def reviews_table?
+    ActiveRecord::Base.connection.data_source_exists?('reviews')
+  rescue ActiveRecord::NoDatabaseError
+    false
   end
 end

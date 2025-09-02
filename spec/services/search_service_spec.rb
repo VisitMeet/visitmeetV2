@@ -64,4 +64,12 @@ RSpec.describe SearchService do
     expect(results[:reviews]).to be_empty
   end
 
+  it 'returns empty reviews when reviews table is missing' do
+    service = SearchService.new(['anything'])
+    allow(service).to receive(:reviews_table?).and_return(false)
+
+    results = service.call
+    expect(results[:reviews]).to eq([])
+  end
+
 end
