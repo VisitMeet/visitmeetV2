@@ -24,6 +24,7 @@
     <!-- JavaScript -->
     <%= javascript_importmap_tags %>
     <%= yield :recaptcha_script %>
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
   </head>
 
   <body class="pt-16 flex flex-col min-h-screen">

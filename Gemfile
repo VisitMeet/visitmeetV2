@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "3.2.3"
+ruby "3.2.2"
 gem "rails", "~> 7.1.4"
 # gem "sprockets-rails"
 gem "pg", "~> 1.1"
@@ -44,3 +44,6 @@ gem 'jquery-rails'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem "image_processing", "~> 1.2"
 gem "aws-sdk-s3", require: false
+
+gem "sentry-ruby"
+gem "sentry-rails"
