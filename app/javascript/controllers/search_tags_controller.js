@@ -42,14 +42,26 @@ export default class extends Controller {
         .then(response => response.json())
         .then(data => {
           this.clearSuggestions()
-          data.forEach(suggestion => {
-            const li = document.createElement("li")
-            li.textContent = suggestion
-            li.className = "px-2 py-1 cursor-pointer hover:bg-gray-100"
-            li.setAttribute("role", "option")
-            li.addEventListener("click", () => this.addSuggestion(suggestion))
-            this.suggestionsTarget.appendChild(li)
-          })
+
+          const renderGroup = (items, label) => {
+            if (!items || items.length === 0) return
+            const header = document.createElement("li")
+            header.textContent = label
+            header.className = "px-2 py-1 text-gray-500 font-semibold"
+            this.suggestionsTarget.appendChild(header)
+
+            items.forEach(suggestion => {
+              const li = document.createElement("li")
+              li.textContent = suggestion
+              li.className = "px-2 py-1 cursor-pointer hover:bg-gray-100"
+              li.setAttribute("role", "option")
+              li.addEventListener("click", () => this.addSuggestion(suggestion))
+              this.suggestionsTarget.appendChild(li)
+            })
+          }
+
+          renderGroup(data.tags, "Tags")
+          renderGroup(data.locations, "Locations")
         })
         .catch(() => {
           this.clearSuggestions()
