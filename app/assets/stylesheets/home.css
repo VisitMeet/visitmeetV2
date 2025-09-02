@@ -44,9 +44,9 @@
 }
 
 /* Hero text */
-.hero-text, .hero-text1 {
+.hero-text {
   font-family: "Poppins", sans-serif;
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 5vw, 3rem);
   font-weight: bold;
   text-transform: uppercase;
   color: #fff;
@@ -211,11 +211,7 @@
 }
 
 /* RESPONSIVE adjustments */
-@media (max-width: 1024px) {
-  .hero-text, .hero-text1 { font-size: 2.5rem; }
-}
 @media (max-width: 768px) {
-  .hero-text, .hero-text1 { font-size: 2rem; }
   .content-wrapper { padding: 1rem; }
   .explore-subtitle h2 { font-size: 1.5rem; }
   .button, #search-submit-btn { width: 100%; }
@@ -230,7 +226,6 @@
   }
 }
 @media (max-width: 480px) {
-  .hero-text, .hero-text1 { font-size: 1.5rem; }
   .explore-subtitle h2 { font-size: 1.2rem; }
   .quick-filter { font-size: 0.75rem; }
   .input-container input {

@@ -1,8 +1,6 @@
 @import './autocomplete.css';
 @import './devise_custom.css';
-@import './footer.css';
 @import './home.css';
-@import './navbar.css';
 
 .message-row {
   display: flex;
