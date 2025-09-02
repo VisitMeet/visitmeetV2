@@ -46,6 +46,26 @@ class User < ApplicationRecord
   has_many :conversations, foreign_key: :sender_id, dependent: :destroy
   has_many :messages, dependent: :destroy
 
+  # --- Full-text search ---
+  scope :search_by_tags, lambda { |tags|
+    cleaned = Array(tags).map { |t| t.to_s.strip.downcase }.reject(&:blank?)
+    next all if cleaned.empty?
+
+    ts_query = sanitize_sql_array(["plainto_tsquery('simple', ?)", cleaned.join(' ')])
+    where("search_vector @@ #{ts_query}")
+      .order(Arel.sql("ts_rank(search_vector, #{ts_query}) DESC"))
+  }
+
+  # Manually refreshes the tsvector for this user
+  def refresh_search_vector!
+    self.class.connection.execute(
+      self.class.sanitize_sql_array([
+        "UPDATE users SET search_vector = update_users_search_vector(users.*) WHERE id = ?",
+        id
+      ])
+    )
+  end
+
   # Follows a user.
   def follow(other_user)
     following << other_user

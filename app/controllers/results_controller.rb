@@ -1,20 +1,15 @@
 class ResultsController < ApplicationController
   def index
-    location = params[:location].to_s.strip.downcase
-    profession = params[:profession].to_s.strip.downcase
-    
+    tags = []
+    tags += params[:tags].is_a?(Array) ? params[:tags] : params[:tags].to_s.split(',')
+    tags << params[:location] if params[:location].present?
+    tags << params[:profession] if params[:profession].present?
+    tags.map! { |t| t.to_s.strip.downcase }.reject!(&:blank?)
+
     @profiles = User.includes(:location_tags, :profession_tags)
-    
-    if location.present?
-      @profiles = @profiles.joins(:location_tags).where(location_tags: { location: location })
-    end
-    
-    if profession.present?
-      @profiles = @profiles.joins(:profession_tags).where(profession_tags: { profession: profession })
-    end
-    
-    @profiles = @profiles.distinct
-    @search_location = location
-    @search_profession = profession
+                   .search_by_tags(tags)
+                   .distinct
+
+    @search_tags = tags
   end
 end
