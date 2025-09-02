@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   # Search and results
   get 'results', to: 'results#index'
   get 'search', to: 'results#index', as: 'search_results'
+  get 'search_suggestions', to: 'search_suggestions#index'
 
   # Offerings with nested bookings
   resources :offerings do

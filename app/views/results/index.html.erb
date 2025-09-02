@@ -5,7 +5,8 @@
     <%= form_with url: search_results_path, method: :get, local: true, class: "mb-6", data: { controller: "search-tags" } do |f| %>
       <div class="flex flex-wrap gap-2 mb-2" data-search-tags-target="tags"></div>
       <input type="hidden" name="tags" value="<%= @search_tags.join(',') %>" data-search-tags-target="hidden">
-      <input type="text" placeholder="Add tag and press enter" class="w-full px-4 py-2 border rounded" data-search-tags-target="input" data-action="keydown->search-tags#addTag">
+      <input type="text" placeholder="Add tag and press enter" class="w-full px-4 py-2 border rounded" data-search-tags-target="input" data-action="keydown->search-tags#addTag keyup->search-tags#fetchSuggestions">
+      <ul class="mt-1 bg-white border rounded shadow" data-search-tags-target="suggestions"></ul>
     <% end %>
 
     <% if @profiles.any? %>
@@ -48,6 +49,30 @@
         <%= link_to "Back to Search", root_path, 
             class: "bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-md font-medium transition-colors" %>
       </div>
+    <% end %>
+
+    <% if @offerings.any? %>
+      <h2 class="text-2xl font-bold mt-10 mb-4">Offerings</h2>
+      <ul class="space-y-4">
+        <% @offerings.each do |offering| %>
+          <li class="p-4 bg-white dark:bg-gray-800 shadow rounded">
+            <h3 class="text-lg font-semibold"><%= offering.title %></h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400"><%= offering.location %></p>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if @reviews.any? %>
+      <h2 class="text-2xl font-bold mt-10 mb-4">Reviews</h2>
+      <ul class="space-y-4">
+        <% @reviews.each do |review| %>
+          <li class="p-4 bg-white dark:bg-gray-800 shadow rounded">
+            <p class="mb-2"><%= review.comment %></p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Rating: <%= review.rating %></p>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
   </div>
 </div>
