@@ -20,11 +20,15 @@ Rails.application.configure do
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
-  # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  # config.public_file_server.enabled = false
+  # Serve static files from the `/public` folder when the environment
+  # variable `RAILS_SERVE_STATIC_FILES` is present. This aligns with our
+  # importmap and Tailwind setup which outputs built assets directly to
+  # `public` without using the Sprockets pipeline.
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
-  # Compile assets at runtime when precompiled files are missing.
-  config.assets.compile = true
+  # Sprockets has been removed, so avoid any `config.assets` settings that
+  # were previously used for the old asset pipeline.
+  # config.assets.compile = true
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
