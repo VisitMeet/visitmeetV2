@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "hidden", "tags", "suggestions"]
+  static targets = ["input", "hidden", "tags", "suggestions", "loader"]
 
   connect() {
     const existing = this.hiddenTarget?.value || ""
@@ -12,6 +12,8 @@ export default class extends Controller {
     })
     this.debounceTimeout = null
     this.renderTags()
+    this.element.addEventListener("turbo:submit-start", () => this.showLoader())
+    this.element.addEventListener("turbo:submit-end", () => this.hideLoader())
   }
 
   addTag(event) {
@@ -118,5 +120,13 @@ export default class extends Controller {
 
   clearSuggestions() {
     this.suggestionsTarget.innerHTML = ""
+  }
+
+  showLoader() {
+    this.loaderTarget.classList.remove("hidden")
+  }
+
+  hideLoader() {
+    this.loaderTarget.classList.add("hidden")
   }
 }
