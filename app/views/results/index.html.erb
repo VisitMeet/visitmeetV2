@@ -2,18 +2,12 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold mb-4 text-center">Local Hosts & Guides</h1>
     
-    <% if @search_location.present? || @search_profession.present? %>
+    <% if @search_tags.present? %>
       <div class="mb-6 text-center">
         <p class="text-gray-600">
-          Searching for 
-          <% if @search_profession.present? %>
-            <span class="font-semibold text-blue-600"><%= @search_profession %></span>
-          <% end %>
-          <% if @search_location.present? && @search_profession.present? %>
-            in 
-          <% end %>
-          <% if @search_location.present? %>
-            <span class="font-semibold text-green-600"><%= @search_location %></span>
+          Searching for
+          <% @search_tags.each_with_index do |tag, idx| %>
+            <span class="font-semibold text-blue-600"><%= tag %></span><% if idx < @search_tags.length - 1 %>, <% end %>
           <% end %>
         </p>
       </div>
