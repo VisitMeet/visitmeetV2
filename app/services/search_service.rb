@@ -30,8 +30,8 @@ class SearchService
     @tags.each do |t|
       like = "%#{t}%"
       scope = scope.where(
-        "(title ILIKE :like OR description ILIKE :like OR location ILIKE :like OR title % :raw OR description % :raw OR location % :raw)",
-        like: like, raw: t
+        "(title ILIKE :like OR description ILIKE :like OR location ILIKE :like)",
+        like: like
       )
     end
     scope.limit(@limit)
@@ -42,8 +42,8 @@ class SearchService
     @tags.each do |t|
       like = "%#{t}%"
       scope = scope.where(
-        "(comment ILIKE :like OR comment % :raw)",
-        like: like, raw: t
+        "comment ILIKE :like",
+        like: like
       )
     end
     scope.limit(@limit)
