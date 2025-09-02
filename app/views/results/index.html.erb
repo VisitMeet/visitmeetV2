@@ -2,21 +2,10 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold mb-4 text-center">Local Hosts & Guides</h1>
     
-    <% if @search_location.present? || @search_profession.present? %>
-      <div class="mb-6 text-center">
-        <p class="text-gray-600">
-          Searching for 
-          <% if @search_profession.present? %>
-            <span class="font-semibold text-blue-600"><%= @search_profession %></span>
-          <% end %>
-          <% if @search_location.present? && @search_profession.present? %>
-            in 
-          <% end %>
-          <% if @search_location.present? %>
-            <span class="font-semibold text-green-600"><%= @search_location %></span>
-          <% end %>
-        </p>
-      </div>
+    <%= form_with url: search_results_path, method: :get, local: true, class: "mb-6", data: { controller: "search-tags" } do |f| %>
+      <div class="flex flex-wrap gap-2 mb-2" data-search-tags-target="tags"></div>
+      <input type="hidden" name="tags" value="<%= @search_tags.join(',') %>" data-search-tags-target="hidden">
+      <input type="text" placeholder="Add tag and press enter" class="w-full px-4 py-2 border rounded" data-search-tags-target="input" data-action="keydown->search-tags#addTag">
     <% end %>
 
     <% if @profiles.any? %>
@@ -34,22 +23,11 @@
             </div>
 
             <div class="mb-4">
-              <h3 class="text-sm font-semibold text-gray-700 mb-2">Locations:</h3>
+              <h3 class="text-sm font-semibold text-gray-700 mb-2">Tags:</h3>
               <div class="flex flex-wrap gap-1">
-                <% profile.location_tags.each do |tag| %>
-                  <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                    📍 <%= tag.location %>
-                  </span>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <h3 class="text-sm font-semibold text-gray-700 mb-2">Expertise:</h3>
-              <div class="flex flex-wrap gap-1">
-                <% profile.profession_tags.each do |tag| %>
+                <% profile.tags.each do |tag| %>
                   <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                    💼 <%= tag.profession %>
+                    #<%= tag.name %>
                   </span>
                 <% end %>
               </div>
