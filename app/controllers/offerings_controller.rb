@@ -8,9 +8,15 @@ class OfferingsController < ApplicationController
   end
 
   def show
-    @reviews = @offering.reviews.includes(:user)
-    @review = Review.new
-    @can_review = @offering.bookings.where(user: current_user, status: :completed).exists?
+    if ActiveRecord::Base.connection.data_source_exists?('reviews')
+      @reviews = @offering.reviews.includes(:user)
+      @review = Review.new
+      @can_review = @offering.bookings.where(user: current_user, status: :completed).exists?
+    else
+      @reviews = []
+      @review = nil
+      @can_review = false
+    end
   end
 
   def new
