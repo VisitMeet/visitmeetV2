@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-controller="tabs">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-6 sm:py-8" data-controller="tabs">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 space-y-4 sm:space-y-6 md:space-y-8">
     <%= render 'profiles/header', user: @user, is_own_profile: @is_own_profile %>
     <%= render 'profiles/tabs' %>
 
-    <section id="about" data-tabs-target="section" data-tab="about" class="space-y-6">
+    <section id="about" data-tabs-target="section" data-tab="about" class="space-y-4 sm:space-y-6">
       <%= render 'profiles/bio_form', user: @user, is_own_profile: @is_own_profile %>
       <%= render 'profiles/tags', user: @user, location_tags: @location_tags, profession_tags: @profession_tags, is_own_profile: @is_own_profile %>
       <%= render 'profiles/gallery', user: @user, is_own_profile: @is_own_profile %>

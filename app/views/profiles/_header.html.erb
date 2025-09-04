@@ -7,11 +7,12 @@
         <% else %>
           <div class="w-full h-32 sm:h-48 bg-gray-200 dark:bg-gray-700"></div>
         <% end %>
-        <div class="absolute inset-0 flex items-center justify-center text-white text-xs sm:text-sm bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" data-action="click->cover-image#select">
-          Click or drag to change cover
+        <div class="absolute inset-0 flex items-center justify-center text-white text-xs sm:text-sm bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" data-action="click->cover-image#select" title="Tap to edit">
+          Tap or drag to change cover
         </div>
-        <%= f.file_field :cover_image, class: "hidden", data: { 'cover-image-target': 'input', action: 'change->cover-image#change' } %>
+        <%= f.file_field :cover_image, class: "hidden", data: { 'cover-image-target': 'input', action: 'change->cover-image#change' }, aria: { label: 'Change cover image' } %>
       <% end %>
+      <p class="absolute top-2 right-2 text-xs text-white bg-black/40 px-2 py-1 rounded">Tap to edit</p>
     <% else %>
       <% if user.respond_to?(:cover_image) && user.cover_image.attached? %>
         <%= image_tag user.cover_image, class: "w-full h-32 sm:h-48 object-cover" %>
@@ -23,7 +24,7 @@
       <div class="relative">
         <% if is_own_profile %>
           <%= form_with model: user, url: update_picture_profile_path, method: :patch, local: true, html: { multipart: true, data: { controller: 'profile-picture' } } do |f| %>
-            <label class="block relative group cursor-pointer">
+            <label class="block relative group cursor-pointer" title="Tap to edit">
               <% if user.profile_picture.attached? %>
                 <%= image_tag user.profile_picture.variant(resize_to_fill: [128, 128]), class: "w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800", alt: "#{user.display_name}'s profile picture", data: { 'profile-picture-target': 'preview' } %>
               <% else %>
@@ -33,10 +34,11 @@
               <% end %>
               <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h2l2-3h10l2 3h2a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 01-2-2V9a2 2 0 012-2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 100-6 3 3 0 000 6z"/></svg>
-                <span class="text-sm">Click to update</span>
+                <span class="text-sm">Tap to edit</span>
               </div>
               <%= f.file_field :profile_picture, class: "hidden", data: { action: "change->profile-picture#preview", 'profile-picture-target': 'input' }, aria: { label: "Change profile picture" } %>
             </label>
+            <p class="mt-2 text-xs text-gray-500 text-center">Tap to edit</p>
           <% end %>
         <% else %>
           <% if user.profile_picture.attached? %>
@@ -50,13 +52,13 @@
       </div>
     </div>
   </div>
-  <div class="pt-16 pb-6 text-center px-6">
+  <div class="pt-16 pb-6 text-center px-4 sm:px-6">
     <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><%= user.display_name %></h1>
     <p class="text-gray-500 dark:text-gray-400">@<%= user.username %></p>
     <% if user.try(:country).present? %>
       <p class="text-gray-500 dark:text-gray-400 mt-1"><%= Carmen::Country.coded(user.country).name %></p>
     <% end %>
-    <div class="flex justify-center space-x-6 mt-4">
+    <div class="flex flex-wrap justify-center gap-4 sm:gap-6 mt-4">
       <div class="text-center">
         <p class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= user.followers.count %></p>
         <p class="text-sm text-gray-500 dark:text-gray-400">Followers</p>
