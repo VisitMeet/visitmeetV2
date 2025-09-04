@@ -60,7 +60,14 @@ class ProfilesController < ApplicationController
   def remove_photo
     photo = current_user.photos.find_by(id: params[:photo_id])
     photo.purge if photo
-    redirect_to profile_path
+    respond_to do |format|
+      format.html { redirect_to profile_path }
+      format.json do
+        render json: {
+          html: render_to_string(partial: "profiles/gallery", locals: { user: current_user, is_own_profile: true })
+        }
+      end
+    end
   end
 
   def update_picture
