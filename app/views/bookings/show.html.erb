@@ -129,7 +129,7 @@
 
     <!-- Navigation -->
     <div class="mt-8 flex justify-between">
-      <%= link_to "← Back to Bookings", bookings_path, 
+      <%= link_to "← Back to Bookings", (@booking.offering.user == current_user ? hosted_bookings_path : bookings_path),
           class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-900" %>
       
       <% if @booking.offering.user != current_user %>

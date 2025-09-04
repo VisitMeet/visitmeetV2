@@ -5,8 +5,11 @@ class BookingsController < ApplicationController
   before_action :authorize_booking_access, only: [:show, :edit, :update, :destroy]
 
   def index
-    @traveler_bookings = current_user.bookings.includes(:offering).order(created_at: :desc)
-    @host_bookings = current_user.host_bookings.includes(:user, :offering).order(created_at: :desc)
+    @bookings = current_user.bookings.includes(:offering).order(created_at: :desc)
+  end
+
+  def hosted
+    @bookings = current_user.host_bookings.includes(:user, :offering).order(created_at: :desc)
   end
 
   def show
