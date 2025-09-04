@@ -13,7 +13,7 @@
         <% if @profiles.present? %>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <% @profiles.each do |profile| %>
-              <%= render 'shared/card', classes: 'hover:shadow-lg transition-shadow', content: capture do %>
+              <%= render 'shared/card', classes: 'hover:shadow-lg transition-shadow' do %>
                 <div class="flex items-center mb-4">
                   <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
                     <%= profile.initials %>
