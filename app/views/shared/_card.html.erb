@@ -1,5 +1,9 @@
 <% classes = local_assigns.fetch(:classes, '') %>
-<% content = local_assigns.fetch(:content, '') %>
+<% content = local_assigns[:content] %>
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 <%= classes %>">
-  <%= content %>
+  <% if content %>
+    <%= content %>
+  <% elsif block_given? %>
+    <%= yield %>
+  <% end %>
 </div>

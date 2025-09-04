@@ -1,7 +1,7 @@
 <% compact = local_assigns.fetch(:compact, false) %>
 <% show_actions = local_assigns.fetch(:show_actions, false) %>
 <% card_classes = compact ? '' : 'overflow-hidden hover:shadow-lg transition-shadow' %>
-<%= render 'shared/card', classes: card_classes, content: capture do %>
+<%= render 'shared/card', classes: card_classes do %>
   <% if compact %>
     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
       <%= link_to offering.title, offering_path(offering), class: 'hover:text-blue-600' %>
