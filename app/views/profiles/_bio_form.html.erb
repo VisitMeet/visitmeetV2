@@ -1,0 +1,32 @@
+<%= render 'components/card' do %>
+  <% if is_own_profile %>
+    <%= form_with model: user, url: profile_path, method: :patch, local: true do |f| %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :country, "Country", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.select :country, options_for_select(Carmen::Country.all.map { |c| [c.name, c.alpha_2_code] }, user.try(:country)), { include_blank: 'Select your country' }, { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
+        </div>
+        <div>
+          <%= f.label :languages, "Languages spoken", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.text_field :languages, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+        </div>
+        <div>
+          <%= f.label :hosting_available, "Available to host?", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.select :hosting_available, [["Yes", true], ["No", false]], {}, { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
+        </div>
+        <div class="sm:col-span-2">
+          <%= f.label :bio, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.text_area :bio, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+        </div>
+        <div class="sm:col-span-2">
+          <%= f.submit "Update Profile", class: "mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">About</h2>
+    <p class="text-gray-700 dark:text-gray-300 mb-4"><%= user.bio.presence || 'No bio yet.' %></p>
+    <p class="text-sm text-gray-500 dark:text-gray-400"><strong>Languages:</strong> <%= user.languages.presence || 'Not specified' %></p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1"><strong>Hosting:</strong> <%= user.hosting_available? ? 'Available to host' : 'Not available to host' %></p>
+  <% end %>
+<% end %>

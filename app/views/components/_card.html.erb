@@ -1,0 +1,5 @@
+<% classes = "bg-white dark:bg-gray-800 shadow rounded-lg p-6" %>
+<% classes = "#{classes} #{local_assigns[:class]}" if local_assigns[:class] %>
+<%= content_tag :div, class: classes, data: local_assigns[:data] do %>
+  <%= yield %>
+<% end %>

@@ -1,0 +1,10 @@
+<%= render 'components/card' do %>
+  <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Hosted Offerings</h2>
+  <% if offerings.any? %>
+    <div class="space-y-4">
+      <%= render partial: 'offerings/card', collection: offerings, as: :offering, locals: { compact: true } %>
+    </div>
+  <% else %>
+    <p class="text-sm text-gray-500 dark:text-gray-400">No offerings yet.</p>
+  <% end %>
+<% end %>
