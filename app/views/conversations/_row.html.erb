@@ -1,0 +1,14 @@
+<% other_user = conversation.sender == current_user ? conversation.recipient : conversation.sender %>
+<%= link_to conversation_messages_path(conversation), data: { turbo_frame: "chat_window" }, class: "flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" do %>
+  <% if other_user.profile_picture.attached? %>
+    <%= image_tag other_user.profile_picture.variant(resize_to_fill: [40, 40]), class: "w-10 h-10 rounded-full object-cover" %>
+  <% else %>
+    <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 text-sm font-medium">
+      <%= other_user.display_name.first.upcase %>
+    </div>
+  <% end %>
+  <div class="flex-1 min-w-0">
+    <p class="font-medium text-gray-900 dark:text-gray-100"><%= other_user.display_name %></p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 truncate"><%= conversation.messages.last&.body %></p>
+  </div>
+<% end %>
