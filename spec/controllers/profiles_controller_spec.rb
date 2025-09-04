@@ -4,6 +4,7 @@ RSpec.describe ProfilesController, type: :controller do
   let(:user) { create(:user) }
   let(:location_tag) { create(:location_tag) }
   let(:profession_tag) { create(:profession_tag) }
+  let(:interest_tag) { create(:tag) }
 
   before do
     sign_in user
@@ -13,6 +14,7 @@ RSpec.describe ProfilesController, type: :controller do
     before do
       user.location_tags << location_tag
       user.profession_tags << profession_tag
+      user.tags << interest_tag
       get :show
     end
 
@@ -83,6 +85,21 @@ RSpec.describe ProfilesController, type: :controller do
       end
     end
 
+    context "with a new interest tag" do
+      it "adds a new interest tag to the user" do
+        expect { post :add_tag, params: { tag_name: "new interest", tag_type: "interest" } }
+          .to change(user.tags, :count).by(1)
+      end
+    end
+
+    context "with an existing interest tag" do
+      before { user.tags << interest_tag }
+      it "does not add a duplicate interest tag" do
+        expect { post :add_tag, params: { tag_name: interest_tag.name, tag_type: "interest" } }
+          .not_to change(user.tags, :count)
+      end
+    end
+
     context "without tag_name" do
       it "redirects to the profile page" do
         post :add_tag, params: { tag_type: "location" }
@@ -100,6 +117,7 @@ RSpec.describe ProfilesController, type: :controller do
     before do
       user.location_tags << location_tag
       user.profession_tags << profession_tag
+      user.tags << interest_tag
     end
 
     context "removing a location tag" do
@@ -113,6 +131,13 @@ RSpec.describe ProfilesController, type: :controller do
       it "removes the profession tag from the user" do
         expect { delete :remove_tag, params: { tag_id: profession_tag.id, tag_type: "profession" } }
           .to change(user.profession_tags, :count).by(-1)
+      end
+    end
+
+    context "removing an interest tag" do
+      it "removes the interest tag from the user" do
+        expect { delete :remove_tag, params: { tag_id: interest_tag.id, tag_type: "interest" } }
+          .to change(user.tags, :count).by(-1)
       end
     end
 
