@@ -31,7 +31,11 @@
                      { include_blank: 'Select your country' },
                      { class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", id: "country_select" } %>
       </div>
-      <%= f.submit "Update Country", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
+      <div class="mb-4">
+        <%= f.label :bio, "Bio", class: "block text-gray-700 dark:text-gray-200 font-medium mb-2" %>
+        <%= f.text_area :bio, rows: 4, class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+      <%= f.submit "Update Profile", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
     <% end %>
   </div>
 <% end %>
@@ -45,6 +49,9 @@
           </h1>
           <p class="text-gray-600 dark:text-gray-300 mb-1"><%= @user.display_name %></p>
           <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">@<%= @user.username %></p>
+          <% if @user.bio.present? %>
+            <p class="text-gray-700 dark:text-gray-300 mb-2 whitespace-pre-line"><%= @user.bio %></p>
+          <% end %>
 
           <div class="flex space-x-4 mt-2">
             <div class="text-center">

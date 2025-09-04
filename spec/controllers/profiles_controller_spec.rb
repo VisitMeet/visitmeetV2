@@ -45,6 +45,13 @@ RSpec.describe ProfilesController, type: :controller do
     end
   end
 
+  describe "PATCH #update" do
+    it "updates the user's bio" do
+      patch :update, params: { user: { bio: "New bio" } }
+      expect(user.reload.bio).to eq("New bio")
+    end
+  end
+
   describe "POST #add_tag" do
     context "with a new location tag" do
       it "adds a new location tag to the user" do
