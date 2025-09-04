@@ -9,6 +9,7 @@ class ProfilesController < ApplicationController
     @existing_profession_tags = ProfessionTag.pluck(:profession)
     @is_own_profile           = true
     @offerings                = @user.offerings.order(created_at: :desc)
+    @is_own_profile = true
   end
 
   def add_tag
