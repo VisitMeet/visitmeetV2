@@ -1,43 +1,24 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-controller="profile-navigation sidebar-toggle">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <button
-      class="md:hidden mb-4 p-2 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
-      data-action="sidebar-toggle#toggle">
-      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-    <div class="flex gap-6">
-      <aside data-sidebar-toggle-target="sidebar" class="fixed inset-y-0 right-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:shadow-none md:w-48">
-        <%= render 'sidebar' %>
-      </aside>
-      <div class="flex-1 space-y-6">
-        <section id="bio-info" data-profile-navigation-target="section" class="space-y-6">
-          <%= render 'profiles/header', user: @user, is_own_profile: @is_own_profile %>
-          <%= render 'profiles/bio_form', user: @user, is_own_profile: @is_own_profile %>
-        </section>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-controller="tabs">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <%= render 'profiles/header', user: @user, is_own_profile: @is_own_profile %>
+    <%= render 'profiles/tabs' %>
 
-        <section id="location-interests" data-profile-navigation-target="section">
-          <%= render 'profiles/tags', user: @user, location_tags: @location_tags, profession_tags: @profession_tags, is_own_profile: @is_own_profile %>
-        </section>
+    <section id="about" data-tabs-target="section" data-tab="about" class="space-y-6">
+      <%= render 'profiles/bio_form', user: @user, is_own_profile: @is_own_profile %>
+      <%= render 'profiles/tags', user: @user, location_tags: @location_tags, profession_tags: @profession_tags, is_own_profile: @is_own_profile %>
+      <%= render 'profiles/gallery', user: @user, is_own_profile: @is_own_profile %>
+    </section>
 
-        <section id="gallery" data-profile-navigation-target="section">
-          <%= render 'profiles/gallery', user: @user, is_own_profile: @is_own_profile %>
-        </section>
+    <section id="offerings" data-tabs-target="section" data-tab="offerings" class="hidden">
+      <%= render 'profiles/offerings', offerings: @offerings %>
+    </section>
 
-        <section id="hosted-offerings" data-profile-navigation-target="section">
-          <%= render 'profiles/offerings', offerings: @offerings %>
-        </section>
+    <section id="stories" data-tabs-target="section" data-tab="stories" class="hidden">
+      <%= render 'profiles/reviews', reviews: @user.reviews %>
+    </section>
 
-        <section id="reviews" data-profile-navigation-target="section">
-          <%= render 'profiles/reviews', reviews: @user.reviews %>
-        </section>
-      </div>
-    </div>
+    <section id="reels" data-tabs-target="section" data-tab="reels" class="hidden">
+      <div class="text-center text-gray-500 dark:text-gray-400 py-8">Reels coming soon</div>
+    </section>
   </div>
-  <button data-profile-navigation-target="backToTop" data-action="profile-navigation#backToTop" class="hidden fixed bottom-8 right-8 p-3 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3M12 3L19.5 10.5M12 3V21" />
-    </svg>
-  </button>
 </div>
