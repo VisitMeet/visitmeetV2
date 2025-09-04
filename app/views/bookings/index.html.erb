@@ -6,10 +6,10 @@
       <!-- Tab Navigation -->
       <div class="border-b border-gray-200 dark:border-gray-700 mb-6">
         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-          <button id="traveler-tab" class="tab-button active border-blue-500 text-blue-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+          <button id="traveler-tab" type="button" class="tab-button active border-blue-500 text-blue-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
             My Trips (<%= @traveler_bookings.count %>)
           </button>
-          <button id="host-tab" class="tab-button border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200 hover:border-gray-300 dark:border-gray-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+          <button id="host-tab" type="button" class="tab-button border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200 hover:border-gray-300 dark:border-gray-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
             My Hosted Bookings (<%= @host_bookings.count %>)
           </button>
         </nav>
@@ -143,7 +143,7 @@
           </div>
         <% else %>
           <div class="text-center py-12">
-            <p class="text-gray-500 dark:text-gray-400 text-lg">No one has booked your offerings yet.</p>
+            <p class="text-gray-500 dark:text-gray-400 text-lg">You haven't hosted anyone yet. Your hosted bookings will show up here.</p>
             <%= link_to "Create an Offering", new_offering_path, class: "mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700" %>
           </div>
         <% end %>
@@ -153,32 +153,34 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbo:load', function() {
     const travelerTab = document.getElementById('traveler-tab');
     const hostTab = document.getElementById('host-tab');
     const travelerContent = document.getElementById('traveler-content');
     const hostContent = document.getElementById('host-content');
-    
+
+    if (!travelerTab || !hostTab) return;
+
     function showTravelerTab() {
       travelerTab.classList.add('active', 'border-blue-500', 'text-blue-600');
       travelerTab.classList.remove('border-transparent', 'text-gray-500 dark:text-gray-400');
       hostTab.classList.remove('active', 'border-blue-500', 'text-blue-600');
       hostTab.classList.add('border-transparent', 'text-gray-500 dark:text-gray-400');
-      
+
       travelerContent.classList.remove('hidden');
       hostContent.classList.add('hidden');
     }
-    
+
     function showHostTab() {
       hostTab.classList.add('active', 'border-blue-500', 'text-blue-600');
       hostTab.classList.remove('border-transparent', 'text-gray-500 dark:text-gray-400');
       travelerTab.classList.remove('active', 'border-blue-500', 'text-blue-600');
       travelerTab.classList.add('border-transparent', 'text-gray-500 dark:text-gray-400');
-      
+
       hostContent.classList.remove('hidden');
       travelerContent.classList.add('hidden');
     }
-    
+
     travelerTab.addEventListener('click', showTravelerTab);
     hostTab.addEventListener('click', showHostTab);
   });
