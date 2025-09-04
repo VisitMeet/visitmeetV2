@@ -78,6 +78,14 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def update_cover_image
+    if current_user.update(profile_params)
+      redirect_to profile_path, notice: "Cover image updated successfully."
+    else
+      redirect_to profile_path, alert: "Failed to update cover image."
+    end
+  end
+
   def update
     if current_user.update(profile_params)
       redirect_to profile_path, notice: "Profile updated successfully."
@@ -99,6 +107,6 @@ class ProfilesController < ApplicationController
   def profile_params
     permitted = [:country, :bio, :languages, :hosting_available]
     permitted &= User.column_names.map(&:to_sym)
-    params.require(:user).permit(*permitted, photos: [])
+    params.require(:user).permit(*permitted, :cover_image, photos: [])
   end
 end

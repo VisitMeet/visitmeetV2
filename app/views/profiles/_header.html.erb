@@ -1,9 +1,23 @@
 <%= render 'components/card', class: 'overflow-hidden' do %>
   <div class="relative">
-    <% if user.respond_to?(:cover_image) && user.cover_image.attached? %>
-      <%= image_tag user.cover_image, class: "w-full h-48 object-cover" %>
+    <% if is_own_profile %>
+      <%= form_with model: user, url: profile_cover_path, method: :patch, local: true, html: { multipart: true, class: 'group', data: { controller: 'cover-image', action: 'dragover->cover-image#dragOver drop->cover-image#drop' } } do |f| %>
+        <% if user.respond_to?(:cover_image) && user.cover_image.attached? %>
+          <%= image_tag user.cover_image, class: "w-full h-32 sm:h-48 object-cover" %>
+        <% else %>
+          <div class="w-full h-32 sm:h-48 bg-gray-200 dark:bg-gray-700"></div>
+        <% end %>
+        <div class="absolute inset-0 flex items-center justify-center text-white text-xs sm:text-sm bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" data-action="click->cover-image#select">
+          Click or drag to change cover
+        </div>
+        <%= f.file_field :cover_image, class: "hidden", data: { 'cover-image-target': 'input', action: 'change->cover-image#change' } %>
+      <% end %>
     <% else %>
-      <div class="w-full h-48 bg-gray-200 dark:bg-gray-700"></div>
+      <% if user.respond_to?(:cover_image) && user.cover_image.attached? %>
+        <%= image_tag user.cover_image, class: "w-full h-32 sm:h-48 object-cover" %>
+      <% else %>
+        <div class="w-full h-32 sm:h-48 bg-gray-200 dark:bg-gray-700"></div>
+      <% end %>
     <% end %>
     <div class="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2">
       <div class="relative">
@@ -41,3 +55,4 @@
     </div>
   </div>
 <% end %>
+

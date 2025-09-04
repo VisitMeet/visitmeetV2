@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     delete :remove_photo
   end
 
+  patch 'profile/cover', to: 'profiles#update_cover_image'
+
   resources :users, only: [:show] do
     member do
       post :follow
