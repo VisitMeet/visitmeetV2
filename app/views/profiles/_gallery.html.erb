@@ -1,0 +1,19 @@
+<% if user.photos.attached? %>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+    <% user.photos.each do |photo| %>
+      <div class="relative group">
+        <%= image_tag photo.variant(resize_to_fill: [300, 200]), class: "rounded-lg object-cover w-full h-48" %>
+        <% if is_own_profile %>
+          <button type="button"
+                  data-action="click->gallery#removeExisting"
+                  data-url="<%= remove_photo_profile_path(photo_id: photo.id) %>"
+                  class="absolute top-2 right-2 bg-red-600 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100">
+            Delete
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-sm text-gray-500 dark:text-gray-400">No photos yet.</p>
+<% end %>
