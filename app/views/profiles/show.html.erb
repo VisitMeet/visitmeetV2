@@ -1,190 +1,221 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-  <div class="max-w-4xl mx-auto px-4">
-    <!-- Profile Header -->
-    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex flex-col sm:flex-row sm:items-center gap-6">
-      <div class="relative">
-        <% if @user.profile_picture.attached? %>
-          <%= image_tag @user.profile_picture.variant(resize_to_fill: [128,128]), class: "w-32 h-32 rounded-full object-cover" %>
-        <% else %>
-          <div class="w-32 h-32 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl font-bold">
-            <%= @user.initials %>
-          </div>
-        <% end %>
-        <% if @is_own_profile %>
-          <%= form_with model: @user, url: update_picture_profile_path, method: :patch, local: true, html: { multipart: true }, class: "absolute inset-0 rounded-full overflow-hidden flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-60" do |f| %>
-            <%= f.file_field :profile_picture, class: "absolute inset-0 opacity-0 cursor-pointer" %>
-            <span class="text-white text-sm">Change</span>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="flex-1">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><%= @user.display_name %></h1>
-        <p class="text-gray-500 dark:text-gray-400">@<%= @user.username %></p>
-        <% if @user.try(:country).present? %>
-          <p class="text-gray-500 dark:text-gray-400 mt-1"><%= Carmen::Country.coded(@user.country).name %></p>
-        <% end %>
-        <div class="flex space-x-6 mt-4">
-          <div class="text-center">
-            <p class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= @user.followers.count %></p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Followers</p>
-          </div>
-          <div class="text-center">
-            <p class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= @user.following.count %></p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Following</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Profile Info -->
-    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mt-6">
-      <% if @is_own_profile %>
-        <%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <%= f.label :country, "Country", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-              <%= f.select :country,
-                    options_for_select(Carmen::Country.all.map { |c| [c.name, c.alpha_2_code] }, @user.try(:country)),
-                    { include_blank: 'Select your country' },
-                    { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
-            </div>
-            <div>
-              <%= f.label :languages, "Languages spoken", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-              <%= f.text_field :languages, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
-            </div>
-            <div>
-              <%= f.label :hosting_available, "Available to host?", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-              <%= f.select :hosting_available, [["Yes", true], ["No", false]], {}, { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
-            </div>
-            <div class="sm:col-span-2">
-              <%= f.label :bio, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-              <%= f.text_area :bio, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
-            </div>
-            <div class="sm:col-span-2">
-              <%= f.submit "Update Profile", class: "mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">About</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-4"><%= @user.bio.presence || 'No bio yet.' %></p>
-        <p class="text-sm text-gray-500 dark:text-gray-400"><strong>Languages:</strong> <%= @user.languages.presence || 'Not specified' %></p>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1"><strong>Hosting:</strong> <%= @user.hosting_available? ? 'Available to host' : 'Not available to host' %></p>
-      <% end %>
-    </div>
-
-    <!-- Interests & Tags -->
-    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mt-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Interests &amp; Tags</h2>
-      <div class="space-y-4">
-        <div>
-          <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Interests</h3>
-          <div class="flex flex-wrap gap-2">
-            <% if @user.tags.any? %>
-              <% @user.tags.each do |tag| %>
-                <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200">
-                  <%= tag.name %>
-                  <% if @is_own_profile %>
-                    <%= link_to "×", remove_tag_profile_path(tag_type: 'interest', tag_id: tag.id), method: :delete, class: "ml-1 text-gray-500 hover:text-red-500" %>
-                  <% end %>
-                </span>
-              <% end %>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-controller="profile-navigation">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-6">
+    <aside class="w-48">
+      <%= render 'sidebar' %>
+    </aside>
+    <div class="flex-1 space-y-6">
+      <section id="bio-info" data-profile-navigation-target="section" class="space-y-6">
+        <!-- Profile Header -->
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex flex-col sm:flex-row sm:items-center gap-6">
+          <div class="relative">
+            <% if @user.profile_picture.attached? %>
+              <%= image_tag @user.profile_picture.variant(resize_to_fill: [128,128]), class: "w-32 h-32 rounded-full object-cover" %>
             <% else %>
-              <p class="text-sm text-gray-500 dark:text-gray-400">No interests added yet.</p>
-            <% end %>
-          </div>
-        </div>
-        <div>
-          <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Locations</h3>
-          <div class="flex flex-wrap gap-2">
-            <% if @location_tags.any? %>
-              <% @location_tags.each do |tag| %>
-                <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200">
-                  <%= tag.location %>
-                  <% if @is_own_profile %>
-                    <%= link_to "×", remove_tag_profile_path(tag_type: 'location', tag_id: tag.id), method: :delete, class: "ml-1 text-gray-500 hover:text-red-500" %>
-                  <% end %>
-                </span>
-              <% end %>
-            <% else %>
-              <p class="text-sm text-gray-500 dark:text-gray-400">No location tags.</p>
-            <% end %>
-          </div>
-        </div>
-        <div>
-          <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Professions</h3>
-          <div class="flex flex-wrap gap-2">
-            <% if @profession_tags.any? %>
-              <% @profession_tags.each do |tag| %>
-                <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200">
-                  <%= tag.profession %>
-                  <% if @is_own_profile %>
-                    <%= link_to "×", remove_tag_profile_path(tag_type: 'profession', tag_id: tag.id), method: :delete, class: "ml-1 text-gray-500 hover:text-red-500" %>
-                  <% end %>
-                </span>
-              <% end %>
-            <% else %>
-              <p class="text-sm text-gray-500 dark:text-gray-400">No profession tags.</p>
-            <% end %>
-          </div>
-        </div>
-      </div>
-      <% if @is_own_profile %>
-        <%= form_with url: add_tag_profile_path, method: :post, local: true, class: "mt-6 flex flex-col sm:flex-row gap-2" do |f| %>
-          <%= f.text_field :tag_name, placeholder: "Add a tag", class: "flex-1 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
-          <%= f.select :tag_type, [["Interest", "interest"], ["Location", "location"], ["Profession", "profession"]], {}, { class: "rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
-          <%= f.submit "Add", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
-        <% end %>
-      <% end %>
-    </div>
-
-    <!-- Photos -->
-    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mt-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Photos</h2>
-
-      <% if @is_own_profile %>
-        <%= form_with model: @user, url: add_photo_profile_path, method: :post, local: true, html: { multipart: true }, class: "mb-4" do |f| %>
-          <div class="flex items-center gap-2">
-            <%= f.file_field :photos, multiple: true, class: "flex-1 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
-            <%= f.submit "Upload", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
-          </div>
-        <% end %>
-      <% end %>
-
-      <% if @user.photos.attached? %>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <% @user.photos.each do |photo| %>
-            <div class="relative group">
-              <%= image_tag photo.variant(resize_to_fill: [300,200]), class: "rounded-lg object-cover w-full h-48" %>
-              <% if @is_own_profile %>
-                <%= link_to "Delete", remove_photo_profile_path(photo_id: photo.id), method: :delete, data: { confirm: "Delete this photo?" }, class: "absolute top-2 right-2 bg-red-600 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100" %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <p class="text-sm text-gray-500 dark:text-gray-400">No photos yet.</p>
-      <% end %>
-    </div>
-
-    <!-- Reviews -->
-    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mt-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Reviews</h2>
-      <% if @user.reviews.any? %>
-        <div class="space-y-4">
-          <% @user.reviews.each do |review| %>
-            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-medium text-gray-900 dark:text-gray-100"><%= review.user.display_name %></span>
-                <span class="text-yellow-500">⭐️ <%= review.rating %></span>
+              <div class="w-32 h-32 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl font-bold">
+                <%= @user.initials %>
               </div>
-              <p class="text-gray-700 dark:text-gray-300 text-sm"><%= review.comment %></p>
+            <% end %>
+            <% if @is_own_profile %>
+              <%= form_with model: @user, url: update_picture_profile_path, method: :patch, local: true, html: { multipart: true }, class: "absolute inset-0 rounded-full overflow-hidden flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-60" do |f| %>
+                <%= f.file_field :profile_picture, class: "absolute inset-0 opacity-0 cursor-pointer" %>
+                <span class="text-white text-sm">Change</span>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="flex-1">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><%= @user.display_name %></h1>
+            <p class="text-gray-500 dark:text-gray-400">@<%= @user.username %></p>
+            <% if @user.try(:country).present? %>
+              <p class="text-gray-500 dark:text-gray-400 mt-1"><%= Carmen::Country.coded(@user.country).name %></p>
+            <% end %>
+            <div class="flex space-x-6 mt-4">
+              <div class="text-center">
+                <p class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= @user.followers.count %></p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Followers</p>
+              </div>
+              <div class="text-center">
+                <p class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= @user.following.count %></p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Following</p>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <% if @is_own_profile %>
+            <%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <%= f.label :country, "Country", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                  <%= f.select :country,
+                        options_for_select(Carmen::Country.all.map { |c| [c.name, c.alpha_2_code] }, @user.try(:country)),
+                        { include_blank: 'Select your country' },
+                        { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
+                </div>
+                <div>
+                  <%= f.label :languages, "Languages spoken", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                  <%= f.text_field :languages, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+                </div>
+                <div>
+                  <%= f.label :hosting_available, "Available to host?", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                  <%= f.select :hosting_available, [["Yes", true], ["No", false]], {}, { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
+                </div>
+                <div class="sm:col-span-2">
+                  <%= f.label :bio, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                  <%= f.text_area :bio, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+                </div>
+                <div class="sm:col-span-2">
+                  <%= f.submit "Update Profile", class: "mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">About</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-4"><%= @user.bio.presence || 'No bio yet.' %></p>
+            <p class="text-sm text-gray-500 dark:text-gray-400"><strong>Languages:</strong> <%= @user.languages.presence || 'Not specified' %></p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1"><strong>Hosting:</strong> <%= @user.hosting_available? ? 'Available to host' : 'Not available to host' %></p>
           <% end %>
         </div>
-      <% else %>
-        <p class="text-sm text-gray-500 dark:text-gray-400">No reviews yet.</p>
-      <% end %>
+      </section>
+
+      <section id="location-interests" data-profile-navigation-target="section">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Interests &amp; Tags</h2>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Interests</h3>
+              <div class="flex flex-wrap gap-2">
+                <% if @user.tags.any? %>
+                  <% @user.tags.each do |tag| %>
+                    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200">
+                      <%= tag.name %>
+                      <% if @is_own_profile %>
+                        <%= link_to "×", remove_tag_profile_path(tag_type: 'interest', tag_id: tag.id), method: :delete, class: "ml-1 text-gray-500 hover:text-red-500" %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">No interests added yet.</p>
+                <% end %>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Locations</h3>
+              <div class="flex flex-wrap gap-2">
+                <% if @location_tags.any? %>
+                  <% @location_tags.each do |tag| %>
+                    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200">
+                      <%= tag.location %>
+                      <% if @is_own_profile %>
+                        <%= link_to "×", remove_tag_profile_path(tag_type: 'location', tag_id: tag.id), method: :delete, class: "ml-1 text-gray-500 hover:text-red-500" %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">No location tags.</p>
+                <% end %>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Professions</h3>
+              <div class="flex flex-wrap gap-2">
+                <% if @profession_tags.any? %>
+                  <% @profession_tags.each do |tag| %>
+                    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200">
+                      <%= tag.profession %>
+                      <% if @is_own_profile %>
+                        <%= link_to "×", remove_tag_profile_path(tag_type: 'profession', tag_id: tag.id), method: :delete, class: "ml-1 text-gray-500 hover:text-red-500" %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">No profession tags.</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% if @is_own_profile %>
+            <%= form_with url: add_tag_profile_path, method: :post, local: true, class: "mt-6 flex flex-col sm:flex-row gap-2" do |f| %>
+              <%= f.text_field :tag_name, placeholder: "Add a tag", class: "flex-1 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+              <%= f.select :tag_type, [["Interest", "interest"], ["Location", "location"], ["Profession", "profession"]], {}, { class: "rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" } %>
+              <%= f.submit "Add", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+
+      <section id="gallery" data-profile-navigation-target="section">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Photos</h2>
+
+          <% if @is_own_profile %>
+            <%= form_with model: @user, url: add_photo_profile_path, method: :post, local: true, html: { multipart: true }, class: "mb-4" do |f| %>
+              <div class="flex items-center gap-2">
+                <%= f.file_field :photos, multiple: true, class: "flex-1 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+                <%= f.submit "Upload", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <% if @user.photos.attached? %>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <% @user.photos.each do |photo| %>
+                <div class="relative group">
+                  <%= image_tag photo.variant(resize_to_fill: [300,200]), class: "rounded-lg object-cover w-full h-48" %>
+                  <% if @is_own_profile %>
+                    <%= link_to "Delete", remove_photo_profile_path(photo_id: photo.id), method: :delete, data: { confirm: "Delete this photo?" }, class: "absolute top-2 right-2 bg-red-600 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-500 dark:text-gray-400">No photos yet.</p>
+          <% end %>
+        </div>
+      </section>
+
+      <section id="hosted-offerings" data-profile-navigation-target="section">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Hosted Offerings</h2>
+          <% if @offerings.any? %>
+            <div class="space-y-4">
+              <% @offerings.each do |offering| %>
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    <%= link_to offering.title, offering_path(offering), class: "hover:text-blue-600" %>
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400"><%= offering.location.titleize %></p>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-500 dark:text-gray-400">No offerings yet.</p>
+          <% end %>
+        </div>
+      </section>
+
+      <section id="reviews" data-profile-navigation-target="section">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Reviews</h2>
+          <% if @user.reviews.any? %>
+            <div class="space-y-4">
+              <% @user.reviews.each do |review| %>
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium text-gray-900 dark:text-gray-100"><%= review.user.display_name %></span>
+                    <span class="text-yellow-500">⭐️ <%= review.rating %></span>
+                  </div>
+                  <p class="text-gray-700 dark:text-gray-300 text-sm"><%= review.comment %></p>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-500 dark:text-gray-400">No reviews yet.</p>
+          <% end %>
+        </div>
+      </section>
     </div>
   </div>
 </div>
+
