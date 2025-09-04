@@ -42,6 +42,9 @@ Rails.application.routes.draw do
 
   # Bookings management
   resources :bookings, except: [:new, :create] do
+    collection do
+      get :hosted
+    end
     member do
       patch :accept
       patch :decline
