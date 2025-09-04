@@ -1,9 +1,17 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-controller="profile-navigation">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-6">
-    <aside class="w-48">
-      <%= render 'sidebar' %>
-    </aside>
-    <div class="flex-1 space-y-6">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8" data-controller="profile-navigation sidebar-toggle">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <button
+      class="md:hidden mb-4 p-2 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+      data-action="sidebar-toggle#toggle">
+      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <div class="flex gap-6">
+      <aside class="w-48 hidden md:block" data-sidebar-toggle-target="sidebar">
+        <%= render 'sidebar' %>
+      </aside>
+      <div class="flex-1 space-y-6">
       <section id="bio-info" data-profile-navigation-target="section" class="space-y-6">
         <!-- Profile Header -->
         <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex flex-col sm:flex-row sm:items-center gap-6">
