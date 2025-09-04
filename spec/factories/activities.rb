@@ -4,6 +4,6 @@ FactoryBot.define do
     description { "MyText" }
     location { "MyString" }
     price { "9.99" }
-    user { nil }
+    association :user
   end
 end
