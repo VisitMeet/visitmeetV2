@@ -180,14 +180,7 @@
           <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Hosted Offerings</h2>
           <% if @offerings.any? %>
             <div class="space-y-4">
-              <% @offerings.each do |offering| %>
-                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    <%= link_to offering.title, offering_path(offering), class: "hover:text-blue-600" %>
-                  </h3>
-                  <p class="text-sm text-gray-500 dark:text-gray-400"><%= offering.location.titleize %></p>
-                </div>
-              <% end %>
+              <%= render partial: 'offerings/card', collection: @offerings, as: :offering, locals: { compact: true } %>
             </div>
           <% else %>
             <p class="text-sm text-gray-500 dark:text-gray-400">No offerings yet.</p>
@@ -200,15 +193,7 @@
           <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Reviews</h2>
           <% if @user.reviews.any? %>
             <div class="space-y-4">
-              <% @user.reviews.each do |review| %>
-                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-medium text-gray-900 dark:text-gray-100"><%= review.user.display_name %></span>
-                    <span class="text-yellow-500">⭐️ <%= review.rating %></span>
-                  </div>
-                  <p class="text-gray-700 dark:text-gray-300 text-sm"><%= review.comment %></p>
-                </div>
-              <% end %>
+              <%= render partial: 'reviews/review', collection: @user.reviews, as: :review %>
             </div>
           <% else %>
             <p class="text-sm text-gray-500 dark:text-gray-400">No reviews yet.</p>

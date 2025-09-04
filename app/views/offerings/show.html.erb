@@ -1,10 +1,10 @@
-<div class="container mx-auto p-4">
-  <div class="max-w-4xl mx-auto">
-    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-      <div class="p-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+      <div class="p-6">
         <div class="flex justify-between items-start mb-6">
           <div>
-            <h1 class="text-3xl font-bold mb-2"><%= @offering.title %></h1>
+            <h1 class="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100"><%= @offering.title %></h1>
             <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-300">
               <span class="flex items-center">
                 📍 <%= @offering.location %>
@@ -21,18 +21,18 @@
         </div>
 
         <div class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">About this experience</h2>
+          <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">About this experience</h2>
           <p class="text-gray-700 dark:text-gray-200 leading-relaxed"><%= simple_format(@offering.description) %></p>
         </div>
 
         <div class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">About your host</h2>
+          <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">About your host</h2>
           <div class="flex items-start space-x-4">
             <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-2xl">
               <%= @offering.user.initials %>
             </div>
             <div>
-              <h3 class="text-lg font-semibold"><%= @offering.user.display_name %></h3>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= @offering.user.display_name %></h3>
               <p class="text-sm text-gray-500 dark:text-gray-400">@<%= @offering.user.username %></p>
               <div class="mt-2">
                 <h4 class="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Locations:</h4>
@@ -57,27 +57,19 @@
         </div>
 
         <div class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">Reviews</h2>
-          <% @reviews.each do |review| %>
-            <div class="mb-4">
-              <div class="font-semibold"><%= review.user.display_name %></div>
-              <div class="text-yellow-500">Rating: <%= review.rating %>/5</div>
-              <p class="text-gray-700 dark:text-gray-200"><%= review.comment %></p>
-              <% if review.user == current_user %>
-                <%= link_to 'Delete', offering_review_path(@offering, review), method: :delete,
-                    data: { confirm: 'Are you sure?' }, class: 'text-red-500 text-sm' %>
-              <% end %>
-            </div>
-          <% end %>
+          <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Reviews</h2>
+          <div class="space-y-4">
+            <%= render partial: 'reviews/review', collection: @reviews, as: :review, locals: { offering: @offering } %>
+          </div>
           <% if @can_review %>
             <%= form_with model: [@offering, @review], local: true do |f| %>
               <div class="mb-2">
-                <%= f.label :rating %>
-                <%= f.number_field :rating, in: 1..5 %>
+                <%= f.label :rating, class: 'block text-sm font-medium text-gray-700 dark:text-gray-200' %>
+                <%= f.number_field :rating, in: 1..5, class: 'mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700' %>
               </div>
               <div class="mb-2">
-                <%= f.label :comment %>
-                <%= f.text_area :comment %>
+                <%= f.label :comment, class: 'block text-sm font-medium text-gray-700 dark:text-gray-200' %>
+                <%= f.text_area :comment, rows: 3, class: 'mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700' %>
               </div>
               <%= f.submit 'Submit Review', class: 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md' %>
             <% end %>
