@@ -34,6 +34,7 @@ class User < ApplicationRecord
   has_many :reviews, dependent: :destroy
 
   has_one_attached :profile_picture
+  has_many_attached :photos
 
   # Follower/Following Associations
   has_many :active_relationships, class_name: "Follow",

@@ -51,6 +51,18 @@ class ProfilesController < ApplicationController
     head :ok
   end
 
+  def add_photo
+    photos = profile_params[:photos]
+    current_user.photos.attach(photos) if photos
+    redirect_to profile_path
+  end
+
+  def remove_photo
+    photo = current_user.photos.find_by(id: params[:photo_id])
+    photo.purge if photo
+    redirect_to profile_path
+  end
+
   def update_picture
     if current_user.update(profile_picture_params)
       redirect_to profile_path, notice: "Profile picture updated successfully."
@@ -80,6 +92,6 @@ class ProfilesController < ApplicationController
   def profile_params
     permitted = [:country, :bio, :languages, :hosting_available]
     permitted &= User.column_names.map(&:to_sym)
-    params.require(:user).permit(*permitted)
+    params.require(:user).permit(*permitted, photos: [])
   end
 end

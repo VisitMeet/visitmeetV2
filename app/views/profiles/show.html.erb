@@ -141,10 +141,25 @@
     <!-- Photos -->
     <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mt-6">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Photos</h2>
-      <% if @user.respond_to?(:photos) && @user.photos.attached? %>
+
+      <% if @is_own_profile %>
+        <%= form_with model: @user, url: add_photo_profile_path, method: :post, local: true, html: { multipart: true }, class: "mb-4" do |f| %>
+          <div class="flex items-center gap-2">
+            <%= f.file_field :photos, multiple: true, class: "flex-1 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700" %>
+            <%= f.submit "Upload", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @user.photos.attached? %>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <% @user.photos.each do |photo| %>
-            <%= image_tag photo.variant(resize_to_fill: [300,200]), class: "rounded-lg object-cover w-full h-48" %>
+            <div class="relative group">
+              <%= image_tag photo.variant(resize_to_fill: [300,200]), class: "rounded-lg object-cover w-full h-48" %>
+              <% if @is_own_profile %>
+                <%= link_to "Delete", remove_photo_profile_path(photo_id: photo.id), method: :delete, data: { confirm: "Delete this photo?" }, class: "absolute top-2 right-2 bg-red-600 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100" %>
+              <% end %>
+            </div>
           <% end %>
         </div>
       <% else %>
