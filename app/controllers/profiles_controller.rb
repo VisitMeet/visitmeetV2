@@ -7,8 +7,8 @@ class ProfilesController < ApplicationController
     @profession_tags          = @user.profession_tags
     @existing_location_tags   = LocationTag.pluck(:location)
     @existing_profession_tags = ProfessionTag.pluck(:profession)
-    @is_own_profile          = true
-    @offerings               = @user.offerings.order(created_at: :desc)
+    @is_own_profile           = true
+    @offerings                = @user.offerings.order(created_at: :desc)
   end
 
   def add_tag
@@ -70,7 +70,7 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    permitted = [:country, :bio]
+    permitted = [:country, :bio, :languages, :hosting_available]
     permitted &= User.column_names.map(&:to_sym)
     params.require(:user).permit(*permitted)
   end

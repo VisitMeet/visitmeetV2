@@ -32,6 +32,14 @@
                      { class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", id: "country_select" } %>
       </div>
       <div class="mb-4">
+        <%= f.label :languages, "Languages spoken", class: "block text-gray-700 dark:text-gray-200 font-medium mb-2" %>
+        <%= f.text_field :languages, class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :hosting_available, "Available to host?", class: "block text-gray-700 dark:text-gray-200 font-medium mb-2" %>
+        <%= f.select :hosting_available, [["Yes", true], ["No", false]], {}, class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+      <div class="mb-4">
         <%= f.label :bio, "Bio", class: "block text-gray-700 dark:text-gray-200 font-medium mb-2" %>
         <%= f.text_area :bio, rows: 4, class: "block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
       </div>
@@ -78,6 +86,10 @@
           <% if @user.try(:country).present? %>
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Country: <%= Carmen::Country.coded(@user.country).name %></p>
           <% end %>
+          <% if @user.languages.present? %>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Languages: <%= @user.languages %></p>
+          <% end %>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Hosting: <%= @user.hosting_available? ? 'Available to host' : 'Not available to host' %></p>
           <% unless @is_own_profile %>
             <p class="text-sm text-gray-500 dark:text-gray-400">Member since <%= @user.created_at.strftime("%B %Y") %></p>
           <% end %>
@@ -229,6 +241,40 @@
           <% end %>
         </div>
       </div>
+    </div>
+
+    <!-- Photos Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+      <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Photos</h2>
+      <% if @user.respond_to?(:photos) && @user.photos.attached? %>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <% @user.photos.each do |photo| %>
+            <%= image_tag photo.variant(resize_to_fill: [300,200]), class: "rounded-lg object-cover w-full h-48" %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">No photos yet.</p>
+      <% end %>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+      <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Reviews</h2>
+      <% if @user.reviews.any? %>
+        <div class="space-y-4">
+          <% @user.reviews.each do |review| %>
+            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-medium text-gray-900 dark:text-gray-100"><%= review.user.display_name %></span>
+                <span class="text-yellow-500">⭐️ <%= review.rating %></span>
+              </div>
+              <p class="text-gray-700 dark:text-gray-300 text-sm"><%= review.comment %></p>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">No reviews yet.</p>
+      <% end %>
     </div>
   </div>
 </div>
