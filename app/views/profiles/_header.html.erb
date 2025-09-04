@@ -21,17 +21,30 @@
     <% end %>
     <div class="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2">
       <div class="relative">
-        <% if user.profile_picture.attached? %>
-          <%= image_tag user.profile_picture.variant(resize_to_fill: [128, 128]), class: "w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800" %>
-        <% else %>
-          <div class="w-32 h-32 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl font-bold border-4 border-white dark:border-gray-800">
-            <%= user.initials %>
-          </div>
-        <% end %>
         <% if is_own_profile %>
-          <%= form_with model: user, url: update_picture_profile_path, method: :patch, local: true, html: { multipart: true }, class: "absolute inset-0 rounded-full overflow-hidden flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-60" do |f| %>
-            <%= f.file_field :profile_picture, class: "absolute inset-0 opacity-0 cursor-pointer" %>
-            <span class="text-white text-sm">Change</span>
+          <%= form_with model: user, url: update_picture_profile_path, method: :patch, local: true, html: { multipart: true, data: { controller: 'profile-picture' } } do |f| %>
+            <label class="block relative group cursor-pointer">
+              <% if user.profile_picture.attached? %>
+                <%= image_tag user.profile_picture.variant(resize_to_fill: [128, 128]), class: "w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800", alt: "#{user.display_name}'s profile picture", data: { 'profile-picture-target': 'preview' } %>
+              <% else %>
+                <div class="w-32 h-32 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl font-bold border-4 border-white dark:border-gray-800" data-profile-picture-target="preview">
+                  <%= user.initials %>
+                </div>
+              <% end %>
+              <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h2l2-3h10l2 3h2a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 01-2-2V9a2 2 0 012-2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 100-6 3 3 0 000 6z"/></svg>
+                <span class="text-sm">Click to update</span>
+              </div>
+              <%= f.file_field :profile_picture, class: "hidden", data: { action: "change->profile-picture#preview", 'profile-picture-target': 'input' }, aria: { label: "Change profile picture" } %>
+            </label>
+          <% end %>
+        <% else %>
+          <% if user.profile_picture.attached? %>
+            <%= image_tag user.profile_picture.variant(resize_to_fill: [128, 128]), class: "w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800", alt: "#{user.display_name}'s profile picture" %>
+          <% else %>
+            <div class="w-32 h-32 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl font-bold border-4 border-white dark:border-gray-800">
+              <%= user.initials %>
+            </div>
           <% end %>
         <% end %>
       </div>
