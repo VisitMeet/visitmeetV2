@@ -9,7 +9,6 @@ class ProfilesController < ApplicationController
     @existing_profession_tags = ProfessionTag.pluck(:profession)
     @is_own_profile           = true
     @offerings                = @user.offerings.order(created_at: :desc)
-    @is_own_profile = true
   end
 
   def add_tag
@@ -18,12 +17,16 @@ class ProfilesController < ApplicationController
 
     return redirect_to(profile_path, alert: 'Tag name cannot be blank.') if tag_name.blank?
 
-    if tag_type == 'location'
+    case tag_type
+    when 'location'
       tag = LocationTag.find_or_create_by(location: tag_name)
       @user.location_tags << tag unless @user.location_tags.include?(tag)
-    elsif tag_type == 'profession'
+    when 'profession'
       tag = ProfessionTag.find_or_create_by(profession: tag_name)
       @user.profession_tags << tag unless @user.profession_tags.include?(tag)
+    when 'interest'
+      tag = Tag.find_or_create_by(name: tag_name)
+      @user.tags << tag unless @user.tags.include?(tag)
     end
 
     redirect_to profile_path
@@ -33,12 +36,16 @@ class ProfilesController < ApplicationController
     tag_type = params[:tag_type]
     tag_id   = params[:tag_id]
 
-    if tag_type == 'location'
+    case tag_type
+    when 'location'
       tag = LocationTag.find_by(id: tag_id)
       @user.location_tags.delete(tag) if tag
-    elsif tag_type == 'profession'
+    when 'profession'
       tag = ProfessionTag.find_by(id: tag_id)
       @user.profession_tags.delete(tag) if tag
+    when 'interest'
+      tag = Tag.find_by(id: tag_id)
+      @user.tags.delete(tag) if tag
     end
 
     head :ok
