@@ -1,45 +1,21 @@
-<div class="container mx-auto p-4">
-  <div class="max-w-4xl mx-auto">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold">My Offerings</h1>
-      <%= link_to "Create New Offering", new_offering_path, 
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">My Offerings</h1>
+      <%= link_to "Create New Offering", new_offering_path,
           class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md font-medium transition-colors" %>
     </div>
 
     <% if @offerings.any? %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <% @offerings.each do |offering| %>
-          <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-            <div class="p-6">
-              <h3 class="text-xl font-semibold mb-2"><%= offering.title %></h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"><%= truncate(offering.description, length: 100) %></p>
-              
-              <div class="flex justify-between items-center mb-4">
-                <span class="text-2xl font-bold text-green-600">$<%= offering.price %></span>
-                <span class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-sm px-2 py-1 rounded-full">
-                  📍 <%= offering.location %>
-                </span>
-              </div>
-
-              <div class="flex space-x-2">
-                <%= link_to "View", offering, 
-                    class: "flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-center text-sm font-medium transition-colors" %>
-                <%= link_to "Edit", edit_offering_path(offering), 
-                    class: "flex-1 bg-gray-500 dark:bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-center text-sm font-medium transition-colors" %>
-                <%= link_to "Delete", offering, method: :delete, 
-                    data: { confirm: "Are you sure?" },
-                    class: "flex-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-center text-sm font-medium transition-colors" %>
-              </div>
-            </div>
-          </div>
-        <% end %>
+        <%= render partial: "offerings/card", collection: @offerings, as: :offering, locals: { show_actions: true } %>
       </div>
     <% else %>
       <div class="text-center py-12">
         <div class="text-gray-400 text-6xl mb-4">🏠</div>
         <h2 class="text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-2">No offerings yet</h2>
         <p class="text-gray-500 dark:text-gray-400 mb-6">Start sharing your local expertise with travelers!</p>
-        <%= link_to "Create Your First Offering", new_offering_path, 
+        <%= link_to "Create Your First Offering", new_offering_path,
             class: "bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-md font-medium transition-colors" %>
       </div>
     <% end %>
