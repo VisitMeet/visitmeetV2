@@ -8,7 +8,7 @@
       </svg>
     </button>
     <div class="flex gap-6">
-      <aside class="w-48 hidden md:block" data-sidebar-toggle-target="sidebar">
+      <aside data-sidebar-toggle-target="sidebar" class="fixed inset-y-0 right-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:shadow-none md:w-48">
         <%= render 'sidebar' %>
       </aside>
       <div class="flex-1 space-y-6">
@@ -35,4 +35,9 @@
       </div>
     </div>
   </div>
+  <button data-profile-navigation-target="backToTop" data-action="profile-navigation#backToTop" class="hidden fixed bottom-8 right-8 p-3 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3M12 3L19.5 10.5M12 3V21" />
+    </svg>
+  </button>
 </div>

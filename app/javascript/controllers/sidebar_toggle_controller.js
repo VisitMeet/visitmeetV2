@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = ["sidebar"]
 
   toggle() {
-    this.sidebarTarget.classList.toggle("hidden")
+    this.sidebarTarget.classList.toggle("translate-x-full")
+    this.sidebarTarget.classList.toggle("translate-x-0")
   }
 }

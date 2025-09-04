@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Handles smooth scrolling and active link highlighting for profile sections
 export default class extends Controller {
-  static targets = ["link", "section"]
+  static targets = ["link", "section", "backToTop"]
 
   connect() {
     this.handleScroll = this.handleScroll.bind(this)
@@ -40,6 +40,19 @@ export default class extends Controller {
         link.classList.add("text-gray-700", "dark:text-gray-200")
       }
     })
+
+    if (this.hasBackToTopTarget) {
+      const hero = this.sectionTargets[0]
+      if (hero && hero.getBoundingClientRect().bottom < 0) {
+        this.backToTopTarget.classList.remove("hidden")
+      } else {
+        this.backToTopTarget.classList.add("hidden")
+      }
+    }
+  }
+
+  backToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 }
 
