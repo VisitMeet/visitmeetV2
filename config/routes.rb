@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     patch :update_picture
     post :add_tag
     delete :remove_tag
+    post :add_photo
+    delete :remove_photo
   end
 
   resources :users, only: [:show] do
